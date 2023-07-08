@@ -36,8 +36,20 @@ class Rss(models.Model):
         return self.url
     
     class Meta:
-        verbose_name = 'RSS'
-        verbose_name_plural = 'RSS'
+        verbose_name = 'Rss Link'
+        verbose_name_plural = 'Rss Links'
+
+
+
+class Used(models.Model):
+    url = models.TextField()
+
+    def __str__(self) -> str:
+        return self.url
+    
+    class Meta:
+        verbose_name = 'Used Rss Link'
+        verbose_name_plural = 'Used Rss Links'
         
 
 class Image(models.Model):
@@ -60,8 +72,6 @@ class Article(models.Model):
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True)
 
-
-
     def save(self, *args, **kwargs):
         self.modified = datetime.now(tz=timezone.utc)
         super(Article, self).save(*args, **kwargs)
@@ -77,8 +87,22 @@ class Article(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return f'/post/{self.slug}' if not self.category else f'/{self.category.slug}/{self.slug}'
+        return f'/post/{self.slug}'
 
+class ImageGenerator(models.Model):
+    name = models.CharField(max_length=200)
+    prompt = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
+    used = models.BooleanField(default=False)
+    running = models.BooleanField(default=False)
+    image = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        return self.prompt[:100]
+    
+    class Meta:
+        verbose_name = 'Manual Image Generator'
+        verbose_name_plural = 'Manual Image Generators'
 
 class Generator(models.Model):
     id = models.AutoField(primary_key=True)
@@ -89,3 +113,8 @@ class Generator(models.Model):
 
     def __str__(self):
         return self.content[:100]
+    
+    class Meta:
+        verbose_name = 'Manual Article Generator'
+        verbose_name_plural = 'Manual Article Generators'
+

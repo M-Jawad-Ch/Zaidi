@@ -35,15 +35,13 @@ def index(req: HttpRequest):
     return render(req, 'index.html', data)
 
 
-    
-
 def get_post(req: HttpRequest, slug: str):
-    try:
-        data = Article.objects.get(slug=slug)
-    except Article.DoesNotExist as e:
+    # try:
+    data = Article.objects.get(slug=slug)
+    """except Article.DoesNotExist as e:
         res = HttpResponse(req)
         res.status_code = 404
-        return res
+        return res"""
     
     return render(req, 'post.html', {
         'title': data.title,
