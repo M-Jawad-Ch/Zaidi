@@ -2,13 +2,12 @@ from django.db import models
 from django.utils.text import slugify
 from django.contrib.sitemaps import ping_google
 from django.utils import timezone
+from django.conf import settings
 
 from datetime import datetime
 
 from mysite.settings import DEBUG
 
-
-# Create your models here.
 
 
 class Category(models.Model):
@@ -30,6 +29,13 @@ class Category(models.Model):
         verbose_name_plural = 'Categories'
 
 
+class Image(models.Model):
+    name = models.CharField(primary_key=True, max_length=100)
+    image = models.ImageField(upload_to='images/')
+
+    def __str__(self):
+        return self.name
+
 class Article(models.Model):
     slug = models.SlugField(unique=True, max_length=100, primary_key=True)
     title = models.CharField(max_length=100)
@@ -38,8 +44,12 @@ class Article(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now_add=True)
 
+    image = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True)
+
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True)
+
+
 
     def save(self, *args, **kwargs):
         self.modified = datetime.now(tz=timezone.utc)
@@ -57,14 +67,6 @@ class Article(models.Model):
 
     def get_absolute_url(self):
         return f'/post/{self.slug}' if not self.category else f'/{self.category.slug}/{self.slug}'
-
-
-class Message(models.Model):
-    text = models.TextField()
-    date = models.DateField(auto_now_add=True)
-
-    def __str__(self) -> str:
-        return str(self.date)
 
 
 class Generator(models.Model):

@@ -36,23 +36,25 @@ def index(req: HttpRequest):
     return render(req, 'index.html', data)
 
 
-async def get_post(req: HttpRequest, slug: str):
+def get_post(req: HttpRequest, slug: str):
 
-    data = await Article.objects.aget(slug=slug)
+    data = Article.objects.get(slug=slug)
 
     return render(req, 'post.html', {
         'title': data.title,
         'content': loads(data.body),
-        'date': data.date
+        'date': data.date,
+        'image_url': data.image.image.path
     })
 
 
-async def get_post_via_category(req: HttpRequest, category: str, post: str):
-    data = await Article.objects.aget(slug=post)
+def get_post_via_category(req: HttpRequest, category: str, post: str):
+    data = Article.objects.get(slug=post)
 
     return render(req, 'post.html', {
         'title': data.title,
         'content': loads(data.body),
+        'image_url': data.image.image.url,
         'date': data.date
     })
 

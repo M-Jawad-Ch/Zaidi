@@ -5,12 +5,16 @@ import aiohttp
 import asyncio
 import environ
 import os
+import requests
+
+from io import BytesIO
 
 from datetime import datetime
 from django.utils.text import slugify
+from django.conf import settings
 
 
-from .models import Article
+from .models import Article, Image
 
 env = environ.Env(DEBUG=(bool, False))
 
@@ -251,11 +255,59 @@ async def generate_article(overview, guidelines):
 
     return content
 
+async def generate_image_prompt(content:str):
+    messages = [
+        {
+            'role':'user',
+            'content':f"""
+{content}\n\nGenerate the description for an image from the above data.
+The description should only be of 3 lines maximum. It will be given to DALL-E 2 to generate the image."""
+        }
+    ]
+
+    completion = await prompt_gpt(messages)
+    return completion_to_content(completion)
+
+def prompt_image_generation(prompt:str):
+    for _ in range(5):
+        try:
+            image = openai.Image.create(
+                prompt=prompt,
+                n=1,
+                size='512x512'
+            )
+
+            return image
+        except: pass
+        
+
+def generate_image(prompt:str, fname:str):
+    res = prompt_image_generation(prompt)
+
+    if not res: return
+
+    res = requests.get(image['date'][0]['url'])
+    if res.status_code != 200:
+        for _ in range(5):
+            try:
+                res = requests.get(image['date'][0]['url'])
+                if res.status_code == 200:
+                    break
+            except Exception as e:
+                print(e)
+        
+    image = Image(name=fname)
+    image.image.save(fname, BytesIO(res.content))
+    image.save()
+
+    return image
+
+
+
 
 async def generate(guidelines: str):
     try:
         overview = json.loads(completion_to_content(await generate_article_overview(guidelines)))
-
         content = await generate_article(overview, guidelines)
 
         slug: str = slugify(overview.get('title'))

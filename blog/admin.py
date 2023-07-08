@@ -5,12 +5,17 @@ from threading import Thread
 import asyncio
 
 from django_object_actions import DjangoObjectActions, action
+from django.utils.text import slugify
 
-from .models import Article, Message, Generator, Category
-from .openai_handler import generate
+from .models import Article, Generator, Category, Image
+from .openai_handler import generate, generate_image_prompt, generate_image
 
 
 # Register your models here.
+@admin.register(Image)
+class ImageAdmin(admin.ModelAdmin):
+    pass
+
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
@@ -27,10 +32,16 @@ async def generate_article(object: Generator):
 
     article = await generate(object.content)
 
+    if article:
+        image_prompt = generate_image_prompt(article.body)
+        image = generate_image(image_prompt, slugify(article.title)[:30])
+
+        if image:
+            article.image = image
+            article.save()
+
     object.running = False
     object.used = True if article else False
-    await object.asave()
-
     await object.asave()
 
 
@@ -70,6 +81,3 @@ class GeneratorAdmin(DjangoObjectActions, admin.ModelAdmin):
         messages.success(request, 'The generator has started.')
 
     change_actions = ['generate']
-
-
-admin.site.register(Message)
