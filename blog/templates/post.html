@@ -25,25 +25,39 @@
         font-size: small;
     }
 
-    #main-image {
+    .image-container {
         width: 100%;
+        display: flex;
+        justify-content: center;
+        background-color: black;
         margin: 1em 0;
+    }
+
+    #main-image {
+        width: 50%;
+        margin: 0;
     }
 
     #inner-container {
         width: 60%;
         margin: 0 3em;
     }
+
+    li {
+        margin: 0.25em 0;
+    }
 </style>
 {% endblock %}
 
 {% block main %}
-
+{% autoescape off %}
 <div id="main-container">
     <div id="inner-container">
-        <h1 id="title-text"> {{ title }} </h1>
+        <h1 id="title-text">{{ title }}</h1>
         <span id="date">{{ date }}</span>
-        <img id="main-image" src="{{ image_url }}" alt="">
+        <div class="image-container">
+            <img id="main-image" src="{{ image_url }}" alt="">
+        </div>
         {% for section in content %}
         <div class="section">
             {{ section.text }}
@@ -51,14 +65,8 @@
         {% endfor %}
     </div>
 </div>
-
+{% endautoescape %}
 {% endblock %}
 
 {% block script %}
-<script>
-    var sections = document.getElementsByClassName('section')
-    for (const section of sections) {
-        section.innerHTML = section.innerText
-    }
-</script>
 {% endblock %}

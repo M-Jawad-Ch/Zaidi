@@ -2,6 +2,7 @@ from django.contrib import admin, messages
 from django.http import HttpRequest
 
 from threading import Thread
+from asgiref.sync import sync_to_async
 import asyncio
 
 from django_object_actions import DjangoObjectActions, action
@@ -25,32 +26,29 @@ class ArticleAdmin(admin.ModelAdmin):
     list_display = ['title', 'category', 'timestamp']
     ordering = ['-timestamp']
 
-
-async def generate_article(object: Generator):
+def generate_article(object: Generator):
     object.running = True
-    await object.asave()
+    object.save()
 
-    article = await generate(object.content)
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+
+    article = loop.run_until_complete(generate(object.content))
 
     if article:
-        image_prompt = generate_image_prompt(article.body)
+        image_prompt = loop.run_until_complete(generate_image_prompt(article.body))
         image = generate_image(image_prompt, slugify(article.title)[:30])
 
         if image:
             article.image = image
             article.save()
 
+    loop.close()
+
     object.running = False
     object.used = True if article else False
-    await object.asave()
+    object.save()
 
-
-def thread_function(object: Generator):
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-
-    loop.run_until_complete(generate_article(object))
-    loop.close()
 
 
 @admin.register(Category)
@@ -75,7 +73,7 @@ class GeneratorAdmin(DjangoObjectActions, admin.ModelAdmin):
             messages.warning(request, 'This prompt is already running.')
             return
 
-        thread = Thread(target=thread_function, args=[obj], daemon=True)
+        thread = Thread(target=generate_article, args=[obj], daemon=True)
         thread.start()
 
         messages.success(request, 'The generator has started.')

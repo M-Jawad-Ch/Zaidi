@@ -286,16 +286,18 @@ def generate_image(prompt:str, fname:str):
 
     if not res: return
 
-    res = requests.get(image['date'][0]['url'])
+    res = requests.get(res['data'][0]['url'])
+
     if res.status_code != 200:
         for _ in range(5):
             try:
-                res = requests.get(image['date'][0]['url'])
+                res = requests.get(res['data'][0]['url'])
                 if res.status_code == 200:
                     break
             except Exception as e:
                 print(e)
         
+    fname += '.png'
     image = Image(name=fname)
     image.image.save(fname, BytesIO(res.content))
     image.save()

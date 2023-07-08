@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpRequest
 from .models import Article, Category
 
-from datetime import datetime
 from json import loads, dumps
 
 
@@ -36,26 +35,32 @@ def index(req: HttpRequest):
     return render(req, 'index.html', data)
 
 
+    
+
 def get_post(req: HttpRequest, slug: str):
-
-    data = Article.objects.get(slug=slug)
-
+    try:
+        data = Article.objects.get(slug=slug)
+    except Article.DoesNotExist as e:
+        res = HttpResponse(req)
+        res.status_code = 404
+        return res
+    
     return render(req, 'post.html', {
         'title': data.title,
         'content': loads(data.body),
         'date': data.date,
-        'image_url': data.image.image.path
+        'image_url': data.image.image.url if data.image else None,
     })
 
 
-def get_post_via_category(req: HttpRequest, category: str, post: str):
+def get_post_via_category(req: HttpRequest, category:str, post: str):
     data = Article.objects.get(slug=post)
-
+    
     return render(req, 'post.html', {
         'title': data.title,
         'content': loads(data.body),
-        'image_url': data.image.image.url,
-        'date': data.date
+        'date': data.date,
+        'image_url': data.image.image.url if data.image else None,
     })
 
 
