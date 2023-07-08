@@ -1,0 +1,7 @@
+*.json
+*.sqlite*
+*__pycache__
+*/__pycache__/
+*.env
+static*
+*/migrations/*

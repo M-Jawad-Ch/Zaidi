@@ -91,10 +91,9 @@
         <span id="date">{{ date }}</span>
         <hr>
         {% for section in content %}
-        <h2> {{ section|lookup:'sub-heading' }} </h2>
-        {% for paragraph in section.text %}
-        <p>{{ paragraph }}</p>
-        {% endfor %}
+        <div class="section">
+            {{ section.text }}
+        </div>
         {% endfor %}
     </div>
 </div>
@@ -103,11 +102,9 @@
 
 {% block script %}
 <script>
-    var container = document.getElementById('inner-container')
-    var paras = container.querySelectorAll('p')
-
-    for (let para of paras) {
-        para.innerHTML = para.innerText
+    var sections = document.getElementsByClassName('section')
+    for (const section of sections) {
+        section.innerHTML = section.innerText
     }
 </script>
 {% endblock %}
