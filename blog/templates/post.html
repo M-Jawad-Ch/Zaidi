@@ -1,0 +1,113 @@
+{% extends 'main.html' %}
+
+{% load lookup %}
+
+{% block title %} {{ title }} | The Indus Echo {% endblock %}
+{% block description %} {{ content.0.text.0 }} {% endblock %}
+
+{% block page-style %}
+<style>
+    #main-container {
+        display: flex;
+        justify-content: center;
+        padding: 2em 17em;
+    }
+
+    #inner-container {
+        display: flex;
+        flex-direction: column;
+        background-color: rgba(255, 255, 255, 0.5);
+        padding: 1em 2em;
+
+        font-size: large;
+        color: rgba(0, 0, 0, 0.7);
+
+    }
+
+    @media (max-width: 1100px) {
+        #main-container {
+            padding: 2em 10em;
+        }
+    }
+
+    @media (max-width: 1000px) {
+        #main-container {
+            padding: 2em 8em;
+        }
+    }
+
+    @media (max-width: 900px) {
+        #main-container {
+            padding: 2em 6em;
+        }
+    }
+
+    @media (max-width: 800px) {
+        #main-container {
+            padding: 2em;
+        }
+    }
+
+    @media (max-width: 600px) {
+        #main-container {
+            padding: 2em 0;
+        }
+
+        #inner-container {
+            padding: 1em;
+        }
+    }
+
+    #date {
+        font-size: medium;
+        text-align: center;
+    }
+
+    p {
+        margin: 0.25em 0;
+        text-align: justify;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    h2 {
+        margin-top: 1em;
+        text-align: center;
+    }
+
+    hr {
+        margin-top: 1em;
+    }
+</style>
+{% endblock %}
+
+{% block main %}
+
+<div id="main-container">
+    <div id="inner-container">
+        <h1 id="title-text"> {{ title }} </h1>
+        <span id="date">{{ date }}</span>
+        <hr>
+        {% for section in content %}
+        <h2> {{ section|lookup:'sub-heading' }} </h2>
+        {% for paragraph in section.text %}
+        <p>{{ paragraph }}</p>
+        {% endfor %}
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+    var container = document.getElementById('inner-container')
+    var paras = container.querySelectorAll('p')
+
+    for (let para of paras) {
+        para.innerHTML = para.innerText
+    }
+</script>
+{% endblock %}

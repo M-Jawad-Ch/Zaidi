@@ -1,0 +1,465 @@
+{% extends 'main.html' %}
+
+{% block title %} The Indus Echo | Home {% endblock %}
+
+{% block description %}
+The Indus Echo. We cover many aspects of the history, culture and the nature of Pakistan and the Indian sub-continent.
+{% endblock %}
+
+{%block page-style%}
+<style>
+    main {
+        background-image: linear-gradient(to top, rgba(0, 255, 0, 0.2), white);
+    }
+
+    #top-story-section {
+        width: 100%;
+        padding-top: 1em;
+    }
+
+    #main-story {
+        margin: auto 2.5em;
+        height: 17em;
+
+        background-color: var(--dark-green);
+
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+        border-radius: 5px;
+
+        color: rgba(0, 0, 0, 0.7);
+
+        overflow: hidden;
+    }
+
+    body {
+        overflow-x: hidden;
+    }
+
+    #main-story-inner {
+        background-color: rgba(0, 0, 0, 0.05);
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+        flex-direction: row-reverse;
+        z-index: 2;
+    }
+
+    #main-story-inner div {
+        padding: 1em;
+        z-index: 1;
+
+        max-width: 30em;
+
+        background-color: rgba(0, 0, 0, 0.6);
+        color: white;
+    }
+
+    #main-story-inner p {
+        font-weight: normal;
+        margin-top: 1em;
+    }
+
+    .side-story {
+        padding: 1em;
+        border-bottom: 1px solid var(--border-color);
+
+        transition: background-color linear 200ms;
+    }
+
+    #content {
+        display: flex;
+        padding: 1em 2em 0 2em;
+    }
+
+    .content-column {
+        flex: 33%;
+
+        display: flex;
+        flex-direction: column;
+
+        padding: 0.5em 0.75em;
+        margin: 1em 0.5em;
+
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        background-color: rgba(255, 255, 255, 0.5);
+        border-radius: 5px;
+
+        color: rgba(0, 0, 0, 0.8);
+
+        min-height: 25em;
+    }
+
+    .article {
+        border-bottom: 1px solid var(--border-color);
+        padding: 1em 1em;
+        border-radius: 5px;
+
+        transition: background-color linear 200ms;
+    }
+
+    .date {
+        color: rgba(0, 0, 0, 0.8);
+        font-size: small;
+        font-style: italic;
+    }
+
+    :root {
+        --horizontal-margin: 7em;
+    }
+
+    .border-none {
+        border: none;
+    }
+
+    #crescent-parent {
+        position: relative;
+        width: 0;
+        height: 0;
+    }
+
+    #crescent {
+        position: absolute;
+        width: 20em;
+
+        top: -0.5em;
+        left: 2em;
+
+        z-index: 1;
+
+        animation: move 10s infinite linear;
+    }
+
+    @keyframes move {
+        0% {
+            transform: rotate(90deg);
+        }
+
+        50% {
+            transform: rotate(80deg);
+        }
+
+        100% {
+            transform: rotate(90deg);
+        }
+    }
+
+    #star {
+        position: absolute;
+
+        width: 5em;
+        top: 30px;
+        left: 232px;
+
+        z-index: 1;
+
+        animation: spin 50s infinite linear;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .selected {
+        background-color: rgba(255, 255, 255, 0.15);
+        font-weight: bold;
+    }
+
+    .hide-article-preview {
+        display: none;
+    }
+
+    .article-preview p {
+        margin: 0.5em 0;
+    }
+
+    .animated-words {
+        display: none;
+    }
+
+    #cursor {
+        margin-left: 5px;
+        background-color: white;
+        color: white;
+        display: none;
+    }
+
+    .visible {
+        display: inline;
+    }
+
+    .blinking {
+        animation: blink 1s infinite;
+    }
+
+    .special-column {
+        background-color: var(--dark-green);
+        color: white
+    }
+
+    @keyframes blink {
+
+        0%,
+        50% {
+            opacity: 1;
+        }
+
+        50.1%,
+        100% {
+            opacity: 0;
+        }
+    }
+
+    #categories {
+        width: 100%;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        justify-content: center;
+    }
+
+    .category {
+        padding: 0.25em 1em;
+        font-weight: bold;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+</style>
+{%endblock%}
+
+{% block media-queries %}
+<style>
+    @media (max-width: 1100px) {
+        #board {
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 650px) {
+        :root {
+            --horizontal-margin: 3em;
+        }
+
+        #categories {
+            display: none;
+        }
+    }
+
+    @media (max-width: 500px) {
+        :root {
+            --horizontal-margin: 0.5em;
+        }
+    }
+
+    @media (max-width: 950px) {
+        #top-story-section {
+            flex-direction: column;
+        }
+
+        #main-story {
+            margin: 1em var(--horizontal-margin);
+        }
+
+        #main-story-inner {
+            height: 17em;
+        }
+
+        #side-stories {
+            margin: 1em var(--horizontal-margin);
+        }
+
+        #content {
+            flex-direction: column;
+            padding: 0;
+        }
+
+        .content-column {
+            margin: 1em var(--horizontal-margin);
+        }
+
+        #special-column {
+            display: none;
+        }
+    }
+</style>
+{% endblock %}
+
+
+
+{% block main %}
+<div id="categories">
+    {% for category in categories %}
+    <div class="category">
+        <a href="/{{ category.slug }}">{{ category.name }}</a>
+    </div>
+    {% endfor %}
+</div>
+<section id="top-story-section">
+    <div id="main-story">
+        <div id="crescent-parent">
+            <svg id='star' fill="#ffffff" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                    <title>star</title>
+                    <path
+                        d="M3.488 13.184l6.272 6.112-1.472 8.608 7.712-4.064 7.712 4.064-1.472-8.608 6.272-6.112-8.64-1.248-3.872-7.808-3.872 7.808z">
+                    </path>
+                </g>
+            </svg>
+            <svg id="crescent" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
+                class="iconify iconify--emojione-monotone" preserveAspectRatio="xMidYMid meet" fill="#ffffff"
+                transform="matrix(-1, 0, 0, 1, 0, 0)">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                    <path
+                        d="M43.139 2a29.885 29.885 0 0 1 5.121 16.756c0 16.701-13.686 30.24-30.57 30.24a30.656 30.656 0 0 1-15.689-4.285C7.209 54.963 17.93 62 30.318 62C47.816 62 62 47.969 62 30.66C62 17.867 54.246 6.871 43.139 2z"
+                        fill="#ffffff"></path>
+                </g>
+            </svg>
+        </div>
+        <div id="main-story-inner">
+            <div>
+                <a href="/post/{{ top_story.slug }}">
+                    <h1> {{ top_story.title }} </h1>
+                    <p id="main-desc">
+                        {{ top_story.desc }}
+                    </p>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="content">
+    {% load slice %}
+    <div class="content-column">
+        {% for story in articles|slice:"0:5" %}
+        <div class="article {% if forloop.last %} {{'border-none'}} {% endif %} preview-available">
+            <a href="/post/{{ story.slug }}">{{ story.title }} <br><span class="date">~ {{ story.date }}</span></a>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="content-column">
+        {% for story in articles|slice:"5:10" %}
+        <div class="article {% if forloop.last %} {{'border-none'}} {% endif %} preview-available">
+            <a href="/post/{{ story.slug }}">{{ story.title }} <br><span class="date">~ {{ story.date }}</span></a>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="content-column special-column">
+        {% for story in articles %}
+        <a href="/post/{{ story.slug }}">
+            <div class="article-preview hide-article-preview">
+                [{% for preview in story.previews %}{{ preview }}
+                {% if not forloop.last %}
+                {{ ',' }} {% endif %} {% endfor %}]
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
+
+{% block script %}
+<script type="module">
+
+    var animator = async () => {
+        var articles = document.getElementsByClassName('preview-available')
+        var previews = document.getElementsByClassName('article-preview')
+
+        if (!articles.length) {
+            console.log('Done')
+            return
+        }
+
+        for (let i = 0; i < articles.length; i++) {
+            var text = JSON.parse(previews[i].innerText.replace(/\n\t/, ''))
+
+            let res = ''
+            for (const p of text) {
+                res += '<p>'
+                for (const char of p) {
+                    res += '<span class="animated-words">' + char + '</span>'
+                } res += '</p>'
+            }
+
+            var prevtext = previews[i].innerText
+            text = res
+
+            previews[i].innerHTML = text
+        }
+
+        while (true) {
+            for (let i = 0; i < articles.length; i++) {
+
+                articles[i].classList.add('selected')
+                previews[i].classList.remove('hide-article-preview')
+
+                let paragraphs = previews[i].querySelectorAll('p')
+
+                for (const [idx, p] of paragraphs.entries()) {
+                    p.innerHTML += '<span id="cursor"> | </span>'
+
+                    var cursor = document.getElementById('cursor')
+
+                    let words = p.querySelectorAll('.animated-words')
+
+                    cursor.classList.remove('blinking')
+                    cursor.style.display = 'inline'
+
+                    for (const word of words) {
+                        word.classList.add('visible');
+                        await await new Promise(r => setTimeout(r, 10));
+                    }
+
+                    if (idx != paragraphs.length - 1)
+                        p.querySelector('#cursor').remove()
+                }
+
+                var cursor = document.getElementById('cursor')
+
+                cursor.classList.add('blinking')
+                await await new Promise(r => setTimeout(r, 10000));
+
+                paragraphs = [...paragraphs]
+                paragraphs.reverse()
+
+                cursor.remove()
+
+                for (const [idx, p] of paragraphs.entries()) {
+                    p.innerHTML += '<span id="cursor"> | </span>'
+
+                    var cursor = document.getElementById('cursor')
+
+                    let words = [...p.querySelectorAll('.animated-words')]
+                    words.reverse()
+
+                    cursor.classList.remove('blinking')
+                    cursor.style.display = 'inline'
+
+                    for (const word of words) {
+                        word.classList.remove('visible');
+                        await await new Promise(r => setTimeout(r, 10));
+                    }
+
+                    if (idx != paragraphs.length - 1)
+                        p.querySelector('#cursor').remove()
+                }
+
+                cursor.classList.add('blinking')
+                await await new Promise(r => setTimeout(r, 3000));
+                cursor.remove()
+                articles[i].classList.remove('selected')
+                previews[i].classList.add('hide-article-preview')
+                cursor.classList.remove('blinking')
+            }
+        }
+    }
+
+    await animator()
+
+</script>
+{% endblock %}

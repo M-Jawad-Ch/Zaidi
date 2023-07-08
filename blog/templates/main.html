@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <html lang="en">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="description" content="{% block description %}{% endblock %}">
+
+    <style>
+        * {
+            margin: 0;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        :root {
+            --dark-green: #1c711c;
+            --border-color: rgba(0, 0, 0, 0.1);
+        }
+
+
+        body {
+            background-color: white;
+        }
+
+        header {
+            display: flex;
+            flex-direction: row;
+
+            padding: 0.3em 5em;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.7);
+        }
+
+        main {
+            min-height: 50vh;
+        }
+
+        #logo {
+            padding: 0 0.5em;
+
+
+            width: 100%;
+            text-align: center;
+
+
+            font-weight: bold;
+            font-size: xx-large;
+
+        }
+
+        footer {
+            /* border-top: 1px solid var(--border-color); */
+            height: 10em;
+            background-color: var(--dark-green);
+
+            display: flex;
+        }
+
+        #footer-logo {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            width: 12em;
+            text-align: center;
+
+            font-size: xx-large;
+            font-weight: bold;
+
+            color: white;
+        }
+    </style>
+
+    {% block page-style %} {% endblock %}
+
+    {% block media-queries %} {% endblock %}
+
+</head>
+
+<body>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-C5QN5H5PQW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-C5QN5H5PQW');
+    </script>
+    <header>
+        <div id="logo"><a href="/">𝔗𝔥𝔢 ℑ𝔫𝔡𝔲𝔰 𝔈𝔠𝔥𝔬</a></div>
+    </header>
+
+    <main>
+        {% block main %} {% endblock %}
+    </main>
+
+    <footer>
+        <div id="footer-logo">
+            <a href="/">𝔗𝔥𝔢 ℑ𝔫𝔡𝔲𝔰 𝔈𝔠𝔥𝔬</a>
+        </div>
+    </footer>
+
+    {% block script %}
+
+    {% endblock %}
+</body>
+
+</html>
