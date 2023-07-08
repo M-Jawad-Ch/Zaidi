@@ -29,6 +29,17 @@ class Category(models.Model):
         verbose_name_plural = 'Categories'
 
 
+class Rss(models.Model):
+    url = models.TextField()
+
+    def __str__(self):
+        return self.url
+    
+    class Meta:
+        verbose_name = 'RSS'
+        verbose_name_plural = 'RSS'
+        
+
 class Image(models.Model):
     name = models.CharField(primary_key=True, max_length=100)
     image = models.ImageField(upload_to='images/')
