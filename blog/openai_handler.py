@@ -216,8 +216,7 @@ async def generate_section(guidelines: str, past: str, current):
         {
             'role': 'user',
             'content': f"""Here are the guidelines for the entire blog post, not this section alone:
-{guidelines}.\nNo need to add headings and only write the paragraphs for the article.
-The headings will be given through the overview of the section you will see following this message.
+{guidelines}.
 Write some content about this section: {current}. Feel free to use HTML to make the text appropriate and better lookhin.
 Don't use h1 tags as they are for higher level headings, you can use h2 and below headings.
 """
@@ -248,10 +247,6 @@ async def generate_article(overview, guidelines):
     content = []
     for section in overview.get('sub-headings'):
         content.append(completion_to_content(await generate_section(guidelines, content, str(section))))
-
-    content = [{
-        'text':text
-    } for idx, text in enumerate(content)]
 
     return content
 
@@ -305,7 +300,40 @@ def generate_image(prompt:str, fname:str):
     return image
 
 
+async def summarize(content:str):
+    messages = [
+        {
+            'role':'system',
+            'content':"""
+You are given the scraped text of web pages. You clean the text and respond with the main content discussed on the page.
+Donot respond any of the features of the webpage or the navigation of the webpage, rather return the content discussed in the article.
+"""
+        },
+        {
+            'role': 'user',
+            'content': f"""
+{content}
 
+Clean the content given in the above article.
+"""
+        }
+    ]
+
+    return completion_to_content(await prompt_gpt(messages))
+
+async def rewrite(content:str):
+    messages = [
+        {
+            'role':'user',
+            'content':f"""
+{content}
+
+Don't repeat yourself, rewrite this and correct any coherency mistakes. Also don't remove the HTML while rewriting.
+Use <br> tags instead of "\n" for line breaks."""
+        }
+    ]
+
+    return completion_to_content(await prompt_gpt(messages))
 
 async def generate(guidelines: str):
     try:
@@ -320,7 +348,15 @@ async def generate(guidelines: str):
             return
 
         article.title = overview.get('title')
-        article.body = json.dumps(content)
+
+        body = ""
+
+        for section in content:
+            body += f"""<div class="section">{section}</div>"""
+        
+        body = await rewrite(body)
+
+        article.body = body
 
         await article.asave()
 

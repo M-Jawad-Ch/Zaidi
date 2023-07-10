@@ -12,6 +12,10 @@
         color: #555;
     }
 
+    a {
+        text-decoration: none;
+    }
+
     h1 {
         margin-bottom: 0.05em;
     }
@@ -38,13 +42,47 @@
         margin: 0;
     }
 
+    #main-container {
+        display: flex;
+    }
+
     #inner-container {
-        width: 60%;
-        margin: 0 3em;
+        flex: 75%;
+        padding: 0 3em;
+    }
+
+    .side-bar {
+        flex: 25%;
+        padding: 1em 0.5em;
     }
 
     li {
         margin: 0.25em 0;
+    }
+
+    .recent-posts {
+        display: flex;
+        margin: 1em 0;
+    }
+
+    .recent-posts img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .text-container {
+        display: flex;
+        flex-direction: column;
+        margin: 0 1em;
+    }
+
+    .recent-posts h3 {
+        font-size: medium;
+        margin: 0;
+    }
+
+    .date {
+        font-size: small;
     }
 </style>
 {% endblock %}
@@ -58,10 +96,20 @@
         <div class="image-container">
             <img id="main-image" src="{{ image_url }}" alt="">
         </div>
-        {% for section in content %}
-        <div class="section">
-            {{ section.text }}
-        </div>
+        {{ content }}
+    </div>
+    <div class="side-bar">
+        <h2>RECENT POSTS</h2>
+        {% for item in recent %}
+        <a href="/posts/{{ item.slug }}">
+            <div class="recent-posts">
+                <img src="{{ item.image }}" alt="">
+                <div class="text-container">
+                    <h3> {{ item.title }} </h3>
+                    <span class="date">{{ item.date }}</span>
+                </div>
+            </div>
+        </a>
         {% endfor %}
     </div>
 </div>

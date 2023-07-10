@@ -14,12 +14,14 @@ def index(req: HttpRequest):
 
     data = {}
 
-    data['categories'] = [{'name': category.name,
-                           'slug': category.slug} for category in categories]
+    data['categories'] = [{
+        'name': category.name,
+        'slug': category.slug
+    } for category in categories]
 
     data['top_story'] = {
         'title': articles[0].title if articles else '',
-        'desc': loads(articles[0].body)[0]['text'][0],
+        'desc': articles[0].body,
         'slug': articles[0].slug
     }
 
@@ -28,7 +30,7 @@ def index(req: HttpRequest):
             'title': article.title,
             'date': article.date,
             'slug': article.slug,
-            'previews': [dumps(text) for text in loads(article.body)[0]['text'][:2]]
+            'previews': article.body
         } for article in articles[1:12]
     ]
 
@@ -36,29 +38,45 @@ def index(req: HttpRequest):
 
 
 def get_post(req: HttpRequest, slug: str):
-    # try:
-    data = Article.objects.get(slug=slug)
-    """except Article.DoesNotExist as e:
+    try:
+        data = Article.objects.get(slug=slug)
+    except Article.DoesNotExist as e:
         res = HttpResponse(req)
         res.status_code = 404
-        return res"""
-    
+        return res
+        
+    recent = [ article for article in Article.objects.all().order_by('-timestamp') if article.image and article.slug != data.slug][:4]
+
     return render(req, 'post.html', {
         'title': data.title,
-        'content': loads(data.body),
+        'content': data.body,
         'date': data.date,
         'image_url': data.image.image.url if data.image else None,
+        'recent': [ {
+            'title':article.title,
+            'image':article.image.image.url,
+            'date':article.date,
+            'slug': article.slug
+        } for article in recent ]
     })
 
 
 def get_post_via_category(req: HttpRequest, category:str, post: str):
     data = Article.objects.get(slug=post)
     
+    recent = [ article for article in Article.objects.all().order_by('-timestamp') if article.image and article.slug != data.slug][:4]
+
     return render(req, 'post.html', {
         'title': data.title,
-        'content': loads(data.body),
+        'content': data.body,
         'date': data.date,
         'image_url': data.image.image.url if data.image else None,
+        'recent': [ {
+            'title':article.title,
+            'image':article.image.image.url,
+            'date':article.date,
+            'slug': article.slug
+        } for article in recent ]
     })
 
 

@@ -1,4 +1,6 @@
+from typing import Optional, Type
 from django.contrib import admin, messages
+from django.contrib.admin.sites import AdminSite
 from django.http import HttpRequest
 
 from threading import Thread
@@ -12,8 +14,9 @@ from django_object_actions import DjangoObjectActions, action
 from django.utils.text import slugify
 
 from .models import Article, Generator, Category, Image, Rss, Used, ImageGenerator
-from .openai_handler import generate, generate_image_prompt, generate_image
+from .openai_handler import generate, generate_image_prompt, generate_image, summarize
 from .rss_handler import get_descriptions_and_links
+from .scrapingHandler import scrape
 
 # Register your models here.
 @admin.register(Image)
@@ -25,7 +28,7 @@ class ImageGeneratorAdmin(DjangoObjectActions, admin.ModelAdmin):
     date_hierarchy = "date"
     empty_value_display = "-empty-"
     readonly_fields = ('date', 'used', 'running')
-    list_display = ['prompt', 'used', 'running']
+    list_display = ['prompt','used', 'running']
 
     change_actions = ['_start_image_generation']
 
@@ -71,9 +74,10 @@ class RssAdmin(DjangoObjectActions, admin.ModelAdmin):
             description_and_links = [ x for x in description_and_links if x not in used_links ]
 
             idx:int = randrange(len(description_and_links))
-            link:str = description_and_links[idx]['link']
-            desc:str = description_and_links[idx]['description']
+            link:str = description_and_links[idx]
             del description_and_links; del used_links
+
+            desc = scrape([link])[0]['text']
 
             generator = Generator(content=desc)
 
@@ -111,12 +115,15 @@ class CategoryAdmin(admin.ModelAdmin):
     pass
 
 
-def generate_article(object: Generator, callback = None):
+def generate_article(object: Generator, do_summarize=False,callback = None):
     object.running = True
     object.save()
 
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
+
+    object.content = loop.run_until_complete(summarize(object.content))
+    object.save()
 
     article = loop.run_until_complete(generate(object.content))
 
@@ -145,7 +152,10 @@ class GeneratorAdmin(DjangoObjectActions, admin.ModelAdmin):
     date_hierarchy = "date"
     empty_value_display = "-empty-"
     readonly_fields = ('date', 'used', 'running')
-    list_display = ['content', 'used', 'running']
+
+    def __init__(self, model: type, admin_site: AdminSite | None) -> None:
+        super().__init__(model, admin_site)
+        self.list_display += ('used', 'running')
 
 
     @action(label='Generate', description='Prompt GPT to generate an article.')

@@ -101,8 +101,8 @@ class ImageGenerator(models.Model):
         return self.prompt[:100]
     
     class Meta:
-        verbose_name = 'Manual Image Generator'
-        verbose_name_plural = 'Manual Image Generators'
+        verbose_name = 'Image Generator'
+        verbose_name_plural = 'Image Generators'
 
 class Generator(models.Model):
     id = models.AutoField(primary_key=True)
@@ -111,10 +111,10 @@ class Generator(models.Model):
     used = models.BooleanField(default=False)
     running = models.BooleanField(default=False)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.content[:100]
     
     class Meta:
-        verbose_name = 'Manual Article Generator'
-        verbose_name_plural = 'Manual Article Generators'
+        verbose_name = 'Article Generator'
+        verbose_name_plural = 'Article Generators'
 
