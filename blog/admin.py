@@ -13,7 +13,7 @@ import requests
 from django_object_actions import DjangoObjectActions, action
 from django.utils.text import slugify
 
-from .models import Article, Generator, Category, Image, Rss, Used, ImageGenerator
+from .models import Article, Generator, Category, Image, Rss, Used, ImageGenerator, assign_category
 from .openai_handler import generate, generate_image_prompt, generate_image, summarize
 from .rss_handler import get_descriptions_and_links
 from .scrapingHandler import scrape
@@ -109,9 +109,11 @@ class ArticleAdmin(admin.ModelAdmin):
     readonly_fields = ('date', 'timestamp', 'modified', 'slug')
     list_display = ['title', 'category', 'timestamp']
     ordering = ['-timestamp']
+    exclude = ('embedding',)
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
+    exclude = ('embedding',)
     pass
 
 
@@ -128,14 +130,26 @@ def generate_article(object: Generator, do_summarize=False,callback = None):
     article = loop.run_until_complete(generate(object.content))
 
     if article:
-        image_prompt = loop.run_until_complete(generate_image_prompt(article.body))
-        image = generate_image(image_prompt, slugify(article.title)[:30])
+        def _generate_image():
+            loop_ = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop_)    
 
-        if image:
-            article.image = image
+            image_prompt = loop_.run_until_complete(generate_image_prompt(article.body))
+            image = generate_image(image_prompt, slugify(article.title)[:30])
+
+            if image:
+                article.image = image
+            else:
+                pass
+        
             article.save()
-        else:
-            print('No Image')
+            loop_.close()
+
+        article.save()
+
+        thread = Thread(target=_generate_image, daemon=True)
+        thread.start()
+    
 
     loop.close()
 

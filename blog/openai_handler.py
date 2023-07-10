@@ -22,7 +22,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-openai.api_key = env.get_value('OPENAI_API_KEY')
 
 limiter = aiolimiter.AsyncLimiter(60, 1)
 
@@ -142,24 +141,11 @@ async def generate_article_overview(content: str):
                 <format>
                 {
                     "sub-headings": [
-                        {
-                            "sub-heading":"The sub heading",
-                            "keypoints":["Point 1","Point 2","Point 3","Point 4","Point 5",]
-                        },
-                        {
-                            "sub-heading":"The sub heading",
-                            "keypoints":["Point 1","Point 2","Point 3","Point 4","Point 5",]
-                        },
-                        {
-                            "sub-heading":"The sub heading",
-                            "keypoints":["Point 1","Point 2","Point 3","Point 4","Point 5",]
-                        },
-                        {
-                            "sub-heading":"The sub heading",
-                            "keypoints":["Point 1","Point 2","Point 3","Point 4","Point 5",]
-                        }
-                    ]
-                    "title":"The title for the complete blog post"
+                        {"sub-heading":"The sub heading","keypoints":["Point 1","Point 2","Point 3","Point 4","Point 5",]},
+                        {"sub-heading":"The sub heading","keypoints":["Point 1","Point 2","Point 3","Point 4","Point 5",]},
+                        {"sub-heading":"The sub heading","keypoints":["Point 1","Point 2","Point 3","Point 4","Point 5",]},
+                        {"sub-heading":"The sub heading","keypoints":["Point 1","Point 2","Point 3","Point 4","Point 5",]}
+                    ], "title":"The title for the complete blog post"
                 }
                 </format>
             """
@@ -329,7 +315,7 @@ async def rewrite(content:str):
 {content}
 
 Don't repeat yourself, rewrite this and correct any coherency mistakes. Also don't remove the HTML while rewriting.
-Use <br> tags instead of "\n" for line breaks."""
+Feel free to use HTML and CSS to make it look good."""
         }
     ]
 
@@ -344,7 +330,8 @@ async def generate(guidelines: str):
 
         try:
             article = await Article.objects.acreate(slug=slug)
-        except:
+        except Exception as e:
+            print(e)
             return
 
         article.title = overview.get('title')
@@ -361,5 +348,6 @@ async def generate(guidelines: str):
         await article.asave()
 
         return article
-    except:
+    except Exception as e:
+        print(e)
         return

@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import environ
 import os
+import openai
 
 env = environ.Env(DEBUG=(bool, False))
 
@@ -36,7 +37,7 @@ ALLOWED_HOSTS = ['blog.indusecho.site'] if not DEBUG else ['*']
 
 SITE_ID = 1
 
-
+openai.api_key = env.get_value('OPENAI_API_KEY')
 # Application definition
 
 INSTALLED_APPS = [
