@@ -124,7 +124,7 @@ class Article(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return f'/posts/{self.slug}'
+        return f'/{self.category.slug}/{self.slug}' if self.category else '/'
 
 class ImageGenerator(models.Model):
     name = models.CharField(max_length=200)

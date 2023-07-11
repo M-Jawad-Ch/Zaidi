@@ -37,46 +37,29 @@ def index(req: HttpRequest):
     return render(req, 'index.html', data)
 
 
-def get_post(req: HttpRequest, slug: str):
-    try:
-        data = Article.objects.get(slug=slug)
-    except Article.DoesNotExist as e:
-        res = HttpResponse(req)
-        res.status_code = 404
-        return res
-        
-    recent = [ article for article in Article.objects.all().order_by('-timestamp') if article.image and article.slug != data.slug][:4]
-
-    return render(req, 'post.html', {
-        'title': data.title,
-        'content': data.body,
-        'date': data.date,
-        'image_url': data.image.image.url if data.image else None,
-        'recent': [ {
-            'title':article.title,
-            'image':article.image.image.url,
-            'date':article.date,
-            'slug': article.slug
-        } for article in recent ]
-    })
-
-
-def get_post_via_category(req: HttpRequest, category:str, post: str):
+def get_post_via_category(req: HttpRequest, post: str):
     data = Article.objects.get(slug=post)
     
     recent = [ article for article in Article.objects.all().order_by('-timestamp') if article.image and article.slug != data.slug][:4]
 
+    categories = Category.objects.all()
+
     return render(req, 'post.html', {
         'title': data.title,
         'content': data.body,
         'date': data.date,
         'image_url': data.image.image.url if data.image else None,
-        'recent': [ {
+        'categories': [{
+            'name':category.name,
+            'slug': category.slug
+        } for category in categories],
+        'recent': [{
             'title':article.title,
             'image':article.image.image.url,
             'date':article.date,
-            'slug': article.slug
-        } for article in recent ]
+            'slug': article.slug,
+            'category': article.category.slug
+        } for article in recent if article.category]
     })
 
 

@@ -73,16 +73,21 @@
     .text-container {
         display: flex;
         flex-direction: column;
-        margin: 0 1em;
+        margin: 1em;
     }
 
     .recent-posts h3 {
-        font-size: medium;
+        font-size: small;
         margin: 0;
+        margin-bottom: 0.5em;
     }
 
     .date {
-        font-size: small;
+        font-size: x-small;
+    }
+
+    .category {
+        margin: 0.25em 0;
     }
 </style>
 {% endblock %}
@@ -99,9 +104,9 @@
         {{ content }}
     </div>
     <div class="side-bar">
-        <h2>RECENT POSTS</h2>
+        <h3>RECENT POSTS</h3>
         {% for item in recent %}
-        <a href="/posts/{{ item.slug }}">
+        <a href="/{{ item.category }}/{{ item.slug }}">
             <div class="recent-posts">
                 <img src="{{ item.image }}" alt="">
                 <div class="text-container">
@@ -110,6 +115,13 @@
                 </div>
             </div>
         </a>
+        {% endfor %}
+        <br>
+        <h3>CATEGORIES</h3>
+        {% for category in categories %}
+        <h5 class="category">
+            <a href="/{{ category.slug }}">- {{ category.name }}</a>
+        </h5>
         {% endfor %}
     </div>
 </div>

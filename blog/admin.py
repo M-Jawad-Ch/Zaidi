@@ -98,10 +98,6 @@ class RssAdmin(DjangoObjectActions, admin.ModelAdmin):
 class UsedAdmin(admin.ModelAdmin):
     pass
         
-
-
-
-
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
     date_hierarchy = "date"
@@ -116,41 +112,40 @@ class CategoryAdmin(admin.ModelAdmin):
     exclude = ('embedding',)
     pass
 
+def _generate_image(article: Article):
+    loop_ = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop_)    
 
-def generate_article(object: Generator, do_summarize=False,callback = None):
+    image_prompt = loop_.run_until_complete(generate_image_prompt(article.body))
+    image = generate_image(image_prompt, slugify(article.title)[:30])
+
+    if image:
+        article.image = image
+    else:
+        pass
+
+    article.save()
+    loop_.close()
+
+
+def generate_article(object: Generator,callback = None, do_summarize=True):
     object.running = True
     object.save()
 
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
 
-    object.content = loop.run_until_complete(summarize(object.content))
+    object.content = loop.run_until_complete(summarize(object.content)) if do_summarize else object.content
     object.save()
 
     article = loop.run_until_complete(generate(object.content))
 
     if article:
-        def _generate_image():
-            loop_ = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop_)    
-
-            image_prompt = loop_.run_until_complete(generate_image_prompt(article.body))
-            image = generate_image(image_prompt, slugify(article.title)[:30])
-
-            if image:
-                article.image = image
-            else:
-                pass
-        
-            article.save()
-            loop_.close()
-
         article.save()
 
-        thread = Thread(target=_generate_image, daemon=True)
+        thread = Thread(target=_generate_image, args=[article], daemon=True)
         thread.start()
     
-
     loop.close()
 
     object.running = False

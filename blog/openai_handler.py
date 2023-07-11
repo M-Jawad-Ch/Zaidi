@@ -315,7 +315,8 @@ async def rewrite(content:str):
 {content}
 
 Don't repeat yourself, rewrite this and correct any coherency mistakes. Also don't remove the HTML while rewriting.
-Feel free to use HTML and CSS to make it look good."""
+Feel free to use HTML and CSS to make it look good. This will be used as a section of a larger webpage, so don't define
+the head, body and such tags. Those will be already made for the page, you will only write content for the text content."""
         }
     ]
 
