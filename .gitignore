@@ -5,7 +5,7 @@
 *__pycache__
 */__pycache__/
 *.env
-static/
+/static/
 media/
 */migrations/*
 node_modules/

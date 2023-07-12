@@ -49,17 +49,27 @@ def get_post_via_category(req: HttpRequest, post: str):
         'content': data.body,
         'date': data.date,
         'image_url': data.image.image.url if data.image else None,
+
         'categories': [{
             'name':category.name,
             'slug': category.slug
         } for category in categories],
+
         'recent': [{
             'title':article.title,
             'image':article.image.image.url,
             'date':article.date,
             'slug': article.slug,
             'category': article.category.slug
-        } for article in recent if article.category]
+        } for article in recent if article.category],
+
+        'related': [{
+            'title':article.title,
+            'image':article.image.image.url,
+            'date': article.date,
+            'slug': article.slug,
+            'category': article.category.slug
+        } for article in Article.objects.filter(category=data.category).all() if article.slug != data.slug]
     })
 
 

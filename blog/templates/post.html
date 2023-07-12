@@ -5,91 +5,9 @@
 {% block title %} {{ title }} {% endblock %}
 {% block description %} {% endblock %}
 
-{% block page-style %}
-<style>
-    * {
-        font-family: 'Open Sans', sans-serif;
-        color: #555;
-    }
-
-    a {
-        text-decoration: none;
-    }
-
-    h1 {
-        margin-bottom: 0.05em;
-    }
-
-    h2 {
-        margin-top: 1.5em;
-    }
-
-    #date {
-        margin-left: 0.5em;
-        font-size: small;
-    }
-
-    .image-container {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        background-color: black;
-        margin: 1em 0;
-    }
-
-    #main-image {
-        width: 50%;
-        margin: 0;
-    }
-
-    #main-container {
-        display: flex;
-    }
-
-    #inner-container {
-        flex: 70%;
-        padding: 0 3em;
-    }
-
-    .side-bar {
-        flex: 30%;
-        padding: 1em 0.5em;
-    }
-
-    li {
-        margin: 0.25em 0;
-    }
-
-    .recent-posts {
-        display: flex;
-        margin: 1em 0;
-    }
-
-    .recent-posts img {
-        width: 100px;
-        height: 100px;
-    }
-
-    .text-container {
-        display: flex;
-        flex-direction: column;
-        margin: 1em;
-    }
-
-    .recent-posts h3 {
-        font-size: small;
-        margin: 0;
-        margin-bottom: 0.5em;
-    }
-
-    .date {
-        font-size: x-small;
-    }
-
-    .category {
-        margin: 0.25em 0;
-    }
-</style>
+{% block css %}
+{% load static %}
+<link rel="stylesheet" href="{% static '/posts.css' %}">
 {% endblock %}
 
 {% block main %}
@@ -102,6 +20,23 @@
             <img id="main-image" src="{{ image_url }}" alt="">
         </div>
         {{ content }}
+        {% if related|length > 0 %}
+        <br><br>
+        <h3>RELATED POSTS</h3>
+        <div class="related-posts">
+            {% for item in related %}
+            <a href="/{{ item.category }}/{{ item.slug }}">
+                <div class="related-post">
+                    <img src="{{ item.image }}" alt="">
+                    <div class="related-text-container">
+                        <h4>{{ item.title }}</h4>
+                        <span class="date">{{ item.date }}</span>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% endif %}
     </div>
     <div class="side-bar">
         <h3>RECENT POSTS</h3>
@@ -110,7 +45,7 @@
             <div class="recent-posts">
                 <img src="{{ item.image }}" alt="">
                 <div class="text-container">
-                    <h3> {{ item.title }} </h3>
+                    <h4> {{ item.title }} </h4>
                     <span class="date">{{ item.date }}</span>
                 </div>
             </div>
