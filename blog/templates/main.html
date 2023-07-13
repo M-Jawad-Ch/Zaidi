@@ -8,16 +8,33 @@
     <title>{% block title %}{% endblock %}</title>
     <meta name="description" content="{% block description %}{% endblock %}">
     {% block css %} {% endblock %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/main.css' %}">
 </head>
 
 <body>
+    <header>
+        <div class="logo-container">
+            MediPoise
+        </div>
+        <ul class="header-items-container">
+            <li>Contact Us</li>
+            <li>About Us</li>
+        </ul>
+    </header>
     <main>
         {% block main %} {% endblock %}
     </main>
-
-    {% block script %}
-
-    {% endblock %}
+    <footer>
+        <div class="logo-container">
+            MediPoise
+        </div>
+        <ul class="header-items-container">
+            <li>Contact Us</li>
+            <li>About Us</li>
+        </ul>
+    </footer>
+    {% block script %}{% endblock %}
 </body>
 
 </html>

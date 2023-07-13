@@ -52,11 +52,11 @@
         </a>
         {% endfor %}
         <br>
-        <h3>CATEGORIES</h3>
+        <h3 class="category-title">CATEGORIES</h3>
         {% for category in categories %}
-        <h5 class="category">
-            <a href="/{{ category.slug }}">- {{ category.name }}</a>
-        </h5>
+        <div class="category">
+            <a href="/{{ category.slug }}"> <span class="arrow">&#10159;</span> {{ category.name }}</a>
+        </div>
         {% endfor %}
     </div>
 </div>

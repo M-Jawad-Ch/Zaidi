@@ -5,6 +5,7 @@
 
 a {
     text-decoration: none;
+    color: inherit;
 }
 
 h1 {
@@ -104,11 +105,24 @@ li {
     font-size: x-small;
 }
 
+.category-title {
+    margin-bottom: 0.5em;
+}
+
 .category {
     margin: 0.25em 0;
+    color: #1A7FB6;
+}
+
+.arrow {
+    color: #555;
 }
 
 @media (max-width: 1000px) {
+    #main-container {
+        padding: 0 1em;
+    }
+
     .side-bar {
         display: none;
     }
