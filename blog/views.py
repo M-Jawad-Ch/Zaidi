@@ -36,7 +36,6 @@ def index(req: HttpRequest):
 
     return render(req, 'index.html', data)
 
-
 def get_post_via_category(req: HttpRequest, post: str):
     data = Article.objects.get(slug=post)
     
@@ -74,19 +73,23 @@ def get_post_via_category(req: HttpRequest, post: str):
 
 
 def get_category(req: HttpRequest, slug: str):
-    articles = Article.objects.filter(
-        category=slug).all().order_by('-timestamp')
+    articles = Article.objects.filter(category=slug).all().order_by('-timestamp')
     category = Category.objects.get(pk=slug)
+
+    
     return render(req, 'category.html', {
         'category': {
             'slug': category.slug,
-            'title': category.name
+            'name': category.name
         },
         'articles': [{
+            'slug': article.slug,
             'title': article.title,
+            'image': article.image.image.url,
             'date': article.date,
-            'slug': article.slug
-        } for article in articles]})
+            'desc': article.body
+        } for article in articles]
+    })
 
 
 def return_404(req: HttpRequest, *args, **kwargs):

@@ -1,14 +1,47 @@
 {% extends 'main.html' %}
 
 
-{% block page-style %}
-<style>
-</style>
+{% block css %}
+{% load static %}
+<link rel="stylesheet" href="{% static '/category.css' %}">
 {% endblock %}
 
 
 {% block main %}
-<section id="main">
-
+<section class="main">
+    {% if not articles|length %}
+    <h1 style="margin: 1.75em;">Sorry Not Much To Display Here...</h1>
+    {% else %}
+    <h1>{{ category.name }}</h1>
+    <div class="articles-container">
+        {% for article in articles %}
+        <div class="article {% if forloop.counter0|divisibleby:2 %} reverse {% endif %}">
+            <img src="{{ article.image }}" alt="">
+            <a href="{{category.slug}}/{{article.slug}}">
+                <div class="text-container">
+                    {% autoescape off %}
+                    {{ article.desc }}
+                    {% endautoescape %}
+                    <span class="date">{{ article.date }}</span>
+                </div>
+            </a>
+        </div>
+        {% if not forloop.last %}
+        <hr> {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
 </section>
+{% endblock %}
+
+{% block script %}
+<script>
+    var txtConts = document.querySelectorAll('.text-container')
+    for (const txtCont of txtConts) {
+        let date = document.querySelector('.date')
+        txtCont.innerHTML = `<h2>${txtCont.querySelector('h2').innerText}</h2>
+        <p>${txtCont.querySelector('p').innerText}</p>
+        <span class='date'>${date.innerText}</span>`
+    }
+</script>
 {% endblock %}
