@@ -2,8 +2,6 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpRequest
 from .models import Article, Category
 
-from json import loads, dumps
-
 
 def index(req: HttpRequest):
     articles = Article.objects.all().order_by('-timestamp')[:12]
@@ -96,6 +94,10 @@ def get_category(req: HttpRequest, slug: str):
 
 def about(req: HttpRequest):
     return render(req, 'about.html')
+
+
+def contact(req: HttpRequest):
+    return render(req, 'contact.html')
 
 
 def return_404(req: HttpRequest, *args, **kwargs):

@@ -1,0 +1,66 @@
+.main {
+    display: flex;
+    justify-content: center;
+}
+
+.main-container {
+    margin: 0 1em;
+    margin-bottom: 0;
+    padding: 1em;
+    padding-bottom: 7em;
+    max-width: 40em;
+}
+
+form {
+    color: initial;
+}
+
+.main-container h1 {
+    text-align: center;
+}
+
+::placeholder {
+    color: inherit;
+}
+
+.main-container input {
+    display: block;
+    width: 30em;
+
+    margin: 0.5em 1.25em;
+    padding: 0.5em;
+    border-radius: 1px;
+    outline: none;
+    background-color: #1A7FB6;
+    border: none;
+    color: white;
+}
+
+#comments {
+    display: block;
+    margin: 0.5em auto;
+    padding: 0.5em;
+    width: 30em;
+    height: 10em;
+    resize: none;
+    border-radius: 1px;
+    outline: none;
+    background-color: #1A7FB6;
+    border: none;
+    color: white;
+}
+
+.sbmt {
+    display: block;
+    margin: 1em auto;
+    padding: 1em 2em;
+
+    border: none;
+    color: white;
+    background-color: #1A7FB6;
+    font-weight: bold;
+}
+
+footer {
+    margin-top: 0;
+}

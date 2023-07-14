@@ -7,9 +7,9 @@
     <html lang="en">
     <title>{% block title %}{% endblock %}</title>
     <meta name="description" content="{% block description %}{% endblock %}">
-    {% block css %} {% endblock %}
     {% load static %}
     <link rel="stylesheet" href="{% static '/main.css' %}">
+    {% block css %} {% endblock %}
 </head>
 
 <body>
@@ -18,7 +18,7 @@
             <a href="/">MediPoise</a>
         </div>
         <ul class="header-items-container">
-            <li>Contact Us</li>
+            <li><a href="/contact-us/">Contact Us</a></li>
             <li><a href="/about-us/">About Us</a></li>
         </ul>
     </header>
@@ -30,7 +30,7 @@
             <a href="/">MediPoise</a>
         </div>
         <ul class="header-items-container">
-            <li>Contact Us</li>
+            <li><a href="/contact-us/">Contact Us</a></li>
             <li><a href="/about-us/">About Us</a></li>
         </ul>
     </footer>

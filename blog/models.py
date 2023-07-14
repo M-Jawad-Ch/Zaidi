@@ -147,6 +147,17 @@ class ImageGenerator(models.Model):
         verbose_name_plural = 'Image Generators'
 
 
+class Contact(models.Model):
+    firsName = models.CharField(max_length=300)
+    lastname = models.CharField(max_length=300)
+    email = models.EmailField()
+    comments = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.firsName} {self.lastname} : {self.comments[:30]}'
+
+
 class Generator(models.Model):
     id = models.AutoField(primary_key=True)
     content = models.TextField()
