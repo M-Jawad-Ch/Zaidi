@@ -1,8 +1,12 @@
-from django.shortcuts import render
+import json
+
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpRequest
 from .models import Article, Category
+from django.views.decorators.http import require_http_methods
 
 
+@require_http_methods(['GET'])
 def index(req: HttpRequest):
     articles = Article.objects.all().order_by('-timestamp')[:12]
     categories = Category.objects.all()
@@ -35,6 +39,7 @@ def index(req: HttpRequest):
     return render(req, 'index.html', data)
 
 
+@require_http_methods(['GET'])
 def get_post_via_category(req: HttpRequest, post: str):
     data = Article.objects.get(slug=post)
 
@@ -72,6 +77,7 @@ def get_post_via_category(req: HttpRequest, post: str):
     })
 
 
+@require_http_methods(['GET'])
 def get_category(req: HttpRequest, slug: str):
     articles = Article.objects.filter(
         category=slug).all().order_by('-timestamp')
@@ -92,14 +98,26 @@ def get_category(req: HttpRequest, slug: str):
     })
 
 
+@require_http_methods(['GET'])
 def about(req: HttpRequest):
     return render(req, 'about.html')
 
 
+@require_http_methods(['POST'])
+def add_contact(req: HttpRequest):
+
+    data = req.POST.dict()
+
+    print(data)
+    return redirect('/contact-us/')
+
+
+@require_http_methods(['GET'])
 def contact(req: HttpRequest):
     return render(req, 'contact.html')
 
 
+@require_http_methods(['GET'])
 def return_404(req: HttpRequest, *args, **kwargs):
     resp = HttpResponse()
     resp.status_code = 404

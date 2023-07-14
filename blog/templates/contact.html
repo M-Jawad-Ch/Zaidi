@@ -1,6 +1,6 @@
 {% extends 'main.html' %}
 
-{% block title %} About Us {% endblock %}
+{% block title %} Contact Us {% endblock %}
 
 {% block css %}
 {% load static %}
@@ -12,12 +12,16 @@
 <section class="main">
     <div class="main-container">
         <h1>Get in Touch</h1>
-        <form action="/contact" method="post">
+        <form action="/contact/" method="post" onload="generate()">
             {% csrf_token %}
-            <input name="first-name" type="text" placeholder="First Name">
-            <input name="last-name" type="text" placeholder="Last Name">
-            <input type="email" name="email" placeholder="johndoe@example.com">
-            <textarea name="comments" id="comments" placeholder="Comments..."></textarea>
+            <input required name="first-name" type="text" placeholder="First Name">
+            <input required name="last-name" type="text" placeholder="Last Name">
+            <input required type="email" name="email" placeholder="johndoe@example.com">
+            <textarea required name="comments" id="comments" placeholder="Comments..."></textarea>
+
+            <canvas id="captcha">captcha text</canvas>
+            <input id="textBox" type="text" name="text" placeholder="Captch text">
+
             <button class="sbmt" type="submit">Submit</button>
         </form>
     </div>
@@ -25,4 +29,36 @@
 {% endblock %}
 
 {% block script %}
+<script>
+    let captchaText = document.querySelector('#captcha');
+    var ctx = captchaText.getContext("2d");
+    ctx.font = "30px Roboto";
+    ctx.fillStyle = "#000000";
+
+
+    let submitButton = document.querySelector('.sbmt');
+    let userText = document.querySelector('#textBox');
+    let output = document.querySelector('#output');
+    let form = document.querySelector('form')
+
+
+    // alphaNums contains the characters with which you want to create the CAPTCHA
+    let alphaNums = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    let emptyArr = [];
+
+    for (let i = 1; i <= 7; i++) {
+        emptyArr.push(alphaNums[Math.floor(Math.random() * alphaNums.length)]);
+    }
+    var c = emptyArr.join('');
+    ctx.fillText(emptyArr.join(''), captchaText.width / 3.3333, captchaText.height / 2);
+
+    submitButton.addEventListener('click', function (e) {
+        e.preventDefault()
+        if (userText.value === c) {
+            form.submit()
+        } else {
+            alert('Incorrect Captcha')
+        }
+    });
+</script>
 {% endblock %}

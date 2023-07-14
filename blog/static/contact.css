@@ -64,3 +64,9 @@ form {
 footer {
     margin-top: 0;
 }
+
+/* ------------------------------------------------------------ */
+canvas {
+    margin: 0 auto;
+    display: block;
+}
