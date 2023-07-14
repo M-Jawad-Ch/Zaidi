@@ -1,14 +1,16 @@
 .main {
     width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .main-container {
-    width: 40em;
+    max-width: 40em;
 
     background-color: #1A7FB6;
     color: white;
 
-    margin: 2em auto;
+    margin: 2em 0.05em;
     border-radius: 7px;
 }
 

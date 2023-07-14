@@ -55,12 +55,13 @@ footer .header-items-container li {
 }
 
 @media (max-width: 1000px) {
-    header .header-items-container {
+    .header-items-container {
         display: none;
     }
 
     footer {
         padding: 2em;
+        justify-content: center;
     }
 
     header {
