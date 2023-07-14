@@ -36,10 +36,12 @@ def index(req: HttpRequest):
 
     return render(req, 'index.html', data)
 
+
 def get_post_via_category(req: HttpRequest, post: str):
     data = Article.objects.get(slug=post)
-    
-    recent = [ article for article in Article.objects.all().order_by('-timestamp') if article.image and article.slug != data.slug][:4]
+
+    recent = [article for article in Article.objects.all().order_by(
+        '-timestamp') if article.image and article.slug != data.slug][:4]
 
     categories = Category.objects.all()
 
@@ -50,21 +52,21 @@ def get_post_via_category(req: HttpRequest, post: str):
         'image_url': data.image.image.url if data.image else None,
 
         'categories': [{
-            'name':category.name,
+            'name': category.name,
             'slug': category.slug
         } for category in categories],
 
         'recent': [{
-            'title':article.title,
-            'image':article.image.image.url,
-            'date':article.date,
+            'title': article.title,
+            'image': article.image.image.url,
+            'date': article.date,
             'slug': article.slug,
             'category': article.category.slug
         } for article in recent if article.category],
 
         'related': [{
-            'title':article.title,
-            'image':article.image.image.url,
+            'title': article.title,
+            'image': article.image.image.url,
             'date': article.date,
             'slug': article.slug,
             'category': article.category.slug
@@ -73,10 +75,10 @@ def get_post_via_category(req: HttpRequest, post: str):
 
 
 def get_category(req: HttpRequest, slug: str):
-    articles = Article.objects.filter(category=slug).all().order_by('-timestamp')
+    articles = Article.objects.filter(
+        category=slug).all().order_by('-timestamp')
     category = Category.objects.get(pk=slug)
 
-    
     return render(req, 'category.html', {
         'category': {
             'slug': category.slug,
@@ -90,6 +92,10 @@ def get_category(req: HttpRequest, slug: str):
             'desc': article.body
         } for article in articles]
     })
+
+
+def about(req: HttpRequest):
+    return render(req, 'about.html')
 
 
 def return_404(req: HttpRequest, *args, **kwargs):

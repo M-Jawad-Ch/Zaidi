@@ -229,6 +229,7 @@ Don't use h1 tags as they are for higher level headings, you can use h2 and belo
 
     return completion
 
+
 async def generate_article(overview, guidelines):
     content = []
     for section in overview.get('sub-headings'):
@@ -236,11 +237,12 @@ async def generate_article(overview, guidelines):
 
     return content
 
-async def generate_image_prompt(content:str):
+
+async def generate_image_prompt(content: str):
     messages = [
         {
-            'role':'user',
-            'content':f"""
+            'role': 'user',
+            'content': f"""
 {content}\n\nGenerate the description for an image from the above data.
 The description should only be of 3 lines maximum. It will be given to DALL-E 2 to generate the image."""
         }
@@ -249,7 +251,8 @@ The description should only be of 3 lines maximum. It will be given to DALL-E 2 
     completion = await prompt_gpt(messages)
     return completion_to_content(completion)
 
-def prompt_image_generation(prompt:str):
+
+def prompt_image_generation(prompt: str):
     for _ in range(5):
         try:
             image = openai.Image.create(
@@ -259,13 +262,15 @@ def prompt_image_generation(prompt:str):
             )
 
             return image
-        except: pass
-        
+        except:
+            pass
 
-def generate_image(prompt:str, fname:str):
+
+def generate_image(prompt: str, fname: str):
     res = prompt_image_generation(prompt)
 
-    if not res: return
+    if not res:
+        return
 
     res = requests.get(res['data'][0]['url'])
 
@@ -277,7 +282,7 @@ def generate_image(prompt:str, fname:str):
                     break
             except Exception as e:
                 print(e)
-        
+
     fname += '.png'
     image = Image(name=fname)
     image.image.save(fname, BytesIO(res.content))
@@ -286,11 +291,11 @@ def generate_image(prompt:str, fname:str):
     return image
 
 
-async def summarize(content:str):
+async def summarize(content: str):
     messages = [
         {
-            'role':'system',
-            'content':"""
+            'role': 'system',
+            'content': """
 You are given the scraped text of web pages. You clean the text and respond with the main content discussed on the page.
 Donot respond any of the features of the webpage or the navigation of the webpage, rather return the content discussed in the article.
 """
@@ -307,11 +312,12 @@ Clean the content given in the above article.
 
     return completion_to_content(await prompt_gpt(messages))
 
-async def rewrite(content:str):
+
+async def rewrite(content: str):
     messages = [
         {
-            'role':'user',
-            'content':f"""
+            'role': 'user',
+            'content': f"""
 {content}
 
 Don't repeat yourself, rewrite this and correct any coherency mistakes. Also don't remove the HTML while rewriting.
@@ -321,6 +327,7 @@ the head, body and such tags. Those will be already made for the page, you will 
     ]
 
     return completion_to_content(await prompt_gpt(messages))
+
 
 async def generate(guidelines: str):
     try:
@@ -341,7 +348,7 @@ async def generate(guidelines: str):
 
         for section in content:
             body += f"""<div class="section">{section}</div>"""
-        
+
         body = await rewrite(body)
 
         article.body = body

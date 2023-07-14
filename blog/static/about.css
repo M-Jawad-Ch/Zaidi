@@ -1,0 +1,35 @@
+.main {
+    width: 100%;
+}
+
+.main-container {
+    width: 40em;
+
+    background-color: #1A7FB6;
+    color: white;
+
+    margin: 2em auto;
+    border-radius: 7px;
+}
+
+.heading {
+    font-size: 2em;
+    text-align: center;
+    color: inherit;
+
+    padding: 1em 0;
+}
+
+.text-container {
+    color: inherit;
+    padding: 1em 2em;
+}
+
+.text-container p,
+h2 {
+    color: inherit;
+}
+
+.welcome {
+    font-size: larger;
+}

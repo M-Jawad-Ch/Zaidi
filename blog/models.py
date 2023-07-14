@@ -11,14 +11,16 @@ from threading import Thread
 
 import numpy
 
-def embed(content:str):
+
+def embed(content: str):
     for _ in range(5):
         res = Embedding.create(
             input=content,
             model="text-embedding-ada-002"
         )
 
-        return res['data'][0]['embedding']    
+        return res['data'][0]['embedding']
+
 
 class Category(models.Model):
     slug = models.SlugField(max_length=100, primary_key=True, default='NULL')
@@ -37,7 +39,7 @@ class Category(models.Model):
             if not self.embedding or self.slug != old.slug:
                 self.embedding = dumps(embed(self.name))
                 self.save()
-        
+
         thread = Thread(target=_embed, daemon=True)
         thread.start()
 
@@ -59,11 +61,10 @@ class Rss(models.Model):
 
     def __str__(self):
         return self.url
-    
+
     class Meta:
         verbose_name = 'Rss Link'
         verbose_name_plural = 'Rss Links'
-
 
 
 class Used(models.Model):
@@ -71,11 +72,11 @@ class Used(models.Model):
 
     def __str__(self) -> str:
         return self.url
-    
+
     class Meta:
         verbose_name = 'Used Rss Link'
         verbose_name_plural = 'Used Rss Links'
-        
+
 
 class Image(models.Model):
     name = models.CharField(primary_key=True, max_length=100)
@@ -83,6 +84,7 @@ class Image(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Article(models.Model):
     slug = models.SlugField(unique=True, max_length=100, primary_key=True)
@@ -92,11 +94,12 @@ class Article(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now_add=True)
 
-    image = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, blank=True)
+    image = models.ForeignKey(
+        Image, on_delete=models.SET_NULL, null=True, blank=True)
 
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True, blank=True)
-    
+
     embedding = models.TextField()
 
     def save(self, *args, **kwargs):
@@ -126,20 +129,23 @@ class Article(models.Model):
     def get_absolute_url(self):
         return f'/{self.category.slug}/{self.slug}' if self.category else '/'
 
+
 class ImageGenerator(models.Model):
     name = models.CharField(max_length=200)
     prompt = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
     used = models.BooleanField(default=False)
     running = models.BooleanField(default=False)
-    image = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, blank=True)
+    image = models.ForeignKey(
+        Image, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.prompt[:100]
-    
+
     class Meta:
         verbose_name = 'Image Generator'
         verbose_name_plural = 'Image Generators'
+
 
 class Generator(models.Model):
     id = models.AutoField(primary_key=True)
@@ -150,32 +156,31 @@ class Generator(models.Model):
 
     def __str__(self) -> str:
         return self.content[:100]
-    
+
     class Meta:
         verbose_name = 'Article Generator'
         verbose_name_plural = 'Article Generators'
-
-
 
 
 def difference(vec1, vec2):
     return ((numpy.array(vec1) - numpy.array(vec2)) ** 2).sum()
 
 
-def assign_category(article:Article):
+def assign_category(article: Article):
     if not article.embedding:
         article.embedding = embed(article.body)
 
     categories = Category.objects.all()
-    categories = [category for category in categories if loads(category.embedding)]
+    categories = [
+        category for category in categories if loads(category.embedding)]
 
-    categories = [ 
+    categories = [
         (
             category,
             difference(loads(article.embedding), loads(category.embedding))
-        ) for category in categories ]
-    
-    categories.sort( key=lambda x: x[1] )
+        ) for category in categories]
+
+    categories.sort(key=lambda x: x[1])
 
     article.category = categories[0][0]
 
