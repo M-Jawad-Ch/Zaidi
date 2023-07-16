@@ -1,0 +1,17 @@
+{
+  "name": "zaidi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@sparticuz/chromium": "^109.0.5",
+    "puppeteer-core": "19.4"
+  }
+}

@@ -1,4 +1,3 @@
-*.json
 *.xml
 *.ipynb
 *.sqlite*
@@ -11,3 +10,4 @@ media/
 node_modules/
 *.js
 *.mjs
+temp.json

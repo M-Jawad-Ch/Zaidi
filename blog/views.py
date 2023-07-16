@@ -2,39 +2,14 @@ import json
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpRequest
-from .models import Article, Category
 from django.views.decorators.http import require_http_methods
+from django.db.utils import IntegrityError
+from .models import Article, Category, Contact
 
 
 @require_http_methods(['GET'])
 def index(req: HttpRequest):
-    articles = Article.objects.all().order_by('-timestamp')[:12]
-    categories = Category.objects.all()
-
-    if not articles:
-        return render(req, 'mtc.html')
-
     data = {}
-
-    data['categories'] = [{
-        'name': category.name,
-        'slug': category.slug
-    } for category in categories]
-
-    data['top_story'] = {
-        'title': articles[0].title if articles else '',
-        'desc': articles[0].body,
-        'slug': articles[0].slug
-    }
-
-    data['articles'] = [
-        {
-            'title': article.title,
-            'date': article.date,
-            'slug': article.slug,
-            'previews': article.body
-        } for article in articles[1:12]
-    ]
 
     return render(req, 'index.html', data)
 
@@ -105,10 +80,20 @@ def about(req: HttpRequest):
 
 @require_http_methods(['POST'])
 def add_contact(req: HttpRequest):
-
     data = req.POST.dict()
 
     print(data)
+
+    try:
+        _contact = Contact.objects.create(email=data.get('email'))
+    except IntegrityError:
+        return redirect('/contact-us/')
+
+    _contact.first_name = data.get('first-name')
+    _contact.last_name = data.get('last-name')
+    _contact.comments = data.get('comments')
+    _contact.save()
+
     return redirect('/contact-us/')
 
 

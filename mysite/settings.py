@@ -49,8 +49,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
     'django.contrib.sites',
+    'django_object_actions',
     'blog',
-    'django_object_actions'
 ]
 
 MIDDLEWARE = [
@@ -92,6 +92,15 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+
+    # 'default': {
+    #    'ENGINE': 'django.db.backends.mysql',
+    #    'NAME': 'zaidi',
+    #    'USER': env.get_value('MYSQL_USER'),
+    #    'PASSWORD': env.get_value('MYSQL_PASSWORD'),
+    #    'HOST': 'localhost',
+    #    'PORT': '3306'
+    # }
 }
 
 
@@ -136,7 +145,7 @@ MEDIA_ROOT = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATIC_DIRS = (
-    os.path.join(BASE_DIR ,'static')
+    os.path.join(BASE_DIR, 'static')
 )
 
 # Default primary key field type

@@ -52,8 +52,8 @@ class Category(models.Model):
         return f'/{self.slug}'
 
     class Meta:
-        verbose_name = 'Category'
-        verbose_name_plural = 'Categories'
+        verbose_name = 'A - Category'
+        verbose_name_plural = 'A - Categories'
 
 
 class Rss(models.Model):
@@ -63,8 +63,7 @@ class Rss(models.Model):
         return self.url
 
     class Meta:
-        verbose_name = 'Rss Link'
-        verbose_name_plural = 'Rss Links'
+        verbose_name = 'A - Rss Link'
 
 
 class Used(models.Model):
@@ -74,16 +73,19 @@ class Used(models.Model):
         return self.url
 
     class Meta:
-        verbose_name = 'Used Rss Link'
-        verbose_name_plural = 'Used Rss Links'
+        verbose_name = 'B - Used Rss Link'
 
 
 class Image(models.Model):
     name = models.CharField(primary_key=True, max_length=100)
     image = models.ImageField(upload_to='images/')
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'A - Image'
 
 
 class Article(models.Model):
@@ -93,6 +95,9 @@ class Article(models.Model):
     body = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'A - Article'
 
     image = models.ForeignKey(
         Image, on_delete=models.SET_NULL, null=True, blank=True)
@@ -143,19 +148,21 @@ class ImageGenerator(models.Model):
         return self.prompt[:100]
 
     class Meta:
-        verbose_name = 'Image Generator'
-        verbose_name_plural = 'Image Generators'
+        verbose_name = 'B - Image Generator'
 
 
 class Contact(models.Model):
-    firsName = models.CharField(max_length=300)
-    lastname = models.CharField(max_length=300)
-    email = models.EmailField()
+    first_name = models.CharField(max_length=300)
+    last_name = models.CharField(max_length=300)
+    email = models.EmailField(unique=True)
     comments = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.firsName} {self.lastname} : {self.comments[:30]}'
+        return f'{self.first_name} {self.last_name} : {self.comments[:30]}'
+
+    class Meta:
+        verbose_name = 'A - Contact'
 
 
 class Generator(models.Model):
@@ -169,8 +176,7 @@ class Generator(models.Model):
         return self.content[:100]
 
     class Meta:
-        verbose_name = 'Article Generator'
-        verbose_name_plural = 'Article Generators'
+        verbose_name = 'B - Article Generator'
 
 
 def difference(vec1, vec2):
