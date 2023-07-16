@@ -113,9 +113,33 @@ li {
     color: #555;
 }
 
+.social-icons-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 3em;
+}
+
+.mobile-socials {
+    display: flex;
+    flex-direction: row;
+    display: none;
+}
+
+.social-icon {
+    margin: 0 0.25em;
+}
+
 @media (max-width: 1000px) {
     #main-container {
         padding: 0 1em;
+    }
+
+    h2 {
+        margin-top: 1em;
+    }
+
+    .mobile-socials {
+        display: flex;
     }
 
     .side-bar {
