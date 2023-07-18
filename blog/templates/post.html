@@ -39,6 +39,25 @@
             {% endfor %}
         </div>
         {% endif %}
+        <div class="comments-container">
+            <hr>
+            <h3>COMMENTS</h3>
+            <form action="/{{ category }}/{{ slug }}/comment/" method="post">
+                {% csrf_token %}
+                <textarea name="comment" class="comment-box" placeholder="Comment..."></textarea>
+                <button class="submit" type="submit">Submit</button>
+            </form>
+            <div class="comments">
+                {% for comment in comments %}
+                <div class="comment">
+                    <p> {{ comment.text }} </p>
+                    <span class="comment-date">
+                        {{ comment.date }}
+                    </span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
     <div class="side-bar">
         <h3>RECENT POSTS</h3>
@@ -57,7 +76,7 @@
         <h3 class="category-title">CATEGORIES</h3>
         {% for category in categories %}
         <div class="category">
-            <a href="/{{ category.slug }}"> <span class="arrow">&#10159;</span> {{ category.name }}</a>
+            <a href="/{{ category.slug }}/"> <span class="arrow">&#10159;</span> {{ category.name }}</a>
         </div>
         {% endfor %}
         <div class="social-icons-container">

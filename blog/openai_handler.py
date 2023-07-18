@@ -313,6 +313,21 @@ Clean the content given in the above article.
     return completion_to_content(await prompt_gpt(messages))
 
 
+async def summarize(content: str):
+    messages = [
+        {
+            'role': 'user',
+            'content': f"""
+{content}
+
+Summarise the above article in 4 - 5 sentences.
+"""
+        }
+    ]
+
+    return completion_to_content(await prompt_gpt(messages))
+
+
 async def rewrite(content: str):
     messages = [
         {
@@ -352,6 +367,7 @@ async def generate(guidelines: str):
         body = await rewrite(body)
 
         article.body = body
+        article.summary = await summarize(body)
 
         await article.asave()
 

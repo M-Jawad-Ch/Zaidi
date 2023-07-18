@@ -17,13 +17,11 @@
     <div class="articles-container">
         {% for article in articles %}
         <div class="article {% if forloop.counter0|divisibleby:2 %} reverse {% endif %}">
-            <img src="{{ article.image }}" alt="">
+            {% if article.image %} <img src="{{ article.image }}" alt=""> {% endif %}
             <a href="{{category.slug}}/{{article.slug}}">
                 <div class="text-container">
-                    {% autoescape off %}
                     {{ article.desc }}
-                    {% endautoescape %}
-                    <span class="date">{{ article.date }}</span>
+                    <br><span class="date">{{ article.date }}</span>
                 </div>
             </a>
         </div>
@@ -36,13 +34,4 @@
 {% endblock %}
 
 {% block script %}
-<script>
-    var txtConts = document.querySelectorAll('.text-container')
-    for (const txtCont of txtConts) {
-        let date = document.querySelector('.date')
-        txtCont.innerHTML = `<h2>${txtCont.querySelector('h2').innerText}</h2>
-        <p>${txtCont.querySelector('p').innerText}</p>
-        <span class='date'>${date.innerText}</span>`
-    }
-</script>
 {% endblock %}

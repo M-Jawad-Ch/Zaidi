@@ -13,7 +13,7 @@ import requests
 from django_object_actions import DjangoObjectActions, action
 from django.utils.text import slugify
 
-from .models import Article, Generator, Category, Image, Rss, Used, ImageGenerator, assign_category, Contact
+from .models import Article, Generator, Category, Image, Rss, Used, ImageGenerator, assign_category, Contact, Comment
 from .openai_handler import generate, generate_image_prompt, generate_image, summarize
 from .rss_handler import get_descriptions_and_links
 from .scrapingHandler import scrape
@@ -126,6 +126,11 @@ class ArticleAdmin(admin.ModelAdmin):
     list_display = ['title', 'category', 'timestamp']
     ordering = ['-timestamp']
     exclude = ('embedding',)
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    pass
 
 
 @admin.register(Category)

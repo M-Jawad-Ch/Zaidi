@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpRequest
 from django.views.decorators.http import require_http_methods
 from django.db.utils import IntegrityError
-from .models import Article, Category, Contact
+from .models import Article, Category, Contact, Comment
 
 
 @require_http_methods(['GET'])
@@ -15,19 +15,30 @@ def index(req: HttpRequest):
 
 
 @require_http_methods(['GET'])
-def get_post_via_category(req: HttpRequest, post: str):
-    data = Article.objects.get(slug=post)
+def get_post(req: HttpRequest, category: str, post: str):
+    try:
+        data = Article.objects.get(pk=post)
+    except Article.DoesNotExist:
+        return return_404(req)
 
     recent = [article for article in Article.objects.all().order_by(
         '-timestamp') if article.image and article.slug != data.slug][:4]
 
     categories = Category.objects.all()
+    comments = Comment.objects.filter(article=data).all()
 
     return render(req, 'post.html', {
         'title': data.title,
+        'slug': data.slug,
+        'category': data.category.slug,
         'content': data.body,
         'date': data.date,
         'image_url': data.image.image.url if data.image else None,
+
+        'comments': [{
+            'text': comment.text,
+            'date': comment.date
+        } for comment in comments],
 
         'categories': [{
             'name': category.name,
@@ -48,7 +59,7 @@ def get_post_via_category(req: HttpRequest, post: str):
             'date': article.date,
             'slug': article.slug,
             'category': article.category.slug
-        } for article in Article.objects.filter(category=data.category).all() if article.slug != data.slug]
+        } for article in Article.objects.filter(category=data.category).all() if article.slug != data.slug and article.image]
     })
 
 
@@ -66,9 +77,9 @@ def get_category(req: HttpRequest, slug: str):
         'articles': [{
             'slug': article.slug,
             'title': article.title,
-            'image': article.image.image.url,
+            'image': article.image.image.url if article.image else '',
             'date': article.date,
-            'desc': article.body
+            'desc': article.summary
         } for article in articles]
     })
 
@@ -95,6 +106,17 @@ def add_contact(req: HttpRequest):
     _contact.save()
 
     return redirect('/contact-us/')
+
+
+@require_http_methods(['POST'])
+def comment(req: HttpRequest, category: str, post: str):
+    article = Article.objects.get(pk=post)
+
+    data = req.POST.dict()
+
+    Comment.objects.create(text=data.get('comment'), article=article)
+
+    return redirect(article.get_absolute_url())
 
 
 @require_http_methods(['GET'])

@@ -25,12 +25,14 @@
     border-radius: 5px;
 }
 
+.article a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .text-container {
-    flex: 100%;
     padding: 0 2em;
-    margin: auto 0;
-    overflow: hidden;
-    margin: auto 0;
     max-height: fit-content;
     text-overflow: ellipsis;
 }

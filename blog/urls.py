@@ -9,5 +9,6 @@ urlpatterns = [
     path("contact-us/", views.contact),
     path("contact/", views.add_contact),
     path("<str:slug>/", views.get_category),
-    re_path(r"^(?!image).*/(?P<post>.*)$", views.get_post_via_category),
+    re_path(r"(?P<category>^(?!image).*)/(?P<post>.*)/comment", views.comment),
+    re_path(r"(?P<category>^(?!image).*)/(?P<post>.*)$", views.get_post),
 ]

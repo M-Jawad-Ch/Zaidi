@@ -93,6 +93,7 @@ class Article(models.Model):
     title = models.CharField(max_length=100)
     date = models.DateField(auto_now_add=True)
     body = models.TextField()
+    summary = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now_add=True)
 
@@ -133,6 +134,18 @@ class Article(models.Model):
 
     def get_absolute_url(self):
         return f'/{self.category.slug}/{self.slug}' if self.category else '/'
+
+
+class Comment(models.Model):
+    text = models.TextField()
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.text[:50]
+
+    class Meta:
+        verbose_name = 'A - Comment'
 
 
 class ImageGenerator(models.Model):
