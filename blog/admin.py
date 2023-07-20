@@ -8,17 +8,27 @@ from asgiref.sync import sync_to_async
 from random import randrange
 
 import asyncio
+from django.http.request import HttpRequest
 import requests
 
 from django_object_actions import DjangoObjectActions, action
 from django.utils.text import slugify
 
-from .models import Article, Generator, Category, Image, Rss, Used, ImageGenerator, assign_category, Contact, Comment
+from .models import Article, Generator, Category, Image, Rss, Used, ImageGenerator, assign_category, Contact, Comment, Index
 from .openai_handler import generate, generate_image_prompt, generate_image, summarize
 from .rss_handler import get_descriptions_and_links
 from .scrapingHandler import scrape
 
 # Register your models here.
+
+
+@admin.register(Index)
+class IndexAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request: HttpRequest) -> bool:
+        return False  # super().has_add_permission(request)
+
+    def has_delete_permission(self, request: HttpRequest, obj: Any | None = ...) -> bool:
+        return False  # super().has_delete_permission(request, obj)
 
 
 @admin.register(Image)

@@ -4,14 +4,25 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpRequest
 from django.views.decorators.http import require_http_methods
 from django.db.utils import IntegrityError
-from .models import Article, Category, Contact, Comment
+from .models import Article, Category, Contact, Comment, Index
 
 
 @require_http_methods(['GET'])
 def index(req: HttpRequest):
-    data = {}
+    data = Index.objects.first()
+    if not data:
+        return render(req, 'mtc.html', {})
 
-    return render(req, 'index.html', data)
+    return render(req, 'index.html', {
+        'image': data.image.image.url,
+        'heading': data.heading,
+        'body':  # data.body
+        """
+Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia illum sapiente itaque laboriosam omnis minima voluptatibus consectetur eveniet neque dolorum.
+Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia illum sapiente itaque laboriosam omnis minima voluptatibus consectetur eveniet neque dolorum.
+
+"""
+    })
 
 
 @require_http_methods(['GET'])

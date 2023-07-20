@@ -6,10 +6,20 @@ class BlogConfig(AppConfig):
     name = 'blog'
 
     def ready(self):
-        from .models import Generator
+        try:
+            from .models import Generator
 
-        generators = Generator.objects.filter(running=True)
+            generators = Generator.objects.filter(running=True)
 
-        for generator in generators:
-            generator.running = False
-            generator.save()
+            for generator in generators:
+                generator.running = False
+                generator.save()
+        except:
+            pass
+
+        try:
+            from .models import Index
+            if not Index.objects.first():
+                Index.objects.create()
+        except:
+            pass

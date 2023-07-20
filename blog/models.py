@@ -192,6 +192,25 @@ class Generator(models.Model):
         verbose_name = 'B - Article Generator'
 
 
+class Index(models.Model):
+    image = models.ForeignKey(
+        Image,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
+
+    heading = models.TextField()
+    body = models.TextField()
+
+    def __str__(self) -> str:
+        return "Index Page"
+
+    class Meta:
+        verbose_name = 'A - Index'
+        verbose_name_plural = 'A - Index'
+
+
 def difference(vec1, vec2):
     return ((numpy.array(vec1) - numpy.array(vec2)) ** 2).sum()
 

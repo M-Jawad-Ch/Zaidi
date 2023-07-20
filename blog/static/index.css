@@ -1,0 +1,47 @@
+.image-container {
+    width: 100%;
+    background-color: black;
+    padding-top: 20em;
+    padding-bottom: 0.5em;
+    background-position: center;
+    background-size: cover;
+
+    color: white;
+}
+
+.main-image {
+    margin: 0;
+    max-height: 70vh;
+    max-width: 100%;
+}
+
+h1 {
+    color: inherit;
+    padding-left: 3rem;
+    padding-right: 3rem;
+}
+
+.background {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.body {
+    margin-top: 1rem;
+    margin-left: 3rem;
+    margin-right: 3rem;
+}
+
+@media (max-width: 600px) {
+    .main-image {
+        max-height: 50vh;
+    }
+
+    .body {
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+
+    .image-container {
+        padding-top: 10em;
+    }
+}

@@ -1,0 +1,23 @@
+{% extends 'main.html' %}
+
+{% block title %} Home {% endblock %}
+
+{% block css %}
+{% load static %}
+<link rel="stylesheet" href="{% static '/index.css' %}">
+{% endblock %}
+
+
+{% block main %}
+<div class="main-container">
+    <div class="image-container" style="background-image: url('{{ image }}');">
+        <h1> <span class="background"> {{ heading }} </span> </h1>
+    </div>
+    <div class="body">
+        {{ body }}
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}
