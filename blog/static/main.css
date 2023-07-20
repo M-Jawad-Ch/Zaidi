@@ -49,6 +49,7 @@ footer {
     color: white;
     padding: 3em;
     margin-top: 3em;
+    border-top: #555 solid 1px;
 }
 
 footer .logo-container {

@@ -25,23 +25,89 @@ h1 {
     background-color: rgba(0, 0, 0, 0.7);
 }
 
-.body {
+.sections {
+    display: flex;
+}
+
+.left-section {
+    flex: 80%
+}
+
+.main-content {
     margin-top: 1rem;
     margin-left: 3rem;
     margin-right: 3rem;
 }
 
-@media (max-width: 600px) {
+.main-content h3 {
+    margin-top: 1em;
+    text-align: center;
+}
+
+.right-section {
+    flex: 20%;
+    background-color: var(--theme-color);
+    color: white;
+
+    padding: 1em;
+    min-height: 20em;
+}
+
+.category {
+    width: 100%;
+    font-weight: bold;
+    margin: 0.5em 0;
+}
+
+.posts-container {
+    display: flex;
+    justify-content: center;
+}
+
+.posts {
+    width: min-content;
+    display: inline-block;
+}
+
+.post {
+    display: inline-block;
+    margin: 1em;
+    padding: 1em;
+    padding-top: 10em;
+    width: 250px;
+    background-position: center;
+    border-radius: 3px;
+}
+
+.text {
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 0.5em;
+}
+
+footer {
+    margin-top: 0;
+}
+
+@media (max-width: 700px) {
     .main-image {
         max-height: 50vh;
     }
 
     .body {
-        margin-left: 1rem;
-        margin-right: 1rem;
+        margin-left: 0;
+        margin-right: 0;
     }
 
     .image-container {
         padding-top: 10em;
+    }
+
+    .sections {
+        flex-direction: column;
+    }
+
+    .right-section {
+        min-height: fit-content;
     }
 }

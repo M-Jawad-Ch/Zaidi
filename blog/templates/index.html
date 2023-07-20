@@ -14,7 +14,49 @@
         <h1> <span class="background"> {{ heading }} </span> </h1>
     </div>
     <div class="body">
-        {{ body }}
+        <div class="sections">
+            <div class="left-section">
+                <div class="main-content">
+                    {{ body }}
+                    <h3>LATEST POSTS</h3>
+                    <div class="posts-container">
+                        <div class="posts">
+                            {% for post in latest_posts %}
+                            {% if forloop.counter0|divisibleby:2 %}
+                            <a href="/{{ post.category }}/{{ post.slug }}">
+                                <div class="post" style="background-image: url('{{ post.image }}');">
+                                    <div class="text">
+                                        {{ post.title }}
+                                    </div>
+                                </div>
+                            </a>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="posts">
+                            {% for post in latest_posts %}
+                            {% if not forloop.counter0|divisibleby:2 %}
+                            <a href="/{{ post.category }}/{{ post.slug }}">
+                                <div class="post" style="background-image: url('{{ post.image }}');">
+                                    <div class="text">
+                                        {{ post.title }}
+                                    </div>
+                                </div>
+                            </a>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right-section">
+                {% for category in categories %}
+                <div class="category">
+                    <a href="/{{ category.slug }}/"> <span class="arrow">&#10159;</span> {{ category.name }}</a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

@@ -13,6 +13,11 @@ def index(req: HttpRequest):
     if not data:
         return render(req, 'mtc.html', {})
 
+    categories = Category.objects.all()
+    latest_posts = [article for article in
+                    Article.objects.order_by('-timestamp').all()
+                    if article.image][:6]
+
     return render(req, 'index.html', {
         'image': data.image.image.url,
         'heading': data.heading,
@@ -20,8 +25,18 @@ def index(req: HttpRequest):
         """
 Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia illum sapiente itaque laboriosam omnis minima voluptatibus consectetur eveniet neque dolorum.
 Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia illum sapiente itaque laboriosam omnis minima voluptatibus consectetur eveniet neque dolorum.
+""",
+        'categories': [{
+            'name': category.name,
+            'slug': category.slug
+        } for category in categories],
 
-"""
+        'latest_posts': [{
+            'title': article.title,
+            'category': article.category,
+            'slug': article.slug,
+            'image': article.image.image.url,
+        } for article in latest_posts]
     })
 
 
