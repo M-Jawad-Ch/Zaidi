@@ -22,6 +22,37 @@ def embed(content: str):
         return res['data'][0]['embedding']
 
 
+class Image(models.Model):
+    name = models.CharField(primary_key=True, max_length=100)
+    image = models.ImageField(upload_to='images/')
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'A - Image'
+
+
+class ExtraPages(models.Model):
+    slug = models.SlugField(max_length=100, blank=True)
+    image = models.ForeignKey(
+        Image, on_delete=models.SET_NULL, null=True, blank=True)
+    title = models.CharField(max_length=200, blank=True)
+    body = models.TextField(blank=True)
+    visible = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = 'A - Extra Pages'
+        verbose_name_plural = 'A - Extra Pages'
+
+    def __str__(self):
+        return self.slug if self.slug else f'Extra Page ({self.pk})'
+
+    def get_absolute_url(self):
+        return f'/{self.slug}/'
+
+
 class Category(models.Model):
     slug = models.SlugField(max_length=100, primary_key=True, default='NULL')
     name = models.CharField(max_length=100, unique=True)
@@ -74,18 +105,6 @@ class Used(models.Model):
 
     class Meta:
         verbose_name = 'B - Used Rss Link'
-
-
-class Image(models.Model):
-    name = models.CharField(primary_key=True, max_length=100)
-    image = models.ImageField(upload_to='images/')
-    timestamp = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = 'A - Image'
 
 
 class Article(models.Model):

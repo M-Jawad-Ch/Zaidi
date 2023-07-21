@@ -1,0 +1,31 @@
+.main-container {
+    /* width: 100%; */
+    /* background-color: black; */
+    background-position: center;
+    background-size: cover;
+    color: white;
+    padding: 2rem;
+    padding-top: 10em;
+}
+
+.text {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 0 0.2em;
+    width: fit-content;
+}
+
+.text-container {
+    padding: 2rem;
+    min-height: 15em;
+}
+
+@media (max-width: 400px) {
+    .main-container {
+        padding: 0.5rem;
+        padding-top: 10em;
+    }
+
+    .text-container {
+        padding: 0.5rem;
+    }
+}

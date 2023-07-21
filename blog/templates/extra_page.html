@@ -1,0 +1,25 @@
+{% extends 'main.html' %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block css %}
+{% load static %}
+<link rel="stylesheet" href="{% static '/extra_page.css' %}">
+{% endblock %}
+
+
+{% block main %}
+<section class="main">
+    <div class="main-container" style="background-image: url('{{ image }}');">
+        <h1>
+            <div class="text">{{ title }}</div>
+        </h1>
+    </div>
+    <div class="text-container">
+        {{ body }}
+    </div>
+</section>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

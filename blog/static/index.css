@@ -62,6 +62,7 @@ h1 {
 .posts-container {
     display: flex;
     justify-content: center;
+    margin-bottom: 3em;
 }
 
 .posts {
@@ -74,7 +75,8 @@ h1 {
     margin: 1em;
     padding: 1em;
     padding-top: 10em;
-    width: 250px;
+    height: 4em;
+    width: 300px;
     background-position: center;
     border-radius: 3px;
 }
@@ -89,7 +91,7 @@ footer {
     margin-top: 0;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 900px) {
     .main-image {
         max-height: 50vh;
     }
@@ -109,5 +111,25 @@ footer {
 
     .right-section {
         min-height: fit-content;
+    }
+}
+
+@media (max-width: 700px) {
+    .posts-container {
+        display: block;
+        width: min-content;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 500px) {
+    .main-content {
+        margin: 1rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .post {
+        width: 250px;
     }
 }

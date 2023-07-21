@@ -23,3 +23,11 @@ class BlogConfig(AppConfig):
                 Index.objects.create()
         except:
             pass
+
+        try:
+            from .models import ExtraPages
+            if not ExtraPages.objects.all():
+                ExtraPages.objects.create()
+                ExtraPages.objects.create()
+        except:
+            pass

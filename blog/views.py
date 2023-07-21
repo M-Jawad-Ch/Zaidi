@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpRequest
 from django.views.decorators.http import require_http_methods
 from django.db.utils import IntegrityError
-from .models import Article, Category, Contact, Comment, Index
+from .models import Article, Category, Contact, Comment, Index, ExtraPages
 
 
 @require_http_methods(['GET'])
@@ -38,6 +38,22 @@ Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia illum sapiente it
             'image': article.image.image.url,
         } for article in latest_posts]
     })
+
+
+@require_http_methods(['GET'])
+def extra_page(req: HttpRequest, extra_page: str):
+    pages: list[ExtraPages] = ExtraPages.objects.all()
+
+    page = None
+    for page_ in pages:
+        if page_.slug == extra_page:
+            page = page_
+
+    return render(req, 'extra_page.html', {
+        'title': page.title,
+        'body': page.body,
+        'image': page.image.image.url
+    }) if page and page.visible else return_404(req)
 
 
 @require_http_methods(['GET'])

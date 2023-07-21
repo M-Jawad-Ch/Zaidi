@@ -8,7 +8,8 @@ urlpatterns = [
     path("about-us/", views.about),
     path("contact-us/", views.contact),
     path("contact/", views.add_contact),
-    path("<str:slug>/", views.get_category),
+    path('<str:extra_page>/', views.extra_page),
+    path("categories/<str:slug>/", views.get_category),
     re_path(r"(?P<category>^(?!image).*)/(?P<post>.*)/comment", views.comment),
     re_path(r"(?P<category>^(?!image).*)/(?P<post>.*)$", views.get_post),
 ]

@@ -52,7 +52,9 @@
             <div class="right-section">
                 {% for category in categories %}
                 <div class="category">
-                    <a href="/{{ category.slug }}/"> <span class="arrow">&#10159;</span> {{ category.name }}</a>
+                    <a href="/categories/{{ category.slug }}/"> <span class="arrow">&#10159;</span>
+                        {{ category.name}}
+                    </a>
                 </div>
                 {% endfor %}
             </div>
