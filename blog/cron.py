@@ -1,0 +1,23 @@
+from random import randrange
+
+from django_cron import CronJobBase, Schedule
+from django.conf import settings
+
+
+from .models import Rss
+from .admin import generate_thread_func
+
+
+class Task(CronJobBase):
+    schedule = Schedule(
+        run_every_mins=24 * 60,
+        retry_after_failure_mins=5
+    )
+
+    code = 'blog.Task'
+
+    def do(self):
+        rss_ = [*Rss.objects.all()]
+        for _ in range(settings.ARTICLES_PER_DAY):
+            rss = rss_[randrange(len(rss_))]
+            generate_thread_func(rss)

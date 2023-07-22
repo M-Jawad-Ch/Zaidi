@@ -36,6 +36,7 @@ ALLOWED_HOSTS = ['blog.indusecho.site'] if not DEBUG else ['*']
 
 
 SITE_ID = 1
+ARTICLES_PER_DAY = 3
 
 openai.api_key = env.get_value('OPENAI_API_KEY')
 # Application definition
@@ -51,6 +52,11 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django_object_actions',
     'blog',
+    'django_cron'
+]
+
+CRON_CLASSES = [
+    'blog.cron.Task'
 ]
 
 MIDDLEWARE = [

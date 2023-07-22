@@ -93,41 +93,43 @@ class ImageGeneratorAdmin(DjangoObjectActions, admin.ModelAdmin):
         messages.success(req, 'The generator has started.')
 
 
+def generate_thread_func(object: Rss):
+    for _ in range(5):
+        try:
+            res = requests.get(object.url)
+            if res.status_code == 200:
+                break
+        except Exception as e:
+            print(e)
+
+    description_and_links = get_descriptions_and_links(res.text)
+
+    used_links = [x.url for x in Used.objects.all()]
+    description_and_links = [
+        x for x in description_and_links if x not in used_links]
+
+    idx: int = randrange(len(description_and_links))
+    link: str = description_and_links[idx]
+    del description_and_links
+    del used_links
+
+    desc = scrape([link])[0]['text']
+
+    generator = Generator(content=desc)
+
+    def callback():
+        used_link = Used(url=link)
+        used_link.save()
+
+    generate_article(generator, callback)
+
+
 @admin.register(Rss)
 class RssAdmin(DjangoObjectActions, admin.ModelAdmin):
     @action(label='Generate Article', description='Generate Articles using the Rss feeds')
     def start_article_generation(self, req: HttpRequest, object: Rss):
-        def generate():
-            for _ in range(5):
-                try:
-                    res = requests.get(object.url)
-                    if res.status_code == 200:
-                        break
-                except Exception as e:
-                    print(e)
-
-            description_and_links = get_descriptions_and_links(res.text)
-
-            used_links = [x.url for x in Used.objects.all()]
-            description_and_links = [
-                x for x in description_and_links if x not in used_links]
-
-            idx: int = randrange(len(description_and_links))
-            link: str = description_and_links[idx]
-            del description_and_links
-            del used_links
-
-            desc = scrape([link])[0]['text']
-
-            generator = Generator(content=desc)
-
-            def callback():
-                used_link = Used(url=link)
-                used_link.save()
-
-            generate_article(generator, callback)
-
-        thread = Thread(target=generate, daemon=True)
+        thread = Thread(target=generate_thread_func,
+                        daemon=True, args=[object])
         thread.start()
 
         messages.success(req, 'The generator has started.')
