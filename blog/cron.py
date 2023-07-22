@@ -2,7 +2,7 @@ from random import randrange
 
 from django_cron import CronJobBase, Schedule
 from django.conf import settings
-
+from threading import Thread
 
 from .models import Rss
 from .admin import generate_thread_func
@@ -20,4 +20,9 @@ class Task(CronJobBase):
         rss_ = [*Rss.objects.all()]
         for _ in range(settings.ARTICLES_PER_DAY):
             rss = rss_[randrange(len(rss_))]
-            generate_thread_func(rss)
+
+            Thread(
+                daemon=True,
+                target=generate_thread_func,
+                args=[rss]
+            ).start()
