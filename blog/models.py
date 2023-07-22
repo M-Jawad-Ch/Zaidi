@@ -36,6 +36,7 @@ class Image(models.Model):
 
 class ExtraPages(models.Model):
     slug = models.SlugField(max_length=100, blank=True)
+    title = models.CharField(max_length=100, blank=True)
     image = models.ForeignKey(
         Image, on_delete=models.SET_NULL, null=True, blank=True)
     title = models.CharField(max_length=200, blank=True)

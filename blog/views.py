@@ -18,14 +18,12 @@ def index(req: HttpRequest):
                     Article.objects.order_by('-timestamp').all()
                     if article.image][:6]
 
+    extra_pages = ExtraPages.objects.all()
+
     return render(req, 'index.html', {
         'image': data.image.image.url,
         'heading': data.heading,
-        'body':  # data.body
-        """
-Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia illum sapiente itaque laboriosam omnis minima voluptatibus consectetur eveniet neque dolorum.
-Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia illum sapiente itaque laboriosam omnis minima voluptatibus consectetur eveniet neque dolorum.
-""",
+        'body':  data.body,
         'categories': [{
             'name': category.name,
             'slug': category.slug
@@ -36,7 +34,12 @@ Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia illum sapiente it
             'category': article.category,
             'slug': article.slug,
             'image': article.image.image.url,
-        } for article in latest_posts]
+        } for article in latest_posts],
+
+        'extra_pages': [{
+            'slug': extra_page.slug,
+            'name': extra_page.title
+        } for extra_page in extra_pages if extra_page.visible]
     })
 
 
@@ -49,10 +52,16 @@ def extra_page(req: HttpRequest, extra_page: str):
         if page_.slug == extra_page:
             page = page_
 
+    extra_pages = ExtraPages.objects.all()
+
     return render(req, 'extra_page.html', {
         'title': page.title,
         'body': page.body,
-        'image': page.image.image.url
+        'image': page.image.image.url if page.image else None,
+        'extra_pages': [{
+            'slug': extra_page.slug,
+            'name': extra_page.title
+        } for extra_page in extra_pages if extra_page.visible]
     }) if page and page.visible else return_404(req)
 
 
@@ -68,6 +77,8 @@ def get_post(req: HttpRequest, category: str, post: str):
 
     categories = Category.objects.all()
     comments = Comment.objects.filter(article=data).all()
+
+    extra_pages = ExtraPages.objects.all()
 
     return render(req, 'post.html', {
         'title': data.title,
@@ -95,6 +106,11 @@ def get_post(req: HttpRequest, category: str, post: str):
             'category': article.category.slug
         } for article in recent if article.category],
 
+        'extra_pages': [{
+            'slug': extra_page.slug,
+            'name': extra_page.title
+        } for extra_page in extra_pages if extra_page.visible],
+
         'related': [{
             'title': article.title,
             'image': article.image.image.url,
@@ -110,7 +126,7 @@ def get_category(req: HttpRequest, slug: str):
     articles = Article.objects.filter(
         category=slug).all().order_by('-timestamp')
     category = Category.objects.get(pk=slug)
-
+    extra_pages = ExtraPages.objects.all()
     return render(req, 'category.html', {
         'category': {
             'slug': category.slug,
@@ -122,20 +138,31 @@ def get_category(req: HttpRequest, slug: str):
             'image': article.image.image.url if article.image else '',
             'date': article.date,
             'desc': article.summary
-        } for article in articles]
+        } for article in articles],
+
+        'extra_pages': [{
+            'slug': extra_page.slug,
+            'name': extra_page.title
+        } for extra_page in extra_pages if extra_page.visible]
     })
 
 
 @require_http_methods(['GET'])
 def about(req: HttpRequest):
-    return render(req, 'about.html')
+    extra_pages = ExtraPages.objects.all()
+    return render(req, 'about.html', {
+        'extra_pages': [{
+            'slug': extra_page.slug,
+            'name': extra_page.title
+        } for extra_page in extra_pages if extra_page.visible]
+    })
 
 
 @require_http_methods(['POST'])
 def add_contact(req: HttpRequest):
     data = req.POST.dict()
 
-    print(data)
+    extra_pages = ExtraPages.objects.all()
 
     try:
         _contact = Contact.objects.create(email=data.get('email'))
@@ -163,7 +190,14 @@ def comment(req: HttpRequest, category: str, post: str):
 
 @require_http_methods(['GET'])
 def contact(req: HttpRequest):
-    return render(req, 'contact.html')
+    extra_pages = ExtraPages.objects.all()
+
+    return render(req, 'contact.html', {
+        'extra_pages': [{
+            'slug': extra_page.slug,
+            'name': extra_page.title
+        } for extra_page in extra_pages if extra_page.visible]
+    })
 
 
 @require_http_methods(['GET'])
