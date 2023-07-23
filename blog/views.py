@@ -55,6 +55,7 @@ def extra_page(req: HttpRequest, extra_page: str):
     extra_pages = ExtraPages.objects.all()
 
     return render(req, 'extra_page.html', {
+        'slug': page.slug,
         'title': page.title,
         'body': page.body,
         'image': page.image.image.url if page.image else None,
