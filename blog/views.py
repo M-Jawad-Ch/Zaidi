@@ -21,7 +21,7 @@ def index(req: HttpRequest):
     extra_pages = ExtraPages.objects.all()
 
     return render(req, 'index.html', {
-        'image': data.image.image.url,
+        'image': data.image.image.url if data.image else '',
         'heading': data.heading,
         'body':  data.body,
         'categories': [{

@@ -32,7 +32,7 @@ SECRET_KEY = env.get_value('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.get_value('DEBUG')
 
-ALLOWED_HOSTS = ['blog.indusecho.site'] if not DEBUG else ['*']
+ALLOWED_HOSTS = ['*'] if not DEBUG else ['*']
 
 
 SITE_ID = 1

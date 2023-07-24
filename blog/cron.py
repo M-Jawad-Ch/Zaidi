@@ -18,6 +18,10 @@ class Task(CronJobBase):
 
     def do(self):
         rss_ = [*Rss.objects.all()]
+
+        if not rss_:
+            return
+
         for _ in range(settings.ARTICLES_PER_DAY):
             rss = rss_[randrange(len(rss_))]
 
