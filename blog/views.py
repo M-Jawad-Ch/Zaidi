@@ -21,6 +21,9 @@ def index(req: HttpRequest):
     extra_pages = ExtraPages.objects.all()
 
     return render(req, 'index.html', {
+        'page_title': data.title,
+        'desc': data.description,
+        'image_text': data.image_text,
         'image': data.image.image.url if data.image else '',
         'heading': data.heading,
         'body':  data.body,
@@ -88,6 +91,7 @@ def get_post(req: HttpRequest, category: str, post: str):
         'content': data.body,
         'date': data.date,
         'image_url': data.image.image.url if data.image else None,
+        'desc': data.summary,
 
         'comments': [{
             'text': comment.text,

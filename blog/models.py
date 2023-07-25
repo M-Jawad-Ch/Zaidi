@@ -221,7 +221,10 @@ class Index(models.Model):
     )
 
     heading = models.TextField()
+    image_text = models.TextField()
     body = models.TextField()
+    title = models.CharField(max_length=200)
+    description = models.TextField()
 
     def __str__(self) -> str:
         return "Index Page"

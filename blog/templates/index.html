@@ -1,6 +1,7 @@
 {% extends 'main.html' %}
 
-{% block title %} Home {% endblock %}
+{% block title %} {{ page_title }} {% endblock %}
+{% block description %} {{ desc }} {% endblock %}
 
 {% block css %}
 {% load static %}
@@ -12,12 +13,15 @@
 {% block main %}
 <div class="main-container">
     <div class="image-container" style="background-image: url('{{ image }}');">
-        <h1> <span class="background"> {{ heading }} </span> </h1>
+        <div class="image-text">
+            <h1> <span> {{ image_text }} </span> </h1>
+        </div>
     </div>
     <div class="body">
         <div class="sections">
             <div class="left-section">
                 <div class="main-content">
+                    <h1> {{ heading }} </h1>
                     {{ body }}
                     <h3>LATEST POSTS</h3>
                     <div class="posts-container">
