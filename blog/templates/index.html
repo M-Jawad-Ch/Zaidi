@@ -19,6 +19,7 @@
             <div class="left-section">
                 <div class="main-content">
                     {{ body }}
+                    {% if latest_posts %}
                     <h3>LATEST POSTS</h3>
                     <div class="posts-container">
                         <div class="posts">
@@ -48,6 +49,7 @@
                             {% endfor %}
                         </div>
                     </div>
+                    {% endif %}
                 </div>
             </div>
             <div class="right-section">
