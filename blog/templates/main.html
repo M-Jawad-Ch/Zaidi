@@ -31,18 +31,24 @@
         {% block main %} {% endblock %}
     </main>
     <footer>
-        <div class="logo-container">
-            <a href="/">MedPoise</a>
+        <div class="top">
+            <div class="logo-container">
+                <a href="/">MedPoise</a>
+            </div>
+            <ul class="header-items-container">
+                {% for page in extra_pages %}
+                {% if page.slug %}
+                <li><a href="/{{ page.slug }}/">{{ page.name }}</a></li>
+                {% endif %}
+                {% endfor %}
+                <li><a href="/contact-us/">Contact Us</a></li>
+                <li><a href="/about-us/">About Us</a></li>
+            </ul>
         </div>
-        <ul class="header-items-container">
-            {% for page in extra_pages %}
-            {% if page.slug %}
-            <li><a href="/{{ page.slug }}/">{{ page.name }}</a></li>
-            {% endif %}
-            {% endfor %}
-            <li><a href="/contact-us/">Contact Us</a></li>
-            <li><a href="/about-us/">About Us</a></li>
-        </ul>
+        <div class="footer-text">
+            © 2023 MedPoise.com. All rights reserved. The content on this website is for informational purposes only, it
+            does not replace the advice you receive from your health care professionals.
+        </div>
     </footer>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-3EZSC7DXX2"></script>
