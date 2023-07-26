@@ -19,7 +19,7 @@
         {% for article in articles %}
         <div class="article {% if forloop.counter0|divisibleby:2 %} reverse {% endif %}">
             {% if article.image %} <img src="{{ article.image }}" alt=""> {% endif %}
-            <a href="{{category.slug}}/{{article.slug}}">
+            <a href="/{{category.slug}}/{{article.slug}}">
                 <div class="text-container">
                     {{ article.desc }}
                     <br><span class="date">{{ article.date }}</span>

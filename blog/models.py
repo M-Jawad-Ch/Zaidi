@@ -204,6 +204,7 @@ class Generator(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     used = models.BooleanField(default=False)
     running = models.BooleanField(default=False)
+    article = models.ForeignKey(Article, on_delete=models.SET_NULL, null=True)
 
     def __str__(self) -> str:
         return self.content[:100]

@@ -40,7 +40,10 @@ h2 {
 
 .side-bar {
     flex: 30%;
-    padding: 1em 0.5em;
+    padding: 1em;
+
+    background-color: var(--theme-color);
+    color: white;
 }
 
 li {
@@ -106,11 +109,6 @@ li {
 
 .category {
     margin: 0.25em 0;
-    color: #1A7FB6;
-}
-
-.arrow {
-    color: #555;
 }
 
 .social-icons-container {
@@ -177,6 +175,10 @@ form {
     font-weight: bold;
     padding: 0.5em 0.75em;
     border-radius: 3px;
+}
+
+footer {
+    margin-top: 0;
 }
 
 @media (max-width: 1000px) {

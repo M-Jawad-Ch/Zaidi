@@ -34,7 +34,7 @@ def index(req: HttpRequest):
 
         'latest_posts': [{
             'title': article.title,
-            'category': article.category,
+            'category': article.category.slug,
             'slug': article.slug,
             'image': article.image.image.url,
         } for article in latest_posts],

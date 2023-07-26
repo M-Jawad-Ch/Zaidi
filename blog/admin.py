@@ -63,7 +63,7 @@ class ContactAdmin(admin.ModelAdmin):
 class ImageGeneratorAdmin(DjangoObjectActions, admin.ModelAdmin):
     date_hierarchy = "date"
     empty_value_display = "-empty-"
-    readonly_fields = ('date', 'used', 'running')
+    readonly_fields = ('date', 'used', 'running', 'image')
     list_display = ['prompt', 'used', 'running']
 
     change_actions = ['_start_image_generation']
@@ -213,7 +213,7 @@ def generate_article(object: Generator, callback=None, do_summarize=True):
 class GeneratorAdmin(DjangoObjectActions, admin.ModelAdmin):
     date_hierarchy = "date"
     empty_value_display = "-empty-"
-    readonly_fields = ('date', 'used', 'running')
+    readonly_fields = ('date', 'used', 'running', 'article')
 
     def __init__(self, model: type, admin_site: AdminSite | None) -> None:
         super().__init__(model, admin_site)
