@@ -160,6 +160,7 @@ class Comment(models.Model):
     text = models.TextField()
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
+    name = models.CharField(max_length=200)
 
     def __str__(self):
         return self.text[:50]

@@ -95,7 +95,8 @@ def get_post(req: HttpRequest, category: str, post: str):
 
         'comments': [{
             'text': comment.text,
-            'date': comment.date
+            'date': comment.date,
+            'name': comment.name
         } for comment in comments],
 
         'categories': [{
@@ -188,7 +189,7 @@ def comment(req: HttpRequest, category: str, post: str):
 
     data = req.POST.dict()
 
-    Comment.objects.create(text=data.get('comment'), article=article)
+    Comment.objects.create(text=data.get('comment'), article=article, name=data.get('name'))
 
     return redirect(article.get_absolute_url())
 

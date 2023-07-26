@@ -45,7 +45,8 @@
             <h3>COMMENTS</h3>
             <form action="/{{ category }}/{{ slug }}/comment/" method="post">
                 {% csrf_token %}
-                <textarea name="comment" class="comment-box" placeholder="Comment..."></textarea>
+                <input type="text" name="name" placeholder="name..." required>
+                <textarea name="comment" class="comment-box" placeholder="Comment..." required></textarea>
                 <button class="submit" type="submit">Submit</button>
             </form>
             <div class="comments">
@@ -53,7 +54,7 @@
                 <div class="comment">
                     <p> {{ comment.text }} </p>
                     <span class="comment-date">
-                        {{ comment.date }}
+                        {{ comment.date }} {% if comment.name %} ~ {{ comment.name }} {% endif %}
                     </span>
                 </div>
                 {% endfor %}

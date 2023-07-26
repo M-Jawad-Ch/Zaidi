@@ -57,7 +57,6 @@ li {
 
 .recent-posts img {
     width: 100px;
-    height: 100px;
 }
 
 .recent-posts h4 {
@@ -145,6 +144,15 @@ form {
     outline: none;
     border: solid 2px var(--main-color);
     border-radius: 3px;
+}
+
+input {
+    width: 90%;
+    padding: 0.5em;
+    outline: none;
+    border: solid 2px var(--main-color);
+    border-radius: 3px;
+    margin: 1em 0;
 }
 
 .comments {
