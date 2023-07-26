@@ -21,8 +21,10 @@
             {% if article.image %} <img src="{{ article.image }}" alt=""> {% endif %}
             <a href="/{{category.slug}}/{{article.slug}}">
                 <div class="text-container">
+                    <h2>{{ article.title }}</h2>
                     {{ article.desc }}
-                    <br><span class="date">{{ article.date }}</span>
+                    <br><br>
+                    <span class="date">{{ article.date }}</span>
                 </div>
             </a>
         </div>
