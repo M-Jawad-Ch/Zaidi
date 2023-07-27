@@ -30,7 +30,8 @@ def index(req: HttpRequest):
 
         'categories': [{
             'name': category.name,
-            'slug': category.slug
+            'slug': category.slug,
+            'link': category.get_absolute_url()
         } for category in categories],
 
         'latest_posts': [{
