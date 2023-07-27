@@ -5,12 +5,13 @@
 {% block css %}
 {% load static %}
 <link rel="stylesheet" href="{% static '/category.css' %}">
-<link rel="canonical" href="https://www.medpoise.com/categories/{{ category.slug }}/" />
+<link rel="canonical" href="https://www.medpoise.com{{ link }}" />
 {% endblock %}
 
 
 {% block main %}
 <section class="main">
+    {% autoescape off %}
     {% if not articles|length %}
     <h1 style="margin: 1.75em;">Sorry Not Much To Display Here...</h1>
     {% else %}
@@ -19,7 +20,7 @@
         {% for article in articles %}
         <div class="article {% if forloop.counter0|divisibleby:2 %} reverse {% endif %}">
             {% if article.image %} <img src="{{ article.image }}" alt=""> {% endif %}
-            <a href="/{{category.slug}}/{{article.slug}}">
+            <a href="{{ article.link }}">
                 <div class="text-container">
                     <h2>{{ article.title }}</h2>
                     {{ article.desc }}
@@ -33,6 +34,7 @@
         {% endfor %}
     </div>
     {% endif %}
+    {% endautoescape %}
 </section>
 {% endblock %}
 

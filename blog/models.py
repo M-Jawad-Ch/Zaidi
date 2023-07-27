@@ -81,7 +81,7 @@ class Category(models.Model):
         return str(self.name)
 
     def get_absolute_url(self):
-        return f'/{self.slug}'
+        return f'/categories/{self.slug}/'
 
     class Meta:
         verbose_name = 'A - Category'

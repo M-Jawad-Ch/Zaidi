@@ -196,9 +196,6 @@ def generate_article(object: Generator, callback=None, do_summarize=True):
     if article:
         article.save()
 
-        thread = Thread(target=_generate_image, args=[article], daemon=True)
-        thread.start()
-
     loop.close()
 
     object.running = False

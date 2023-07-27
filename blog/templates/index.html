@@ -14,14 +14,17 @@
 <div class="main-container">
     <div class="image-container" style="background-image: url('{{ image }}');">
         <div class="image-text">
-            <h1> <span> {{ image_text }} </span> </h1>
+            <h1> <span class="heading-text"> {{ image_text }} </span> </h1>
         </div>
     </div>
     <div class="body">
+        {% autoescape off %}
         <div class="sections">
             <div class="left-section">
+                <br><br>
                 <div class="main-content">
                     <h1> {{ heading }} </h1>
+                    <br>
                     {{ body }}
                     {% if latest_posts %}
                     <h3>LATEST POSTS</h3>
@@ -29,7 +32,7 @@
                         <div class="posts">
                             {% for post in latest_posts %}
                             {% if forloop.counter0|divisibleby:2 %}
-                            <a href="/{{ post.category }}/{{ post.slug }}">
+                            <a href="{{ post.link }}">
                                 <div class="post" style="background-image: url('{{ post.image }}');">
                                     <div class="text">
                                         {{ post.title }}
@@ -42,7 +45,7 @@
                         <div class="posts">
                             {% for post in latest_posts %}
                             {% if not forloop.counter0|divisibleby:2 %}
-                            <a href="/{{ post.category }}/{{ post.slug }}">
+                            <a href="{{ post.link }}">
                                 <div class="post" style="background-image: url('{{ post.image }}');">
                                     <div class="text">
                                         {{ post.title }}
@@ -57,15 +60,17 @@
                 </div>
             </div>
             <div class="right-section">
+                <h2>CATEGORIES</h2>
                 {% for category in categories %}
                 <div class="category">
-                    <a href="/categories/{{ category.slug }}/"> <span class="arrow">&#10159;</span>
+                    <a href="{{ category.link }}"> <span class="arrow">&#10159;</span>
                         {{ category.name}}
                     </a>
                 </div>
                 {% endfor %}
             </div>
         </div>
+        {% endautoescape %}
     </div>
 </div>
 {% endblock %}

@@ -27,6 +27,7 @@ def index(req: HttpRequest):
         'image': data.image.image.url if data.image else '',
         'heading': data.heading,
         'body':  data.body,
+
         'categories': [{
             'name': category.name,
             'slug': category.slug
@@ -37,6 +38,7 @@ def index(req: HttpRequest):
             'category': article.category.slug,
             'slug': article.slug,
             'image': article.image.image.url,
+            'link': article.get_absolute_url()
         } for article in latest_posts],
 
         'extra_pages': [{
@@ -62,6 +64,7 @@ def extra_page(req: HttpRequest, extra_page: str):
         'title': page.title,
         'body': page.body,
         'image': page.image.image.url if page.image else None,
+
         'extra_pages': [{
             'slug': extra_page.slug,
             'name': extra_page.title
@@ -92,6 +95,7 @@ def get_post(req: HttpRequest, category: str, post: str):
         'date': data.date,
         'image_url': data.image.image.url if data.image else None,
         'desc': data.summary,
+        'link': data.get_absolute_url(),
 
         'comments': [{
             'text': comment.text,
@@ -101,7 +105,8 @@ def get_post(req: HttpRequest, category: str, post: str):
 
         'categories': [{
             'name': category.name,
-            'slug': category.slug
+            'slug': category.slug,
+            'link': category.get_absolute_url()
         } for category in categories],
 
         'recent': [{
@@ -109,7 +114,8 @@ def get_post(req: HttpRequest, category: str, post: str):
             'image': article.image.image.url,
             'date': article.date,
             'slug': article.slug,
-            'category': article.category.slug
+            'category': article.category.slug,
+            'link': article.get_absolute_url()
         } for article in recent if article.category],
 
         'extra_pages': [{
@@ -122,7 +128,8 @@ def get_post(req: HttpRequest, category: str, post: str):
             'image': article.image.image.url,
             'date': article.date,
             'slug': article.slug,
-            'category': article.category.slug
+            'category': article.category.slug,
+            'link': article.get_absolute_url()
         } for article in Article.objects.filter(category=data.category).all() if article.slug != data.slug and article.image]
     })
 
@@ -133,23 +140,28 @@ def get_category(req: HttpRequest, slug: str):
         category=slug).all().order_by('-timestamp')
     category = Category.objects.get(pk=slug)
     extra_pages = ExtraPages.objects.all()
+
     return render(req, 'category.html', {
         'category': {
             'slug': category.slug,
-            'name': category.name
+            'name': category.name,
+            'link': category.get_absolute_url()
         },
         'articles': [{
             'slug': article.slug,
             'title': article.title,
             'image': article.image.image.url if article.image else '',
             'date': article.date,
-            'desc': article.summary
+            'desc': article.summary,
+            'link': article.get_absolute_url()
         } for article in articles],
 
         'extra_pages': [{
             'slug': extra_page.slug,
             'name': extra_page.title
-        } for extra_page in extra_pages if extra_page.visible]
+        } for extra_page in extra_pages if extra_page.visible],
+
+        'link': category.get_absolute_url()
     })
 
 
@@ -167,8 +179,6 @@ def about(req: HttpRequest):
 @require_http_methods(['POST'])
 def add_contact(req: HttpRequest):
     data = req.POST.dict()
-
-    extra_pages = ExtraPages.objects.all()
 
     try:
         _contact = Contact.objects.create(email=data.get('email'))
@@ -189,7 +199,8 @@ def comment(req: HttpRequest, category: str, post: str):
 
     data = req.POST.dict()
 
-    Comment.objects.create(text=data.get('comment'), article=article, name=data.get('name'))
+    Comment.objects.create(text=data.get('comment'),
+                           article=article, name=data.get('name'))
 
     return redirect(article.get_absolute_url())
 
