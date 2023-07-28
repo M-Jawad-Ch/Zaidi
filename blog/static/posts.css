@@ -11,6 +11,10 @@ h2 {
     margin-top: 1.5em;
 }
 
+.recent-posts h3 {
+    text-align: center;
+}
+
 #date {
     margin-left: 0.5em;
     font-size: small;
@@ -25,25 +29,17 @@ h2 {
 }
 
 #main-image {
-    width: 50%;
+    width: 100%;
     margin: 0;
 }
 
-#main-container {
+/* #main-container {
     display: flex;
-}
+} */
 
 #inner-container {
-    flex: 70%;
+    /* flex: 70%; */
     padding: 0 3em;
-}
-
-.side-bar {
-    flex: 30%;
-    padding: 1em;
-
-    background-color: var(--theme-color);
-    color: white;
 }
 
 li {
@@ -52,11 +48,15 @@ li {
 
 .recent-posts {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+
     margin: 1em 0;
 }
 
 .recent-posts img {
-    width: 100px;
+    width: 90%;
+    height: auto;
 }
 
 .recent-posts h4 {
@@ -66,7 +66,8 @@ li {
 .text-container {
     display: flex;
     flex-direction: column;
-    margin: 0 1em;
+    margin: 0.5em 0;
+    margin-bottom: 2em;
 }
 
 .related-posts {
@@ -85,7 +86,8 @@ li {
 
 .related-post img {
     width: 100px;
-    height: 100px;
+    height: auto;
+    margin: auto 0;
 }
 
 .related-post h4 {

@@ -109,7 +109,6 @@ def get_category(req: HttpRequest, slug: str):
     articles = Article.objects.filter(
         category=slug).all().order_by('-timestamp')
     category = Category.objects.get(pk=slug)
-    extra_pages = ExtraPages.objects.all()
 
     return render(req, 'category.html', {
         'articles': [{
@@ -121,7 +120,12 @@ def get_category(req: HttpRequest, slug: str):
             'link': article.get_absolute_url()
         } for article in articles],
 
-        'link': category.get_absolute_url()
+        'link': category.get_absolute_url(),
+        'category': {
+            'name': category.name,
+        },
+
+        'image': category.image.image.url if category.image else ''
     })
 
 

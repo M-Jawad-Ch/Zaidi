@@ -1,5 +1,13 @@
+.image-container {
+    background-color: black;
+    background-position: center;
+    background-size: cover;
+    color: white;
+    height: 25rem;
+}
+
 .main {
-    padding: 1em 10em;
+    padding: 1em 5em;
 }
 
 .main h1 {
@@ -22,6 +30,14 @@
     width: 250px;
     margin: auto 0;
     border-radius: 5px;
+}
+
+.article p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
 }
 
 .article a {
@@ -54,8 +70,12 @@ a {
 }
 
 @media (max-width: 700px) {
-    img {
-        display: none;
+    .article {
+        flex-direction: column;
+    }
+
+    .article img {
+        width: 100%;
     }
 
     .main h1 {
@@ -84,10 +104,6 @@ a {
 
     .main h1 {
         font-size: 3em;
-    }
-
-    .article img {
-        display: none;
     }
 }
 

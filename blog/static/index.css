@@ -16,8 +16,9 @@
 
 .heading-text {
     background-color: rgba(0, 0, 0, 0.4);
-    display: inline;
+    /* display: inline; */
     padding: 0.25rem 0.7rem;
+    max-width: fit-content;
 }
 
 .image-text {
@@ -33,40 +34,22 @@
     margin: 0;
 }
 
-
-.sections {
-    display: flex;
-}
-
-.left-section {
-    flex: 80%
-}
-
 .main-content {
-    margin-top: 1rem;
-    margin-left: 0rem;
-    margin-right: 0.5rem;
-    padding-left: 3rem;
+    margin: 1em;
+}
+
+.main-content h1 {
+    margin-left: 3rem;
+}
+
+.body-text {
+    margin-left: 3rem;
 }
 
 .main-content h3 {
     margin-top: 1em;
     text-align: center;
-}
-
-.right-section {
-    flex: 20%;
-    background-color: var(--theme-color);
-    color: white;
-
-    padding: 1em;
-    min-height: 20em;
-}
-
-.category {
-    width: 100%;
-    /* font-weight: bold; */
-    margin: 0.5em 0;
+    font-size: xx-large;
 }
 
 .posts-container {
@@ -81,16 +64,25 @@
 }
 
 .post {
-    display: inline-block;
-    margin: 1em;
-    padding: 1em;
-    padding-top: 10em;
-    height: 4em;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 1em
+}
+
+.post h4 {
+    font-size: large;
+    margin: 0;
+}
+
+
+
+
+
+.post-image {
     width: 300px;
-    background-position: center;
-    border-radius: 3px;
-    background-size: cover;
-    background-repeat: no-repeat;
+    height: auto;
 }
 
 .text {
@@ -131,6 +123,22 @@ footer {
         display: block;
         width: min-content;
         margin: 0 auto;
+    }
+
+    .image-text {
+        margin: 0;
+    }
+
+    .heading-text {
+        max-width: fit-content;
+    }
+
+    .main-content h1 {
+        margin-left: 0.25rem;
+    }
+
+    .body-text {
+        margin-left: 0.25rem;
     }
 }
 

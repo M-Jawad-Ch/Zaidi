@@ -58,6 +58,7 @@ class Category(models.Model):
     slug = models.SlugField(max_length=100, primary_key=True, default='NULL')
     name = models.CharField(max_length=100, unique=True)
     embedding = models.TextField()
+    image = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True)
 
     def save(self, *args, **kwargs):
         try:

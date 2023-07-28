@@ -27,7 +27,28 @@
         </ul>
     </header>
     <main>
-        {% block main %} {% endblock %}
+        {% block image %} {% endblock %}
+        <div class="sections">
+            <div class="left-section">
+                {% block main %} {% endblock %}
+            </div>
+            <div class="right-section">
+                {% block side-bar-above %} {% endblock %}
+
+                {% if request.categories %}
+                <h2 class="h2-title">CATEGORIES</h2>
+                {% for category in request.categories %}
+                <div class="category">
+                    <a href="{{ category.link }}"> <span class="arrow">&#10159;</span>
+                        {{ category.name}}
+                    </a>
+                </div>
+                {% endfor %}
+                {% endif %}
+
+                {% block side-bar-below %} {% endblock %}
+            </div>
+        </div>
     </main>
     <footer>
         <div class="top">

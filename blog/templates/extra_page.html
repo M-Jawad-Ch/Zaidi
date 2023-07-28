@@ -8,31 +8,17 @@
 <link rel="canonical" href="https://www.medpoise.com/{{ slug }}/" />
 {% endblock %}
 
+{% block image %}
+<div class="main-container" style="background-image: url('{{ image }}');"></div>
+{% endblock %}
 
 {% block main %}
-<section class="main">
-    <div class="main-container" style="background-image: url('{{ image }}');"></div>
-    <div class="sections">
-        <div class="left-section">
-            <div class="text-container">
-                {% autoescape off %}
-                <h1>{{ title }}</h1>
-                {{ body }}
-                {% endautoescape %}
-            </div>
-        </div>
-        <div class="right-section">
-            <h2>CATEGORIES</h2>
-            {% for category in request.categories %}
-            <div class="category">
-                <a href="{{ category.link }}"> <span class="arrow">&#10159;</span>
-                    {{ category.name}}
-                </a>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</section>
+<div class="text-container">
+    {% autoescape off %}
+    <h1>{{ title }}</h1>
+    {{ body }}
+    {% endautoescape %}
+</div>
 {% endblock %}
 
 {% block script %}

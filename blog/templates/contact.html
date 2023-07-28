@@ -8,25 +8,26 @@
 <link rel="canonical" href="https://www.medpoise.com/contact-us/" />
 {% endblock %}
 
+{% block image %}
+<div class="image-container" style="background-image: url('{{ image }}');"></div>
+{% endblock %}
 
 {% block main %}
-<section class="main">
-    <div class="main-container">
-        <h1>Get in Touch</h1>
-        <form action="/contact/" method="post" onload="generate()">
-            {% csrf_token %}
-            <input required name="first-name" type="text" placeholder="First Name">
-            <input required name="last-name" type="text" placeholder="Last Name">
-            <input required type="email" name="email" placeholder="johndoe@example.com">
-            <textarea required name="comments" id="comments" placeholder="Comments..."></textarea>
+<div class="main-container">
+    <h1>Get in Touch</h1>
+    <form action="/contact/" method="post" onload="generate()">
+        {% csrf_token %}
+        <input required name="first-name" type="text" placeholder="First Name">
+        <input required name="last-name" type="text" placeholder="Last Name">
+        <input required type="email" name="email" placeholder="johndoe@example.com">
+        <textarea required name="comments" id="comments" placeholder="Comments..."></textarea>
 
-            <canvas id="captcha">captcha text</canvas>
-            <input id="textBox" type="text" name="captcha" placeholder="Captch text">
+        <canvas id="captcha">captcha text</canvas>
+        <input id="textBox" type="text" name="captcha" placeholder="Captch text">
 
-            <button class="sbmt" type="submit">Submit</button>
-        </form>
-    </div>
-</section>
+        <button class="sbmt" type="submit">Submit</button>
+    </form>
+</div>
 {% endblock %}
 
 {% block script %}

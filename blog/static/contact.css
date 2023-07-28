@@ -1,18 +1,22 @@
-.main {
+.main-container {
+    padding: 1em;
+    padding-bottom: 7em;
     display: flex;
+    flex-direction: column;
     justify-content: center;
 }
 
-.main-container {
-    margin: 0 1em;
-    margin-bottom: 0;
-    padding: 1em;
-    padding-bottom: 7em;
-    max-width: 40em;
+.image-container {
+    background-color: black;
+    background-position: center;
+    background-size: cover;
+    color: white;
+    height: 25rem;
 }
 
 form {
     color: initial;
+
 }
 
 .main-container h1 {
@@ -27,7 +31,7 @@ form {
     display: block;
     width: 30em;
 
-    margin: 0.5em 1.25em;
+    margin: 0.5em auto;
     padding: 0.5em;
     border-radius: 1px;
     outline: none;
@@ -61,9 +65,6 @@ form {
     font-weight: bold;
 }
 
-footer {
-    margin-top: 0;
-}
 
 /* ------------------------------------------------------------ */
 canvas {

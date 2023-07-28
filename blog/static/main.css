@@ -26,6 +26,30 @@ header {
     padding: 0.5em 3em;
 }
 
+.sections {
+    display: flex;
+}
+
+.left-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.right-section {
+    background-color: var(--theme-color);
+    color: white;
+
+    padding: 1em;
+    min-height: 20em;
+}
+
+.category {
+    width: 100%;
+    /* font-weight: bold; */
+    margin: 0.5em 0;
+}
+
 .logo-container {
     color: var(--theme-color);
     font-weight: bold;
@@ -69,9 +93,29 @@ footer .header-items-container li {
     color: white;
 }
 
+@media (min-width: 1001px) {
+    .left-section {
+        width: 80%;
+    }
+
+    .right-section {
+        width: 20%;
+    }
+
+}
+
+
 @media (max-width: 1000px) {
     .header-items-container {
         display: none;
+    }
+
+    .sections {
+        display: block;
+    }
+
+    .left-section {
+        width: 100%;
     }
 
     footer {

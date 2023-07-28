@@ -8,6 +8,9 @@
 <link rel="canonical" href="https://www.medpoise.com{{ link }}" />
 {% endblock %}
 
+{% block image %}
+<div class="image-container" style="background-image: url('{{ image }}');"></div>
+{% endblock %}
 
 {% block main %}
 <section class="main">
@@ -23,8 +26,7 @@
             <a href="{{ article.link }}">
                 <div class="text-container">
                     <h2>{{ article.title }}</h2>
-                    {{ article.desc }}
-                    <br><br>
+                    <p>{{ article.desc }}</p>
                     <span class="date">{{ article.date }}</span>
                 </div>
             </a>

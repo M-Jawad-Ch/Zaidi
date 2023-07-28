@@ -10,70 +10,62 @@
 {% endblock %}
 
 
+{% block image %}
+<div class="image-container" style="background-image: url('{{ image }}');">
+    <div class="image-text">
+        <h1>
+            <div class="heading-text">
+                {{ image_text }}
+            </div>
+        </h1>
+    </div>
+</div>
+{% endblock %}
+
 {% block main %}
 <div class="main-container">
-    <div class="image-container" style="background-image: url('{{ image }}');">
-        <div class="image-text">
-            <h1>
-                <div class="heading-text">
-                    {{ image_text }}
-                </div>
-
-            </h1>
-        </div>
-    </div>
     <div class="body">
         {% autoescape off %}
-        <div class="sections">
-            <div class="left-section">
-                <br><br>
-                <div class="main-content">
-                    <h1> {{ heading }} </h1>
-                    <br>
-                    {{ body }}
-                    {% if latest_posts %}
-                    <h3>LATEST POSTS</h3>
-                    <div class="posts-container">
-                        <div class="posts">
-                            {% for post in latest_posts %}
-                            {% if forloop.counter0|divisibleby:2 %}
-                            <a href="{{ post.link }}">
-                                <div class="post" style="background-image: url('{{ post.image }}');">
-                                    <div class="text">
-                                        {{ post.title }}
-                                    </div>
-                                </div>
-                            </a>
-                            {% endif %}
-                            {% endfor %}
-                        </div>
-                        <div class="posts">
-                            {% for post in latest_posts %}
-                            {% if not forloop.counter0|divisibleby:2 %}
-                            <a href="{{ post.link }}">
-                                <div class="post" style="background-image: url('{{ post.image }}');">
-                                    <div class="text">
-                                        {{ post.title }}
-                                    </div>
-                                </div>
-                            </a>
-                            {% endif %}
-                            {% endfor %}
-                        </div>
+        <br><br>
+        <div class="main-content">
+            <h1> {{ heading }} </h1>
+            <br>
+            <div class="body-text">
+                {{ body }}
+            </div>
+            {% if latest_posts %}
+            <h3>LATEST POSTS</h3>
+            <div class="posts-container">
+                <div class="posts">
+                    {% for post in latest_posts %}
+                    {% if forloop.counter0|divisibleby:2 %}
+                    <div class="post">
+                        <a href="{{ post.link }}">
+                            <img class="post-image" src="{{ post.image }}" alt="">
+                            <div class="text">
+                                {{ post.title }}
+                            </div>
+                        </a>
                     </div>
                     {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="posts">
+                    {% for post in latest_posts %}
+                    {% if not forloop.counter0|divisibleby:2 %}
+                    <div class="post">
+                        <a href="{{ post.link }}">
+                            <img class="post-image" src="{{ post.image }}" alt="">
+                            <div class="text">
+                                {{ post.title }}
+                            </div>
+                        </a>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
                 </div>
             </div>
-            <div class="right-section">
-                <h2>CATEGORIES</h2>
-                {% for category in request.categories %}
-                <div class="category">
-                    <a href="{{ category.link }}"> <span class="arrow">&#10159;</span>
-                        {{ category.name}}
-                    </a>
-                </div>
-                {% endfor %}
-            </div>
+            {% endif %}
         </div>
         {% endautoescape %}
     </div>
