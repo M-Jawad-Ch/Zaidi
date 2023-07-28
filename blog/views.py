@@ -13,12 +13,9 @@ def index(req: HttpRequest):
     if not data:
         return render(req, 'mtc.html', {})
 
-    categories = Category.objects.all()
     latest_posts = [article for article in
                     Article.objects.order_by('-timestamp').all()
                     if article.image][:6]
-
-    extra_pages = ExtraPages.objects.all()
 
     return render(req, 'index.html', {
         'page_title': data.title,
@@ -28,12 +25,6 @@ def index(req: HttpRequest):
         'heading': data.heading,
         'body':  data.body,
 
-        'categories': [{
-            'name': category.name,
-            'slug': category.slug,
-            'link': category.get_absolute_url()
-        } for category in categories],
-
         'latest_posts': [{
             'title': article.title,
             'category': article.category.slug,
@@ -42,10 +33,6 @@ def index(req: HttpRequest):
             'link': article.get_absolute_url()
         } for article in latest_posts],
 
-        'extra_pages': [{
-            'slug': extra_page.slug,
-            'name': extra_page.title
-        } for extra_page in extra_pages if extra_page.visible]
     })
 
 
@@ -58,18 +45,11 @@ def extra_page(req: HttpRequest, extra_page: str):
         if page_.slug == extra_page:
             page = page_
 
-    extra_pages = ExtraPages.objects.all()
-
     return render(req, 'extra_page.html', {
         'slug': page.slug,
         'title': page.title,
         'body': page.body,
         'image': page.image.image.url if page.image else None,
-
-        'extra_pages': [{
-            'slug': extra_page.slug,
-            'name': extra_page.title
-        } for extra_page in extra_pages if extra_page.visible]
     }) if page and page.visible else return_404(req)
 
 
@@ -104,12 +84,6 @@ def get_post(req: HttpRequest, category: str, post: str):
             'name': comment.name
         } for comment in comments],
 
-        'categories': [{
-            'name': category.name,
-            'slug': category.slug,
-            'link': category.get_absolute_url()
-        } for category in categories],
-
         'recent': [{
             'title': article.title,
             'image': article.image.image.url,
@@ -118,11 +92,6 @@ def get_post(req: HttpRequest, category: str, post: str):
             'category': article.category.slug,
             'link': article.get_absolute_url()
         } for article in recent if article.category],
-
-        'extra_pages': [{
-            'slug': extra_page.slug,
-            'name': extra_page.title
-        } for extra_page in extra_pages if extra_page.visible],
 
         'related': [{
             'title': article.title,
@@ -143,11 +112,6 @@ def get_category(req: HttpRequest, slug: str):
     extra_pages = ExtraPages.objects.all()
 
     return render(req, 'category.html', {
-        'category': {
-            'slug': category.slug,
-            'name': category.name,
-            'link': category.get_absolute_url()
-        },
         'articles': [{
             'slug': article.slug,
             'title': article.title,
@@ -156,11 +120,6 @@ def get_category(req: HttpRequest, slug: str):
             'desc': article.summary,
             'link': article.get_absolute_url()
         } for article in articles],
-
-        'extra_pages': [{
-            'slug': extra_page.slug,
-            'name': extra_page.title
-        } for extra_page in extra_pages if extra_page.visible],
 
         'link': category.get_absolute_url()
     })
@@ -208,14 +167,8 @@ def comment(req: HttpRequest, category: str, post: str):
 
 @require_http_methods(['GET'])
 def contact(req: HttpRequest):
-    extra_pages = ExtraPages.objects.all()
 
-    return render(req, 'contact.html', {
-        'extra_pages': [{
-            'slug': extra_page.slug,
-            'name': extra_page.title
-        } for extra_page in extra_pages if extra_page.visible]
-    })
+    return render(req, 'contact.html')
 
 
 @require_http_methods(['GET'])

@@ -17,6 +17,29 @@
     min-height: 15em;
 }
 
+.sections {
+    display: flex;
+}
+
+.left-section {
+    flex: 80%;
+}
+
+.right-section {
+    flex: 20%;
+    background-color: var(--theme-color);
+    color: white;
+
+    padding: 1em;
+    min-height: 20em;
+}
+
+.category {
+    width: 100%;
+    /* font-weight: bold; */
+    margin: 0.5em 0;
+}
+
 @media (max-width: 400px) {
     .main-container {
         padding: 0.5rem;

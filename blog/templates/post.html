@@ -76,7 +76,7 @@
         {% endfor %}
         <br>
         <h2>CATEGORIES</h2>
-        {% for category in categories %}
+        {% for category in request.categories %}
         <div class="category">
             <a href="/categories/{{ category.slug }}/"> <span class="arrow">&#10159;</span> {{ category.name }}</a>
         </div>

@@ -26,8 +26,11 @@ class BlogConfig(AppConfig):
 
         try:
             from .models import ExtraPages
-            if not ExtraPages.objects.all():
-                ExtraPages.objects.create()
-                ExtraPages.objects.create()
+            extra_pages = [*ExtraPages.objects.all()]
+
+            if len(extra_pages) < 3:
+                for _ in range(3 - (len(extra_pages))):
+                    ExtraPages.objects.create()
+
         except:
             pass

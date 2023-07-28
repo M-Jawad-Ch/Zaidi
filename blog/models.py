@@ -51,7 +51,7 @@ class ExtraPages(models.Model):
         return self.slug if self.slug else f'Extra Page ({self.pk})'
 
     def get_absolute_url(self):
-        return f'/{self.slug}/'
+        return f'/{self.slug}'
 
 
 class Category(models.Model):

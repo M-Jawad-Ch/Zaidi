@@ -18,13 +18,12 @@
             <a href="/">MedPoise</a>
         </div>
         <ul class="header-items-container">
-            {% for page in extra_pages %}
+            {% for page in request.extra_pages %}
             {% if page.slug %}
-            <li><a href="/{{ page.slug }}/">{{ page.name }}</a></li>
+            <li><a href="{{ page.link }}">{{ page.name }}</a></li>
             {% endif %}
             {% endfor %}
-            <li><a href="/contact-us/">Contact Us</a></li>
-            <li><a href="/about-us/">About Us</a></li>
+            <li><a href="/contact-us">Contact Us</a></li>
         </ul>
     </header>
     <main>
@@ -36,13 +35,12 @@
                 <a href="/">MedPoise</a>
             </div>
             <ul class="header-items-container">
-                {% for page in extra_pages %}
+                {% for page in request.extra_pages %}
                 {% if page.slug %}
                 <li><a href="/{{ page.slug }}/">{{ page.name }}</a></li>
                 {% endif %}
                 {% endfor %}
                 <li><a href="/contact-us/">Contact Us</a></li>
-                <li><a href="/about-us/">About Us</a></li>
             </ul>
         </div>
         <div class="footer-text">
