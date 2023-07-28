@@ -30,7 +30,8 @@ def index(req: HttpRequest):
             'category': article.category.slug,
             'slug': article.slug,
             'image': article.image.image.url,
-            'link': article.get_absolute_url()
+            'link': article.get_absolute_url(),
+            'desc': article.summary
         } for article in latest_posts],
 
     })
@@ -50,6 +51,7 @@ def extra_page(req: HttpRequest, extra_page: str):
         'title': page.title,
         'body': page.body,
         'image': page.image.image.url if page.image else None,
+        'link': page.get_absolute_url()
     }) if page and page.visible else return_404(req)
 
 

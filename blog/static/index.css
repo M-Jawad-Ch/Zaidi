@@ -16,7 +16,6 @@
 
 .heading-text {
     background-color: rgba(0, 0, 0, 0.4);
-    /* display: inline; */
     padding: 0.25rem 0.7rem;
     max-width: fit-content;
 }
@@ -53,36 +52,7 @@
 }
 
 .posts-container {
-    display: flex;
-    justify-content: center;
     margin-bottom: 3em;
-}
-
-.posts {
-    width: min-content;
-    display: inline-block;
-}
-
-.post {
-    height: 300px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 1em
-}
-
-.post h4 {
-    font-size: large;
-    margin: 0;
-}
-
-
-
-
-
-.post-image {
-    width: 300px;
-    height: auto;
 }
 
 .text {
@@ -91,40 +61,35 @@
     padding: 0.5em;
 }
 
+.post {
+    display: flex;
+    margin: 1em;
+}
+
+.post img {
+    width: 300px;
+    height: auto;
+    margin: auto 0;
+}
+
+.post .text-container {
+    padding: 1em;
+}
+
+.post .post-body {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+}
+
+
 footer {
     margin-top: 0;
 }
 
-@media (max-width: 900px) {
-    .main-image {
-        max-height: 50vh;
-    }
-
-    .body {
-        margin-left: 0;
-        margin-right: 0;
-    }
-
-    .image-container {
-        padding-top: 10em;
-    }
-
-    .sections {
-        flex-direction: column;
-    }
-
-    .right-section {
-        min-height: fit-content;
-    }
-}
-
-@media (max-width: 700px) {
-    .posts-container {
-        display: block;
-        width: min-content;
-        margin: 0 auto;
-    }
-
+@media (max-width: 1000px) {
     .image-text {
         margin: 0;
     }
@@ -148,8 +113,40 @@ footer {
     }
 }
 
-@media (max-width: 400px) {
-    .post {
+@media (max-width: 900px) {
+    .main-image {
+        max-height: 50vh;
+    }
+
+    .body {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .image-container {
+        padding-top: 10em;
+    }
+
+    .sections {
+        flex-direction: column;
+    }
+
+    .right-section {
+        min-height: fit-content;
+    }
+
+    .post img {
         width: 250px;
+    }
+}
+
+@media (max-width: 700px) {
+    .post {
+        flex-direction: column;
+        margin-bottom: 3em;
+    }
+
+    .post img {
+        width: 100%;
     }
 }

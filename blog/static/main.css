@@ -76,6 +76,7 @@ footer {
     background-color: var(--theme-color);
     color: white;
     padding: 3em;
+    padding-top: 6em;
     /* margin-top: 3em; */
     border-top: #555 solid 1px;
 }
@@ -106,8 +107,28 @@ footer .header-items-container li {
 
 
 @media (max-width: 1000px) {
-    .header-items-container {
+    header .header-items-container {
         display: none;
+    }
+
+    footer {
+        padding: 2em;
+        padding-top: 5em;
+        justify-content: center;
+    }
+
+    .top {
+        display: flex;
+        flex-direction: column;
+    }
+
+    footer .header-items-container {
+        flex-direction: column;
+        padding-left: 0;
+    }
+
+    footer .header-items-container li {
+        margin: 0.25em 0;
     }
 
     .sections {
@@ -116,11 +137,6 @@ footer .header-items-container li {
 
     .left-section {
         width: 100%;
-    }
-
-    footer {
-        padding: 2em;
-        justify-content: center;
     }
 
     header {
