@@ -11,6 +11,10 @@ h2 {
     margin-top: 1.5em;
 }
 
+img {
+    width: 100%;
+}
+
 .recent-posts h3 {
     text-align: center;
 }
