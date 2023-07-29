@@ -28,7 +28,7 @@
         <h3>RELATED POSTS</h3>
         <div class="related-posts">
             {% for item in related %}
-            <a href="/{{ item.category }}/{{ item.slug }}">
+            <a href="{{ item.link }}">
                 <div class="related-post">
                     <img src="{{ item.image }}" alt="">
                     <div class="related-text-container">
@@ -43,7 +43,7 @@
         <div class="comments-container">
             <hr>
             <h3>COMMENTS</h3>
-            <form action="/{{ category }}/{{ slug }}/comment/" method="post">
+            <form action="{{ link }}/comment/" method="post">
                 {% csrf_token %}
                 <input type="text" name="name" placeholder="name..." required>
                 <textarea name="comment" class="comment-box" placeholder="Comment..." required></textarea>
@@ -66,9 +66,9 @@
 {% endblock %}
 
 {% block side-bar-above %}
-<h2 class="">RECENT POSTS</h2>
+<h2>RECENT POSTS</h2>
 {% for item in recent %}
-<a href="/{{ item.category }}/{{ item.slug }}">
+<a href="{{ item.link }}">
     <div class="recent-posts">
         <img src="{{ item.image }}" alt="">
         <div class="text-container">

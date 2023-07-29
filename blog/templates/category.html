@@ -1,6 +1,8 @@
 {% extends 'main.html' %}
 
-{% block title %} {{ category.name }} {% endblock %}
+{% block title %} {{ name }} {% endblock %}
+
+{% block description %} {{ desc }} {% endblock %}
 
 {% block css %}
 {% load static %}
@@ -18,7 +20,7 @@
     {% if not articles|length %}
     <h1 style="margin: 1.75em;">Sorry Not Much To Display Here...</h1>
     {% else %}
-    <h1>{{ category.name }}</h1>
+    <h1>{{ name }}</h1>
     <div class="articles-container">
         {% for article in articles %}
         <div class="article {% if forloop.counter0|divisibleby:2 %} reverse {% endif %}">

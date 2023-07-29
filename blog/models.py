@@ -42,6 +42,7 @@ class ExtraPages(models.Model):
     title = models.CharField(max_length=200, blank=True)
     body = models.TextField(blank=True)
     visible = models.BooleanField(default=False)
+    description = models.TextField()
 
     class Meta:
         verbose_name = 'A - Extra Pages'
@@ -59,6 +60,7 @@ class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     embedding = models.TextField()
     image = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True)
+    description = models.TextField()
 
     def save(self, *args, **kwargs):
         try:
@@ -117,6 +119,7 @@ class Article(models.Model):
     summary = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now_add=True)
+    visible = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'A - Article'
@@ -223,11 +226,12 @@ class Index(models.Model):
         blank=True
     )
 
-    heading = models.TextField()
-    image_text = models.TextField()
+    heading = models.CharField(max_length=300)
+    image_text = models.CharField(max_length=500)
     body = models.TextField()
     title = models.CharField(max_length=200)
-    description = models.TextField()
+    description = models.CharField(max_length=500)
+    articles_generated_per_day = models.IntegerField(default=3)
 
     def __str__(self) -> str:
         return "Index Page"

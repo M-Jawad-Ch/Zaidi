@@ -36,7 +36,6 @@ ALLOWED_HOSTS = ['*'] if not DEBUG else ['*']
 
 
 SITE_ID = 1
-ARTICLES_PER_DAY = 3
 
 openai.api_key = env.get_value('OPENAI_API_KEY')
 # Application definition

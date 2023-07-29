@@ -32,7 +32,7 @@ def index(req: HttpRequest):
             'image': article.image.image.url,
             'link': article.get_absolute_url(),
             'desc': article.summary
-        } for article in latest_posts],
+        } for article in latest_posts if article.visible],
 
     })
 
@@ -51,7 +51,8 @@ def extra_page(req: HttpRequest, extra_page: str):
         'title': page.title,
         'body': page.body,
         'image': page.image.image.url if page.image else None,
-        'link': page.get_absolute_url()
+        'link': page.get_absolute_url(),
+        'desc': page.description
     }) if page and page.visible else return_404(req)
 
 
@@ -62,13 +63,13 @@ def get_post(req: HttpRequest, category: str, post: str):
     except Article.DoesNotExist:
         return return_404(req)
 
+    if not data.visible:
+        return return_404(req)
+
     recent = [article for article in Article.objects.all().order_by(
-        '-timestamp') if article.image and article.slug != data.slug][:4]
+        '-timestamp') if article.visible and article.image and article.slug != data.slug][:4]
 
-    categories = Category.objects.all()
     comments = Comment.objects.filter(article=data).all()
-
-    extra_pages = ExtraPages.objects.all()
 
     return render(req, 'post.html', {
         'title': data.title,
@@ -93,7 +94,7 @@ def get_post(req: HttpRequest, category: str, post: str):
             'slug': article.slug,
             'category': article.category.slug,
             'link': article.get_absolute_url()
-        } for article in recent if article.category],
+        } for article in recent if article.visible and article.category],
 
         'related': [{
             'title': article.title,
@@ -102,7 +103,7 @@ def get_post(req: HttpRequest, category: str, post: str):
             'slug': article.slug,
             'category': article.category.slug,
             'link': article.get_absolute_url()
-        } for article in Article.objects.filter(category=data.category).all() if article.slug != data.slug and article.image]
+        } for article in Article.objects.filter(category=data.category).all() if article.visible and article.slug != data.slug and article.image]
     })
 
 
@@ -120,25 +121,12 @@ def get_category(req: HttpRequest, slug: str):
             'date': article.date,
             'desc': article.summary,
             'link': article.get_absolute_url()
-        } for article in articles],
+        } for article in articles if article.visible],
 
         'link': category.get_absolute_url(),
-        'category': {
-            'name': category.name,
-        },
-
-        'image': category.image.image.url if category.image else ''
-    })
-
-
-@require_http_methods(['GET'])
-def about(req: HttpRequest):
-    extra_pages = ExtraPages.objects.all()
-    return render(req, 'about.html', {
-        'extra_pages': [{
-            'slug': extra_page.slug,
-            'name': extra_page.title
-        } for extra_page in extra_pages if extra_page.visible]
+        'name': category.name,
+        'image': category.image.image.url if category.image else '',
+        'desc': category.description
     })
 
 

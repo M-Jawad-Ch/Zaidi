@@ -142,14 +142,20 @@ class UsedAdmin(admin.ModelAdmin):
     pass
 
 
+@admin.action(description="Publish selected")
+def publish(modeladmin, request, queryset):
+    queryset.update(visible=True)
+
+
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
     date_hierarchy = "date"
     empty_value_display = "-empty-"
     readonly_fields = ('date', 'timestamp', 'modified', 'slug')
-    list_display = ['title', 'category', 'timestamp']
+    list_display = ['title', 'visible', 'category', 'timestamp']
     ordering = ['-timestamp']
     exclude = ('embedding',)
+    actions = [publish]
 
 
 @admin.register(Comment)

@@ -1,10 +1,9 @@
 from random import randrange
 
 from django_cron import CronJobBase, Schedule
-from django.conf import settings
 from threading import Thread
 
-from .models import Rss
+from .models import Rss, Index
 from .admin import generate_thread_func
 
 
@@ -18,15 +17,11 @@ class Task(CronJobBase):
 
     def do(self):
         rss_ = [*Rss.objects.all()]
+        index = Index.objects.first()
 
-        if not rss_:
+        if not rss_ or not index.articles_generated_per_day:
             return
 
-        for _ in range(settings.ARTICLES_PER_DAY):
+        for _ in range(index.articles_generated_per_day):
             rss = rss_[randrange(len(rss_))]
-
-            Thread(
-                daemon=True,
-                target=generate_thread_func,
-                args=[rss]
-            ).start()
+            generate_thread_func(rss)
