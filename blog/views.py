@@ -29,7 +29,8 @@ def index(req: HttpRequest):
             'slug': article.slug,
             'image': article.image.image.url,
             'link': article.get_absolute_url(),
-            'desc': article.summary
+            'desc': article.summary,
+            'author': f'{article.author.first_name} {article.author.last_name}' if article.author else 'None'
         } for article in latest_posts if article.visible],
 
     })
@@ -120,13 +121,14 @@ def get_category(req: HttpRequest, slug: str):
             'image': article.image.image.url if article.image else '',
             'date': article.date,
             'desc': article.summary,
-            'link': article.get_absolute_url()
+            'link': article.get_absolute_url(),
+            'author': f'{article.author.first_name} {article.author.last_name} ~ ' if article.author else ''
         } for article in articles if article.visible],
 
         'link': category.get_absolute_url(),
         'name': category.name,
         'image': category.image.image.url if category.image else '',
-        'desc': category.description
+        'desc': category.description,
     })
 
 
