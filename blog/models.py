@@ -3,6 +3,8 @@ from django.utils.text import slugify
 from django.contrib.sitemaps import ping_google
 from django.utils import timezone
 from django.conf import settings
+from django.contrib.auth.models import User
+
 
 from datetime import datetime
 from json import dumps, loads
@@ -120,6 +122,7 @@ class Article(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now_add=True)
     visible = models.BooleanField(default=False)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     class Meta:
         verbose_name = 'A - Article'

@@ -81,6 +81,8 @@ def get_post(req: HttpRequest, category: str, post: str):
         'desc': data.summary,
         'link': data.get_absolute_url(),
 
+        'author': f'{data.author.first_name} {data.author.last_name} ~ ' if data.author else '',
+
         'comments': [{
             'text': comment.text,
             'date': comment.date,

@@ -27,11 +27,7 @@ from .scrapingHandler import scrape
 
 @admin.register(ExtraPages)
 class ExtraPagesAdmin(admin.ModelAdmin):
-    def has_add_permission(self, request: HttpRequest) -> bool:
-        return False  # super().has_add_permission(request)
-
-    def has_delete_permission(self, request: HttpRequest, obj: Any | None = ...) -> bool:
-        return False  # super().has_delete_permission(request, obj)
+    pass
 
 
 @admin.register(Index)

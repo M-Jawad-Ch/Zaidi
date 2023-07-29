@@ -16,7 +16,9 @@
 <div id="main-container">
     <div id="inner-container">
         <h1 id="title-text">{{ title }}</h1>
-        <span id="date">{{ date }}</span>
+        <span id="date">
+            {{ author }} {{ date }}
+        </span>
         <div class="image-container">
             <img id="main-image" src="{{ image_url }}" alt="">
         </div>
