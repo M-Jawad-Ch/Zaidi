@@ -213,6 +213,7 @@ class Generator(models.Model):
     used = models.BooleanField(default=False)
     running = models.BooleanField(default=False)
     article = models.ForeignKey(Article, on_delete=models.SET_NULL, null=True)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     def __str__(self) -> str:
         return self.content[:100]

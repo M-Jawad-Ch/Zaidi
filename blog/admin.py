@@ -196,6 +196,9 @@ def generate_article(object: Generator, callback=None, do_summarize=True):
     article = loop.run_until_complete(generate(object.content))
 
     if article:
+        object.article = article
+
+        article.author = object.author
         article.save()
 
     loop.close()
@@ -228,6 +231,9 @@ class GeneratorAdmin(DjangoObjectActions, admin.ModelAdmin):
         if obj.running:
             messages.warning(request, 'This prompt is already running.')
             return
+
+        obj.author = request.user
+        obj.save()
 
         thread = Thread(target=generate_article, args=[obj], daemon=True)
         thread.start()

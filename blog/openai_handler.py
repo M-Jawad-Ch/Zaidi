@@ -71,7 +71,10 @@ async def current_date(*args, **kwargs):
     return datetime.now().today()
 
 
-async def prompt_gpt(messages, functions=None):
+async def prompt_gpt(messages, functions=None, retries=0):
+    if retries >= 10:
+        functions = None
+
     for _ in range(10):
         try:
             if functions:
@@ -80,6 +83,17 @@ async def prompt_gpt(messages, functions=None):
                     messages=messages,
                     functions=functions
                 )
+
+                func = completion['choices'][0]['message'].get('function_call')
+
+                if func and func['name'] not in apply_function:
+                    messages.append({
+                        'role': 'system',
+                        'content': 'The function you called is not available.'
+                    })
+
+                    return await prompt_gpt(messages, functions, retries=retries + 1)
+
             else:
                 completion = await openai.ChatCompletion.acreate(
                     model='gpt-3.5-turbo-16k',
