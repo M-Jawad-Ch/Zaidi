@@ -12,6 +12,7 @@ from openai import Embedding
 from threading import Thread
 
 import numpy
+import re
 
 
 def embed(content: str):
@@ -44,7 +45,10 @@ class ExtraPages(models.Model):
     title = models.CharField(max_length=200, blank=True)
     body = models.TextField(blank=True)
     visible = models.BooleanField(default=False)
-    description = models.TextField()
+    description = models.CharField(max_length=300)
+
+    def name(self):
+        return re.sub('-', ' ', self.slug).title()
 
     class Meta:
         verbose_name = 'A - Extra Pages'
@@ -63,6 +67,7 @@ class Category(models.Model):
     embedding = models.TextField()
     image = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True)
     description = models.TextField()
+    title = models.CharField(max_length=200)
 
     def save(self, *args, **kwargs):
         try:

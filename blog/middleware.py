@@ -18,7 +18,7 @@ def ContextMiddleWare(get_response):
 
         request.extra_pages = [{
             'slug': extra_page.slug,
-            'name': extra_page.title,
+            'name': extra_page.name(),
             'link': extra_page.get_absolute_url()
         } for extra_page in extra_pages if extra_page.visible]
 

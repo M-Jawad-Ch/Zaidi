@@ -129,6 +129,7 @@ def get_category(req: HttpRequest, slug: str):
         'name': category.name,
         'image': category.image.image.url if category.image else '',
         'desc': category.description,
+        'title': category.title
     })
 
 
