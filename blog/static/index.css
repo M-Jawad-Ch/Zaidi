@@ -48,6 +48,7 @@
 
 .body-text {
     margin-left: 3rem;
+    margin-right: 3rem;
 }
 
 .main-content h3 {
@@ -113,6 +114,7 @@ footer {
 
     .body-text {
         margin-left: 0.25rem;
+        margin-right: 0.25rem;
     }
 }
 
