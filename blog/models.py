@@ -1,3 +1,4 @@
+from typing import Any, Iterable, Optional
 from django.db import models
 from django.utils.text import slugify
 from django.contrib.sitemaps import ping_google
@@ -29,6 +30,7 @@ class Image(models.Model):
     name = models.CharField(primary_key=True, max_length=100)
     image = models.ImageField(upload_to='images/')
     timestamp = models.DateTimeField(auto_now_add=True)
+    html = models.TextField()
 
     def __str__(self):
         return self.name

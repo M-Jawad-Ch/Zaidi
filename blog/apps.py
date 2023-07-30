@@ -31,6 +31,15 @@ class BlogConfig(AppConfig):
             if len(extra_pages) < 3:
                 for _ in range(3 - (len(extra_pages))):
                     ExtraPages.objects.create()
+        except:
+            pass
 
+        try:
+            from .models import Image
+            images = Image.objects.all()
+
+            for image in images:
+                image.html = f'<img src="/{image.image.name}">'
+                image.save()
         except:
             pass

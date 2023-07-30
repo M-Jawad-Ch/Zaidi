@@ -18,13 +18,16 @@
             <a href="/">MedPoise</a>
         </div>
         <ul class="header-items-container">
+            <li style="color: transparent;"> - </li>
             {% for page in request.extra_pages %}
             {% if page.slug %}
             <li><a href="{{ page.link }}">{{ page.name }}</a></li>
             {% endif %}
             {% endfor %}
             <li><a href="/contact-us">Contact Us</a></li>
+            <li style="color: transparent;"> - </li>
         </ul>
+        <div class="opener">^</div>
     </header>
     <main>
         {% block image %} {% endblock %}
@@ -82,5 +85,25 @@
     </script>
     {% block script %}{% endblock %}
 </body>
+<script>
+    var menu = document.querySelector('.header-items-container')
+    var opener = document.querySelector('.opener')
+    var toggle = false
+
+
+    opener.onclick = e => {
+        if (!toggle) {
+            menu.classList.add('drop-down')
+            opener.classList.add('opened')
+        }
+
+        else {
+            menu.classList.remove('drop-down')
+            opener.classList.remove('opened')
+        }
+
+        toggle = !toggle
+    }
+</script>
 
 </html>

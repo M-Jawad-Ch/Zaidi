@@ -29,6 +29,11 @@
     justify-content: center;
 }
 
+.body-text img {
+    width: 100%;
+}
+
+
 .image-text h1 {
     margin: 0;
 }

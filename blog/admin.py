@@ -41,12 +41,13 @@ class IndexAdmin(admin.ModelAdmin):
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
-    readonly_fields = ['timestamp']
+    readonly_fields = ['timestamp', 'html']
     ordering = ['-timestamp']
     list_display = ['name', 'timestamp']
 
     def save_model(self, request: Any, obj: Image, form: Any, change: Any) -> None:
         obj.name = slugify(obj.name)
+        obj.html = f'<img src="/{obj.image.name}">'
         return super().save_model(request, obj, form, change)
 
 
