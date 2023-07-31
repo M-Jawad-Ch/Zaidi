@@ -39,7 +39,7 @@ class BlogConfig(AppConfig):
             images = Image.objects.all()
 
             for image in images:
-                image.html = f'<img src="/{image.image.name}">'
+                image.html = ''
                 image.save()
         except:
             pass

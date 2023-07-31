@@ -32,6 +32,13 @@ class Image(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     html = models.TextField()
 
+    def get_absolute_url(self):
+        return f'/images/{self.image.name}' if not re.match('images', self.image.name) else f'/{self.image.name}'
+
+    def save(self, *args, **kwargs):
+        self.html = f'<img src="{self.get_absolute_url()}">'
+        super(Image, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.name
 
