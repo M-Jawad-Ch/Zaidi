@@ -152,6 +152,31 @@ footer {
         width: 100%;
     }
 
+    .h2-title {
+        text-align: center;
+        font-size: 2.2rem;
+    }
+
+    .category {
+        display: inline-block;
+
+        width: fit-content;
+
+        background-color: white;
+        color: var(--theme-color);
+        font-weight: bold;
+        font-size: 1.25rem;
+        margin: 0.25em;
+        border-radius: 5px;
+
+
+    }
+
+    .category-text {
+        padding: 0.5em 0.7em;
+        font-size: 1.15em;
+    }
+
     header {
         padding-right: 1em;
 
