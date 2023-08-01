@@ -1,10 +1,9 @@
-from typing import Any, Optional, Type
+from typing import Any
 from django.contrib import admin, messages
 from django.contrib.admin.sites import AdminSite
 from django.http import HttpRequest
 
 from threading import Thread
-from asgiref.sync import sync_to_async
 from random import randrange
 
 import asyncio
@@ -27,7 +26,7 @@ from .scrapingHandler import scrape
 
 @admin.register(ExtraPages)
 class ExtraPagesAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['slug', 'visible']
 
 
 @admin.register(Index)

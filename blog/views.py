@@ -165,7 +165,21 @@ def comment(req: HttpRequest, category: str, post: str):
 @require_http_methods(['GET'])
 def contact(req: HttpRequest):
 
-    return render(req, 'contact.html')
+    pages: list[ExtraPages] = ExtraPages.objects.all()
+
+    page = None
+    for page_ in pages:
+        if page_.slug == 'contact-us':
+            page = page_
+
+    return render(req, 'contact.html', {
+        'slug': page.slug,
+        'title': page.title,
+        'body': page.body,
+        'image': page.image.image.url if page.image else None,
+        'link': page.get_absolute_url(),
+        'desc': page.description
+    }) if page and page.visible else return_404(req)
 
 
 @require_http_methods(['GET'])

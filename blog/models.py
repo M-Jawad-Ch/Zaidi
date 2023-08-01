@@ -1,4 +1,3 @@
-from typing import Any, Iterable, Optional
 from django.db import models
 from django.utils.text import slugify
 from django.contrib.sitemaps import ping_google
@@ -31,12 +30,13 @@ class Image(models.Model):
     image = models.ImageField(upload_to='images/')
     timestamp = models.DateTimeField(auto_now_add=True)
     html = models.TextField()
+    alt = models.CharField(max_length=200, blank=True)
 
     def get_absolute_url(self):
         return f'/images/{self.image.name}' if not re.match('images', self.image.name) else f'/{self.image.name}'
 
     def save(self, *args, **kwargs):
-        self.html = f'<img src="{self.get_absolute_url()}">'
+        self.html = f'<img src="{self.get_absolute_url()}" alt="{self.alt}">'
         super(Image, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -47,14 +47,14 @@ class Image(models.Model):
 
 
 class ExtraPages(models.Model):
-    slug = models.SlugField(max_length=100, blank=True)
+    slug = models.SlugField(max_length=100, unique=True)
     title = models.CharField(max_length=100, blank=True)
     image = models.ForeignKey(
         Image, on_delete=models.SET_NULL, null=True, blank=True)
     title = models.CharField(max_length=200, blank=True)
     body = models.TextField(blank=True)
     visible = models.BooleanField(default=False)
-    description = models.CharField(max_length=300)
+    description = models.CharField(max_length=300, blank=True)
 
     def name(self):
         return re.sub('-', ' ', self.slug).title()
@@ -62,9 +62,6 @@ class ExtraPages(models.Model):
     class Meta:
         verbose_name = 'A - Extra Pages'
         verbose_name_plural = 'A - Extra Pages'
-
-    def __str__(self):
-        return self.slug if self.slug else f'Extra Page ({self.pk})'
 
     def get_absolute_url(self):
         return f'/{self.slug}'

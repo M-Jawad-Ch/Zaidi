@@ -26,11 +26,9 @@ class BlogConfig(AppConfig):
 
         try:
             from .models import ExtraPages
-            extra_pages = [*ExtraPages.objects.all()]
 
-            if len(extra_pages) < 3:
-                for _ in range(3 - (len(extra_pages))):
-                    ExtraPages.objects.create()
+            ExtraPages.objects.get_or_create(slug='contact-us', visible=True)
+
         except:
             pass
 
