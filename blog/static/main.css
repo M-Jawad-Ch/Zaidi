@@ -186,7 +186,8 @@ footer {
 
         .header-items-container {
             position: absolute;
-            right: -1000px;
+            width: 0;
+            overflow: hidden;
             z-index: 999;
 
             padding-left: 0;

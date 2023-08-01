@@ -107,14 +107,6 @@ li {
     width: fit-content;
 }
 
-.category-title {
-    margin-bottom: 0.5em;
-}
-
-.category {
-    margin: 0.5em 0;
-}
-
 .social-icons-container {
     display: flex;
     flex-direction: column;
