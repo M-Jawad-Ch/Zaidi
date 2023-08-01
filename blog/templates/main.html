@@ -18,6 +18,10 @@
             <a href="/">MedPoise</a>
         </div>
         <ul class="header-items-container">
+            <div class="closer">
+                <img
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAABKElEQVR4nO2YzU7CQBRGz+PogldAZYE/rJSCO3CJoLj0kX0A5SeAlDShhpAZ2tA6nU6+k3TXuZmT2+nce0EIIYQQQvhIA3guMV4LuMExl8AXsAGGJcRrAt/AzKVMKhHvn9+CMlfAz0G8GXCNA/r7TMQlyLSB+VGsLfCGIxKZtWEDoxIkPnBMzyLzmmPtLbAwrJ1SERGwMmxofGLNnW8S58h4K5HStchM/t6Ae4vEO57RAZaWP1BtJFIeLZnJypaXPBgyU9k98V8ytZIIRqST49Py9pAHddifTmy4Nr/fbo7b3ftbPQqhRInOqIBtla/z8j2rjB/l7EW8kOkbJJIu8aVgYxUDnzgimFb34mj4UHSS0qxq+HAok0gMqOk4KKgBnRBCCCGEIJMdXBTwCqWDRf4AAAAASUVORK5CYII=">
+            </div>
             <li style="color: transparent;"> - </li>
             {% for page in request.extra_pages %}
             {% if page.slug %}
@@ -26,7 +30,14 @@
             {% endfor %}
             <li style="color: transparent;"> - </li>
         </ul>
-        <div class="opener">^</div>
+        <div class="opener">
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 50 50"
+                style="fill:var(--theme-color);">
+                <path
+                    d="M 0 7.5 L 0 12.5 L 50 12.5 L 50 7.5 Z M 0 22.5 L 0 27.5 L 50 27.5 L 50 22.5 Z M 0 37.5 L 0 42.5 L 50 42.5 L 50 37.5 Z">
+                </path>
+            </svg>
+        </div>
     </header>
     <main>
         {% block image %} {% endblock %}
@@ -52,6 +63,7 @@
             </div>
         </div>
     </main>
+    <div id="blur"></div>
     <footer>
         <div class="top">
             <div class="logo-container">
@@ -76,9 +88,6 @@
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-
-
-
         gtag('config', 'G-3EZSC7DXX2');
     </script>
     {% block script %}{% endblock %}
@@ -86,22 +95,22 @@
 <script>
     var menu = document.querySelector('.header-items-container')
     var opener = document.querySelector('.opener')
-    var toggle = false
+    var closer = document.querySelector('.closer')
 
+    var blur = document.querySelector('#blur')
 
     opener.onclick = e => {
-        if (!toggle) {
-            menu.classList.add('drop-down')
-            opener.classList.add('opened')
-        }
-
-        else {
-            menu.classList.remove('drop-down')
-            opener.classList.remove('opened')
-        }
-
-        toggle = !toggle
+        menu.classList.add('appear')
+        blur.classList.add('blur-effect')
+        document.body.classList.add('body-close')
     }
+
+    closer.onclick = e => {
+        menu.classList.remove('appear')
+        blur.classList.remove('blur-effect')
+        document.body.classList.remove('body-close')
+    }
+
 </script>
 
 </html>
