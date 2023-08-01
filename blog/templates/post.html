@@ -27,15 +27,16 @@
         <h3>RELATED POSTS</h3>
         <div class="related-posts">
             {% for item in related %}
-            <a href="{{ item.link }}">
-                <div class="related-post">
-                    <img src="{{ item.image }}" alt="">
-                    <div class="related-text-container">
+
+            <div class="related-post">
+                <img src="{{ item.image }}" alt="">
+                <div class="related-text-container">
+                    <a href="{{ item.link }}">
                         <h4>{{ item.title }}</h4>
                         <span class="date">{{ item.date }}</span>
-                    </div>
+                    </a>
                 </div>
-            </a>
+            </div>
             {% endfor %}
         </div>
         {% endif %}
