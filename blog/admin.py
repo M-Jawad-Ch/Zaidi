@@ -45,6 +45,7 @@ class ImageAdmin(admin.ModelAdmin):
     ordering = ['-timestamp']
     list_display = ['name', 'timestamp']
     list_per_page = 20
+    search_fields = ['name', 'alt']
 
     def save_model(self, request: Any, obj: Image, form: Any, change: Any) -> None:
         obj.name = slugify(obj.name)
@@ -54,6 +55,7 @@ class ImageAdmin(admin.ModelAdmin):
 
 @admin.register(Contact)
 class ContactAdmin(admin.ModelAdmin):
+    search_fields = ['first_name', 'last_name', 'email', 'comments']
     readonly_fields = ('first_name', 'last_name', 'comments', 'email')
     list_per_page = 20
 
@@ -141,7 +143,6 @@ class RssAdmin(DjangoObjectActions, admin.ModelAdmin):
 @admin.register(Used)
 class UsedAdmin(admin.ModelAdmin):
     list_per_page = 20
-    pass
 
 
 @admin.action(description="Publish selected")
@@ -158,18 +159,19 @@ class ArticleAdmin(admin.ModelAdmin):
     ordering = ['-timestamp']
     exclude = ('embedding',)
     actions = [publish]
+    search_fields = ['title', 'summary', 'body']
     list_per_page = 20
 
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    pass
+    search_fields = ['text', 'name']
 
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     exclude = ('embedding',)
-    pass
+    search_fields = ['name']
 
 
 def _generate_image(article: Article):
@@ -225,6 +227,7 @@ class GeneratorAdmin(DjangoObjectActions, admin.ModelAdmin):
     empty_value_display = "-empty-"
     readonly_fields = ('date', 'used', 'running', 'article')
     list_per_page = 20
+    search_fields = ['content']
 
     def __init__(self, model: type, admin_site: AdminSite | None) -> None:
         super().__init__(model, admin_site)
