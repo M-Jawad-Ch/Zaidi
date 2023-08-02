@@ -12,6 +12,19 @@ a {
     text-decoration: none;
 }
 
+.sections ul {
+    list-style: none;
+}
+
+.sections ul li::before {
+    content: "\2022";
+    color: var(--theme-color);
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
 body {
     margin: 0;
     color: #555;
