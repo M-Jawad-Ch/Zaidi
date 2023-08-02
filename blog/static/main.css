@@ -26,6 +26,10 @@ header {
     padding: 0.5em 3em;
 }
 
+.logo-container img {
+    width: 200px;
+}
+
 .opener {
     display: none;
 }

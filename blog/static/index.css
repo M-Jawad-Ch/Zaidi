@@ -24,6 +24,25 @@
     font-size: x-large;
 }
 
+.text-container svg {
+    margin: 0;
+}
+
+.text-container span {
+    display: inline-block;
+    margin: auto 0;
+}
+
+.text-container h5 .author {
+    margin-left: 0.125rem;
+    margin-right: 0.5rem;
+}
+
+.text-container h5 .date {
+    margin-left: 0.125rem;
+    margin-right: 0.5rem;
+}
+
 .image-text {
     width: 100%;
     height: 100%;
@@ -42,9 +61,6 @@
     margin: 0;
 }
 
-.main-content {
-    margin: 1em;
-}
 
 .main-content h1 {
     margin-left: 3rem;
@@ -73,7 +89,8 @@
 
 .post {
     display: flex;
-    margin: 1em;
+    margin: 1em 0;
+    padding: 0 1em;
 }
 
 .post img {
@@ -96,6 +113,10 @@
 
 .post h5 {
     margin-top: 1rem;
+}
+
+.odd {
+    background-color: rgba(0, 0, 0, 0.02);
 }
 
 

@@ -24,6 +24,25 @@ img {
     font-size: small;
 }
 
+#date svg {
+    margin: 0;
+}
+
+#date span {
+    display: inline-block;
+    margin: auto 0;
+}
+
+#date .author {
+    margin-left: 0.125rem;
+    margin-right: 0.5rem;
+}
+
+#date .date {
+    margin-left: 0.125rem;
+    margin-right: 0.5rem;
+}
+
 .image-container {
     width: 100%;
     display: flex;

@@ -26,7 +26,9 @@ def index(req: HttpRequest):
 
         'latest_posts': [{
             'title': article.title,
-            'category': article.category.slug,
+            'date': article.date,
+            'category': article.category.name,
+            'categorylink': article.category.get_absolute_url(),
             'slug': article.slug,
             'image': article.image.image.url,
             'link': article.get_absolute_url(),
@@ -59,6 +61,7 @@ def extra_page(req: HttpRequest, extra_page: str):
 def get_post(req: HttpRequest, category: str, post: str):
     try:
         data = Article.objects.get(pk=post)
+        category: Category = Category.objects.get(pk=category)
     except Article.DoesNotExist:
         return return_404(req)
 
@@ -79,8 +82,9 @@ def get_post(req: HttpRequest, category: str, post: str):
         'image_url': data.image.image.url if data.image else None,
         'desc': data.summary,
         'link': data.get_absolute_url(),
-
-        'author': f'{data.author.first_name} {data.author.last_name} ~ ' if data.author else '',
+        'author': f'{data.author.first_name} {data.author.last_name}' if data.author else '',
+        'category': category.name,
+        'categorylink': category.get_absolute_url(),
 
         'comments': [{
             'text': comment.text,
