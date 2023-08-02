@@ -27,6 +27,7 @@ from .scrapingHandler import scrape
 @admin.register(ExtraPages)
 class ExtraPagesAdmin(admin.ModelAdmin):
     list_display = ['slug', 'visible']
+    list_per_page = 20
 
 
 @admin.register(Index)
@@ -43,6 +44,7 @@ class ImageAdmin(admin.ModelAdmin):
     readonly_fields = ['timestamp', 'html']
     ordering = ['-timestamp']
     list_display = ['name', 'timestamp']
+    list_per_page = 20
 
     def save_model(self, request: Any, obj: Image, form: Any, change: Any) -> None:
         obj.name = slugify(obj.name)
@@ -53,6 +55,7 @@ class ImageAdmin(admin.ModelAdmin):
 @admin.register(Contact)
 class ContactAdmin(admin.ModelAdmin):
     readonly_fields = ('first_name', 'last_name', 'comments', 'email')
+    list_per_page = 20
 
 
 @admin.register(ImageGenerator)
@@ -61,8 +64,8 @@ class ImageGeneratorAdmin(DjangoObjectActions, admin.ModelAdmin):
     empty_value_display = "-empty-"
     readonly_fields = ('date', 'used', 'running', 'image')
     list_display = ['prompt', 'used', 'running']
-
     change_actions = ['_start_image_generation']
+    list_per_page = 20
 
     @action(label='Generate Image', description='Generate Image using DALL-E 2')
     def _start_image_generation(self, req: HttpRequest, object: ImageGenerator):
@@ -111,7 +114,7 @@ def generate_thread_func(object: Rss):
 
     desc = scrape([link])[0]['text']
 
-    generator = Generator(content=desc)
+    generator = Generator(content=desc, rss=object)
 
     def callback():
         used_link = Used(url=link)
@@ -122,6 +125,8 @@ def generate_thread_func(object: Rss):
 
 @admin.register(Rss)
 class RssAdmin(DjangoObjectActions, admin.ModelAdmin):
+    list_per_page = 20
+
     @action(label='Generate Article', description='Generate Articles using the Rss feeds')
     def start_article_generation(self, req: HttpRequest, object: Rss):
         thread = Thread(target=generate_thread_func,
@@ -135,6 +140,7 @@ class RssAdmin(DjangoObjectActions, admin.ModelAdmin):
 
 @admin.register(Used)
 class UsedAdmin(admin.ModelAdmin):
+    list_per_page = 20
     pass
 
 
@@ -147,11 +153,12 @@ def publish(modeladmin, request, queryset):
 class ArticleAdmin(admin.ModelAdmin):
     date_hierarchy = "date"
     empty_value_display = "-empty-"
-    readonly_fields = ('date', 'timestamp', 'modified', 'slug')
+    readonly_fields = ('date', 'timestamp', 'modified', 'slug', 'rss')
     list_display = ['title', 'visible', 'category', 'timestamp']
     ordering = ['-timestamp']
     exclude = ('embedding',)
     actions = [publish]
+    list_per_page = 20
 
 
 @admin.register(Comment)
@@ -199,6 +206,7 @@ def generate_article(object: Generator, callback=None, do_summarize=True):
         object.article = article
 
         article.author = object.author
+        article.rss = object.rss
         article.save()
 
     loop.close()
@@ -216,6 +224,7 @@ class GeneratorAdmin(DjangoObjectActions, admin.ModelAdmin):
     date_hierarchy = "date"
     empty_value_display = "-empty-"
     readonly_fields = ('date', 'used', 'running', 'article')
+    list_per_page = 20
 
     def __init__(self, model: type, admin_site: AdminSite | None) -> None:
         super().__init__(model, admin_site)

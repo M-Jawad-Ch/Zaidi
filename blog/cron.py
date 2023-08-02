@@ -1,7 +1,6 @@
 from random import randrange
 
 from django_cron import CronJobBase, Schedule
-from threading import Thread
 
 from .models import Rss, Index
 from .admin import generate_thread_func

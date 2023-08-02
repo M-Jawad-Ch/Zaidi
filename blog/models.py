@@ -134,6 +134,7 @@ class Article(models.Model):
     modified = models.DateTimeField(auto_now_add=True)
     visible = models.BooleanField(default=False)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    rss = models.ForeignKey(Rss, on_delete=models.SET_NULL, null=True)
 
     class Meta:
         verbose_name = 'A - Article'
@@ -225,6 +226,7 @@ class Generator(models.Model):
     running = models.BooleanField(default=False)
     article = models.ForeignKey(Article, on_delete=models.SET_NULL, null=True)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    rss = models.ForeignKey(Rss, on_delete=models.SET_NULL, null=True)
 
     def __str__(self) -> str:
         return self.content[:100]

@@ -8,12 +8,13 @@ from .models import Article, Category, Contact, Comment, Index, ExtraPages
 @require_http_methods(['GET'])
 def index(req: HttpRequest):
     data = Index.objects.first()
+
     if not data:
         return render(req, 'mtc.html', {})
 
     latest_posts = [article for article in
                     Article.objects.order_by('-timestamp').all()
-                    if article.image][:6]
+                    if article.image and article.visible][:10]
 
     return render(req, 'index.html', {
         'page_title': data.title,
@@ -31,8 +32,7 @@ def index(req: HttpRequest):
             'link': article.get_absolute_url(),
             'desc': article.summary,
             'author': f'{article.author.first_name} {article.author.last_name}' if article.author else 'None'
-        } for article in latest_posts if article.visible],
-
+        } for article in latest_posts],
     })
 
 

@@ -20,6 +20,10 @@
     max-width: fit-content;
 }
 
+.text-container h4 {
+    font-size: x-large;
+}
+
 .image-text {
     width: 100%;
     height: 100%;
