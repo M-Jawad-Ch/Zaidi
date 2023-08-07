@@ -67,7 +67,6 @@ header {
 
 .category {
     width: 100%;
-    /* font-weight: bold; */
     margin: 0.5em 0;
 }
 
@@ -102,7 +101,6 @@ footer {
     color: white;
     padding: 3em;
     padding-top: 6em;
-    /* margin-top: 3em; */
     border-top: #555 solid 1px;
 
     .logo-container {
@@ -194,6 +192,12 @@ footer {
         font-size: 1.15em;
     }
 
+    footer {
+        .header-items-container {
+            display: none;
+        }
+    }
+
     header {
         padding-right: 1em;
 
@@ -241,12 +245,15 @@ footer {
             height: 100vh;
             margin: 0;
             padding: 2em;
+            padding-left: 1.2em;
 
             list-style: none;
         }
 
         .appear li {
-            margin: 0.175em 0;
+            margin: 0.25em 0;
+            font-size: x-large;
+
         }
     }
 }
@@ -254,6 +261,16 @@ footer {
 @media (max-width: 500px) {
     header {
         padding: 0.5em 1em;
+    }
+}
+
+@media (max-width: 300px) {
+    .logo-container img {
+        width: 150px;
+    }
+
+    .h2-title {
+        font-size: 1.5em;
     }
 }
 

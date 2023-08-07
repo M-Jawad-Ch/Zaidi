@@ -16,7 +16,6 @@
 
 form {
     color: initial;
-
 }
 
 .main-container h1 {
@@ -66,8 +65,31 @@ form {
 }
 
 
-/* ------------------------------------------------------------ */
 canvas {
     margin: 0 auto;
     display: block;
+}
+
+@media (max-width: 500px) {
+    .main-container input {
+        width: 25em;
+    }
+
+    .main-container #comments {
+        width: 25em;
+    }
+}
+
+@media (max-width: 400px) {
+    .main-container input {
+        width: 90%;
+    }
+
+    .main-container #comments {
+        width: 90%;
+    }
+
+    canvas {
+        width: 90%;
+    }
 }
