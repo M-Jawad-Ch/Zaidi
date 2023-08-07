@@ -65,13 +65,14 @@ def get_post(req: HttpRequest, category: str, post: str):
     except Article.DoesNotExist:
         return return_404(req)
 
-    if not data.visible:
+    if not data.visible or not data.category or category != data.category:
         return return_404(req)
 
     recent = [article for article in Article.objects.all().order_by(
         '-timestamp') if article.visible and article.image and article.slug != data.slug][:4]
 
     comments = Comment.objects.filter(article=data).all()
+    category = data.category
 
     return render(req, 'post.html', {
         'title': data.title,
