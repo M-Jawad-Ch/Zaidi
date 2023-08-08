@@ -2,6 +2,8 @@ from typing import Any
 from django.contrib import admin, messages
 from django.contrib.admin.sites import AdminSite
 from django.http import HttpRequest
+from django.db import models
+from django.forms import TextInput, Textarea
 
 from threading import Thread
 from random import randrange
@@ -154,13 +156,23 @@ def publish(modeladmin, request, queryset):
 class ArticleAdmin(admin.ModelAdmin):
     date_hierarchy = "date"
     empty_value_display = "-empty-"
-    readonly_fields = ('date', 'timestamp', 'modified', 'slug', 'rss')
+    readonly_fields = ('date', 'timestamp', 'modified',
+                       'slug', 'rss', 'image_html')
     list_display = ['title', 'visible', 'category', 'timestamp']
     ordering = ['-timestamp']
-    exclude = ('embedding',)
+    exclude = ('embedding', 'date')
     actions = [publish]
     search_fields = ['title', 'summary', 'body']
     list_per_page = 20
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'image', 'image_html', ('category', 'author'), 'visible',
+                       'summary', 'body', 'rss', 'timestamp', 'modified')
+        }),
+    )
+
+    def image_html(self, obj: Article):
+        return obj.image.html if obj.image else None
 
 
 @admin.register(Comment)

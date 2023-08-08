@@ -1,0 +1,46 @@
+{% extends 'admin/change_form.html' %}
+
+{% load static %}
+{% block extrastyle %}{{ block.super }}
+<link rel="stylesheet" href="{% static "admin/css/forms.css" %}">
+<link rel="stylesheet" href="{% static  "article-style.css" %}">
+{% endblock %}
+
+{% block admin_change_form_document_ready %}
+    <script id="django-admin-form-add-constants"
+            src="{% static 'admin/js/change_form.js' %}"
+            {% if adminform and add %}
+                data-model-name="{{ opts.model_name }}"
+            {% endif %}
+            async>
+    </script>
+    <script>
+        var elements = document.querySelectorAll('.readonly')
+
+        for(const element of elements) {
+            if (element.querySelector('a')) continue
+
+            element.classList.add('tooltip')
+
+            var tooltiptext = document.createElement('span')
+            tooltiptext.classList.add('tooltiptext')
+            tooltiptext.innerHTML = 'Copy to Clipboard'
+
+            element.appendChild(tooltiptext)
+        }
+
+        elements = document.querySelectorAll('.tooltip')
+        for(const element of elements) {
+            element.addEventListener('click', () => {
+                var child = element.firstChild
+                navigator.clipboard.writeText(child.textContent)
+
+                var tooltiptext = element.querySelector('.tooltiptext')
+                tooltiptext.innerHTML = 'Copied!'
+
+                setTimeout(() => { tooltiptext.innerHTML = 'Copy to Clipboard' }, 3_000)
+            })
+        }
+
+    </script>
+{% endblock %}

@@ -46,7 +46,6 @@
 .image-text {
     width: 100%;
     height: 100%;
-    margin-left: 3rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -59,6 +58,8 @@
 
 .image-text h1 {
     margin: 0;
+    margin-left: 3rem;
+    width: fit-content;
 }
 
 
@@ -79,6 +80,7 @@
 
 .posts-container {
     margin-bottom: 3em;
+    padding: 0 3rem;
 }
 
 .text {
@@ -90,7 +92,7 @@
 .post {
     display: flex;
     margin: 1em 0;
-    padding: 0 1em;
+    padding: 0 0.25em;
 }
 
 .post img {
@@ -125,7 +127,7 @@ footer {
 }
 
 @media (max-width: 1000px) {
-    .image-text {
+    .image-text h1 {
         margin: 0;
     }
 
@@ -140,6 +142,10 @@ footer {
     .body-text {
         margin-left: 0.25rem;
         margin-right: 0.25rem;
+    }
+
+    .posts-container {
+        padding: 0;
     }
 }
 

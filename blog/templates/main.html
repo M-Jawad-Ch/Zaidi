@@ -47,7 +47,6 @@
             </div>
             <div class="right-section">
                 {% block side-bar-above %} {% endblock %}
-
                 {% if request.categories %}
                 <h2 class="h2-title">CATEGORIES</h2>
                 {% for category in request.categories %}
@@ -60,7 +59,6 @@
                 </div>
                 {% endfor %}
                 {% endif %}
-
                 {% block side-bar-below %} {% endblock %}
             </div>
         </div>
