@@ -74,6 +74,7 @@ class Category(models.Model):
     image = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True)
     description = models.TextField()
     title = models.CharField(max_length=200)
+    visible = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         try:
@@ -92,6 +93,9 @@ class Category(models.Model):
         thread.start()
 
         super(Category, self).save(*args, **kwargs)
+
+    def isPointedBy(self):
+        return True if Article.objects.filter(category=self, visible=True).first() else False
 
     def __str__(self) -> str:
         return str(self.name)
@@ -161,12 +165,15 @@ class Article(models.Model):
 
         super(Article, self).save(*args, **kwargs)
 
-        if not settings.DEBUG:
-            try:
-                ping_google('/sitemap.xml')
-            except Exception as e:
-                print(e)
-                pass
+        if old.category != self.category:
+            old_category = old.category
+            new_category = self.category
+
+            old_category.visible = old_category.isPointedBy()
+            old_category.save()
+
+            new_category.visible = new_category.isPointedBy()
+            new_category.save()
 
     def __str__(self):
         return self.title

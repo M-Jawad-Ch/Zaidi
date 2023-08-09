@@ -14,7 +14,7 @@ def ContextMiddleWare(get_response):
             'name': category.name,
             'slug': category.slug,
             'link': category.get_absolute_url()
-        } for category in categories]
+        } for category in categories if category.isPointedBy()]
 
         request.extra_pages = [{
             'slug': extra_page.slug,
@@ -34,6 +34,17 @@ def RedirectMiddleWare(get_response):
     def middleware(request: HttpRequest):
         if request.headers['Host'] != 'www.medpoise.com':
             return redirect('https://www.medpoise.com' + request.path, permanent=True)
+
+        return get_response(request)
+
+    return middleware
+
+
+def SlashRedirectMiddleWare(get_response):
+
+    def middleware(request: HttpRequest):
+        if len(request.path) > 1 and request.method == 'GET' and not request.path.endswith('/'):
+            return redirect(request.path + '/')
 
         return get_response(request)
 

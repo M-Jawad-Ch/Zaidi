@@ -2,7 +2,7 @@ from random import randrange
 
 from django_cron import CronJobBase, Schedule
 
-from .models import Rss, Index
+from .models import Rss, Index, Category
 from .admin import generate_thread_func
 
 

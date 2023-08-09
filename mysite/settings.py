@@ -55,7 +55,7 @@ INSTALLED_APPS = [
 ]
 
 CRON_CLASSES = [
-    'blog.cron.Task'
+    'blog.cron.Task',
 ]
 
 MIDDLEWARE = [
@@ -66,7 +66,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'blog.middleware.ContextMiddleWare'
+    'blog.middleware.ContextMiddleWare',
+    'blog.middleware.SlashRedirectMiddleWare'
 ] + (['blog.middleware.RedirectMiddleWare'] if not DEBUG else [])
 
 ROOT_URLCONF = 'mysite.urls'

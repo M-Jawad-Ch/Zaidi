@@ -41,3 +41,13 @@ class BlogConfig(AppConfig):
                 image.save()
         except:
             pass
+
+        try:
+            from .models import Category
+
+            categories = Category.objects.all()
+            for category in categories:
+                category.visible = category.isPointedBy()
+                category.save()
+        except:
+            pass

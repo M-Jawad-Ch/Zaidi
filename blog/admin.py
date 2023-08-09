@@ -2,8 +2,6 @@ from typing import Any
 from django.contrib import admin, messages
 from django.contrib.admin.sites import AdminSite
 from django.http import HttpRequest
-from django.db import models
-from django.forms import TextInput, Textarea
 
 from threading import Thread
 from random import randrange
@@ -183,7 +181,9 @@ class CommentAdmin(admin.ModelAdmin):
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     exclude = ('embedding',)
-    search_fields = ['name']
+    search_fields = ['name', 'description']
+    readonly_fields = ('visible',)
+    list_display = ('name', 'visible',)
 
 
 def _generate_image(article: Article):
