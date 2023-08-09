@@ -52,7 +52,7 @@
             <input id="percent" class="vTextField" />
         </div>`
 
-        parent.appendChild(child)
+        parent.insertBefore(child, element.parentElement.parentElement.parentElement.nextSibling)
 
         input = child.querySelector('input')
 
