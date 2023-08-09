@@ -64,7 +64,7 @@ class ExtraPages(models.Model):
         verbose_name_plural = 'A - Extra Pages'
 
     def get_absolute_url(self):
-        return f'/{self.slug}'
+        return f'/{self.slug}/'
 
 
 class Category(models.Model):
@@ -172,7 +172,7 @@ class Article(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return f'/{self.category.slug}/{self.slug}' if self.category else '/'
+        return f'/{self.category.slug}/{self.slug}/' if self.category else '/'
 
 
 class Comment(models.Model):
