@@ -155,7 +155,7 @@ class Article(models.Model):
         try:
             old = Article.objects.get(pk=self.slug)
         except Article.DoesNotExist as e:
-            pass
+            old = None
 
         self.modified = datetime.now(tz=timezone.utc)
 
@@ -165,15 +165,16 @@ class Article(models.Model):
 
         super(Article, self).save(*args, **kwargs)
 
-        if old.category != self.category:
+        new_category = self.category
+
+        if old and old.category != self.category:
             old_category = old.category
-            new_category = self.category
 
             old_category.visible = old_category.isPointedBy()
             old_category.save()
 
-            new_category.visible = new_category.isPointedBy()
-            new_category.save()
+        new_category.visible = new_category.isPointedBy()
+        new_category.save()
 
     def __str__(self):
         if self.title:
