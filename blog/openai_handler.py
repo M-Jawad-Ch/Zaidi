@@ -363,7 +363,15 @@ async def generate(guidelines: str):
         overview = json.loads(completion_to_content(await generate_article_overview(guidelines)))
         content = await generate_article(overview, guidelines)
 
+        body = ""
+
+        for section in content:
+            body += f"""<div class="section">{section}</div>"""
+
+        body = await rewrite(body)
+
         slug: str = slugify(overview.get('title'))
+        slug = slug if slug else slugify(body[:100])
 
         try:
             article = await Article.objects.acreate(slug=slug)
@@ -372,13 +380,6 @@ async def generate(guidelines: str):
             return
 
         article.title = overview.get('title')
-
-        body = ""
-
-        for section in content:
-            body += f"""<div class="section">{section}</div>"""
-
-        body = await rewrite(body)
 
         article.body = body
         article.summary = await summarize(body)

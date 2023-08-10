@@ -176,7 +176,11 @@ class Article(models.Model):
             new_category.save()
 
     def __str__(self):
-        return self.title
+        if self.title:
+            return self.title
+
+        if self.slug:
+            return self.slug
 
     def get_absolute_url(self):
         return f'/{self.category.slug}/{self.slug}/' if self.category else '/'
