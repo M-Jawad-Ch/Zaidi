@@ -109,6 +109,9 @@ def generate_thread_func(object: Rss):
     description_and_links = [
         x for x in description_and_links if x not in used_links]
 
+    if not description_and_links:
+        return
+
     idx: int = randrange(len(description_and_links))
     link: str = description_and_links[idx]
     del description_and_links
