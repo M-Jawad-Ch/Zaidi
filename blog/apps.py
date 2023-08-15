@@ -1,4 +1,5 @@
 from django.apps import AppConfig
+from django.conf import settings
 
 
 class BlogConfig(AppConfig):
@@ -21,6 +22,11 @@ class BlogConfig(AppConfig):
             from .models import Index
             if not Index.objects.first():
                 Index.objects.create()
+
+            index = Index.objects.first()
+            settings.EMAIL_HOST_USER = index.notification_sender_email
+            settings.EMAIL_HOST_PASSWORD = index.notification_sender_email_password
+            settings.EMAIL_RECEIVER = index.notification_receiver_email
         except:
             pass
 

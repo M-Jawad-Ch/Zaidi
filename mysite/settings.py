@@ -37,8 +37,12 @@ ALLOWED_HOSTS = ['*'] if not DEBUG else ['*']
 
 SITE_ID = 1
 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 openai.api_key = env.get_value('OPENAI_API_KEY')
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',

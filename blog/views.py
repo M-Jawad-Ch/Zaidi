@@ -2,7 +2,13 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpRequest
 from django.views.decorators.http import require_http_methods
 from django.db.utils import IntegrityError
+
+from django.core.mail import send_mail
+from django.conf import settings
+
 from .models import Article, Category, Contact, Comment, Index, ExtraPages
+
+from threading import Thread
 
 
 @require_http_methods(['GET'])
@@ -145,12 +151,25 @@ def add_contact(req: HttpRequest):
     try:
         _contact = Contact.objects.create(email=data.get('email'))
     except IntegrityError:
+        print('error')
         return redirect('/contact-us/')
 
     _contact.first_name = data.get('first-name')
     _contact.last_name = data.get('last-name')
     _contact.comments = data.get('comments')
     _contact.save()
+
+    def thread_func():
+        if settings.EMAIL_HOST_USER and settings.EMAIL_RECEIVER and settings.EMAIL_HOST_PASSWORD:
+            send_mail(
+                'Contact Form',
+                f'{_contact.first_name} {_contact.last_name} wants to get in contact.\n\nEmail: {_contact.email}\n\n\n{_contact.comments}',
+                settings.EMAIL_HOST_USER,
+                [settings.EMAIL_RECEIVER],
+                fail_silently=True
+            )
+
+    Thread(target=thread_func, daemon=True).start()
 
     return redirect('/contact-us/')
 
@@ -189,6 +208,4 @@ def contact(req: HttpRequest):
 
 @require_http_methods(['GET'])
 def return_404(req: HttpRequest, *args, **kwargs):
-    resp = HttpResponse()
-    resp.status_code = 404
-    return resp
+    return HttpResponse('404')

@@ -1,8 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
-from django.contrib.sitemaps import ping_google
 from django.utils import timezone
-from django.conf import settings
 from django.contrib.auth.models import User
 
 
@@ -219,7 +217,7 @@ class ImageGenerator(models.Model):
 class Contact(models.Model):
     first_name = models.CharField(max_length=300)
     last_name = models.CharField(max_length=300)
-    email = models.EmailField(unique=True)
+    email = models.EmailField()
     comments = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
@@ -254,6 +252,11 @@ class Index(models.Model):
         null=True,
         blank=True
     )
+
+    notification_receiver_email = models.EmailField(blank=True)
+    notification_sender_email = models.EmailField(blank=True)
+    notification_sender_email_password = models.CharField(
+        max_length=300, blank=True)
 
     heading = models.CharField(max_length=300)
     image_text = models.CharField(max_length=500)

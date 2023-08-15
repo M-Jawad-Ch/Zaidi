@@ -48,7 +48,7 @@
 
         child.classList.add('form-row')
         child.innerHTML = `<div class="flex-container">
-            <label class="required">Keyword %</label> 
+            <label class="required">Keyword</label> 
             <input id="percent" class="vTextField" />
         </div>`
 
@@ -78,7 +78,7 @@
 
                 let value = (text.length * count) / words.length * 100
 
-                child.querySelector('label').innerText = `Keyword ${value.toPrecision(2)} %`
+                child.querySelector('label').innerText = `Keyword ${value.toPrecision(2)}% | ${count} / ${ words.split(' ').length }`
             }
         })
     </script>
