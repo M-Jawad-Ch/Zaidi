@@ -31,8 +31,24 @@
     visibility: visible;
 }
 
-
-
 .form-row {
     overflow: visible;
+}
+
+.invisible {
+    display: none;
+}
+
+.textarea {
+    width: 100%;
+    min-height: 100px;
+    max-height: 400px;
+    overflow-y: scroll;
+    padding: 0.4rem;
+    border: 1px solid white;
+}
+
+.highlight {
+    background-color: yellow;
+    color: black;
 }

@@ -8,7 +8,7 @@
     <title>{% block title %}{% endblock %}</title>
     <meta name="description" content="{% block description %}{% endblock %}">
     {% load static %}
-    <link rel="stylesheet" href="{% static '/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
     {% block css %} {% endblock %}
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6292015309241903" crossorigin="anonymous"></script>
 </head>
@@ -17,7 +17,7 @@
     <header>
         <a href="/">
             <div class="logo-container">
-                <img src="{% static '/logo.png' %}" alt="MedPoise Logo">
+                <img src="{% static 'img/logo.png' %}" alt="MedPoise Logo">
             </div>
         </a>
         <ul class="header-items-container">

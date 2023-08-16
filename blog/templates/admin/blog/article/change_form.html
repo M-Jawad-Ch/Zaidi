@@ -3,7 +3,7 @@
 {% load static %}
 {% block extrastyle %}{{ block.super }}
 <link rel="stylesheet" href="{% static "admin/css/forms.css" %}">
-<link rel="stylesheet" href="{% static  "article-style.css" %}">
+<link rel="stylesheet" href="{% static  "css/admin-article.css" %}">
 {% endblock %}
 
 {% block admin_change_form_document_ready %}
@@ -14,72 +14,7 @@
             {% endif %}
             async>
     </script>
-    <script>
-        var elements = document.querySelectorAll('.readonly')
-
-        for(const element of elements) {
-            if (element.querySelector('a')) continue
-
-            element.classList.add('tooltip')
-
-            var tooltiptext = document.createElement('span')
-            tooltiptext.classList.add('tooltiptext')
-            tooltiptext.innerHTML = 'Copy to Clipboard'
-
-            element.appendChild(tooltiptext)
-        }
-
-        elements = document.querySelectorAll('.tooltip')
-        for(const element of elements) {
-            element.addEventListener('click', () => {
-                var child = element.firstChild
-                navigator.clipboard.writeText(child.textContent)
-
-                var tooltiptext = element.querySelector('.tooltiptext')
-                tooltiptext.innerHTML = 'Copied!'
-
-                setTimeout(() => { tooltiptext.innerHTML = 'Copy to Clipboard' }, 3_000)
-            })
-        }
-
-        element = document.querySelectorAll('textarea')[1]
-        var parent = element.parentElement.parentElement.parentElement.parentElement
-        var child = document.createElement('div')
-
-        child.classList.add('form-row')
-        child.innerHTML = `<div class="flex-container">
-            <label class="required">Keyword</label> 
-            <input id="percent" class="vTextField" />
-        </div>`
-
-        parent.insertBefore(child, element.parentElement.parentElement.parentElement.nextSibling)
-
-        input = child.querySelector('input')
-
-        input.addEventListener('keypress', e => {
-            var key = e.charCode || e.keyCode || 0;     
-            if (key == 13) {
-                e.preventDefault();
-
-                let input = document.querySelector("#percent")
-                let words = element.value
-                let temp = document.createElement("div")
-                temp.innerHTML = words
-                words = temp.innerText.toLowerCase()
-
-                let text = input.value.toLowerCase()
-
-                let matches = words.matchAll(text)
-                let count = 0
-
-                for(const match of matches) {
-                    count += 1
-                }
-
-                let value = (text.length * count) / words.length * 100
-
-                child.querySelector('label').innerText = `Keyword ${value.toPrecision(2)}% | ${count} / ${ words.split(' ').length }`
-            }
-        })
-    </script>
+    <script src="{% static 'js/tooltip.js' %}"></script>
+    <script src="{% static 'js/keyword.js' %}"></script>
+    <script src="{% static 'js/highlighter.js' %}"></script>
 {% endblock %}
