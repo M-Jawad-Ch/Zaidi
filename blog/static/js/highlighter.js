@@ -34,12 +34,12 @@ for (const div of divs) {
         if (arr.indexOf(value) != index) {
             let element = document.createElement('span')
             element.classList.add('highlight')
-            element.innerText = value + '. '
+            element.innerText = value + '.'
 
             div.appendChild(element)
         }
         else {
-            let element = document.createTextNode(value + '. ')
+            let element = document.createTextNode(value + '.')
             div.appendChild(element)
         }
     })
