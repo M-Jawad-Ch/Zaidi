@@ -187,6 +187,7 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ['name', 'description']
     readonly_fields = ('visible',)
     list_display = ('name', 'visible',)
+    ordering = ('name',)
 
 
 def _generate_image(article: Article):
