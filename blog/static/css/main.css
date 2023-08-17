@@ -39,6 +39,11 @@ header {
     padding: 0.5em 3em;
 }
 
+iframe {
+    height: 500px;
+    width: 100%;
+}
+
 .logo-container img {
     width: 200px;
 }
@@ -262,6 +267,10 @@ footer {
 }
 
 @media (max-width: 500px) {
+    iframe {
+        height: 300px;
+    }
+
     header {
         padding: 0.5em 1em;
     }
