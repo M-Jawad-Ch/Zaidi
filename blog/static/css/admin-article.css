@@ -40,16 +40,33 @@
 }
 
 .textarea {
-    width: 100%;
-    min-height: 100px;
-    max-height: 400px;
+    width: 60%;
+    height: 150px;
     overflow-y: scroll;
     padding: 0.4rem;
     border: 1px solid white;
     font-size: small;
+    resize: both;
 }
 
 .highlight {
     background-color: yellow;
     color: black;
+}
+
+.neg {
+    background-color: transparent;
+    color: white;
+    border: solid 1px white;
+    width: 30px;
+    margin-right: 0.5em;
+    font-weight: bold;
+}
+
+.pos {
+    background-color: transparent;
+    color: white;
+    border: solid 1px white;
+    width: 30px;
+    font-weight: bold;
 }
