@@ -54,6 +54,11 @@
     color: black;
 }
 
+.highlight-orange {
+    background-color: orange;
+    color: black;
+}
+
 .neg {
     background-color: transparent;
     color: white;

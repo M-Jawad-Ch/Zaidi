@@ -51,11 +51,29 @@ for (const div of divs) {
     let arr = text.split(new RegExp(/\.[\s\n]/g)).filter(val => val ? true : false)
     let trimmed_arr = arr.map(x => x.trim().replace(new RegExp(/[\s\.]/g), ''))
 
+    let initials = []
+
     div.innerHTML = ''
     trimmed_arr.forEach((value, index, array) => {
-        let element = null, text = arr[index]
+        let _index = array.indexOf(value)
 
-        if (array.indexOf(value) != index) {
+        if (_index != index) {
+            if (!initials.includes(_index)) {
+                initials.push(_index)
+            }
+        }
+    })
+
+    trimmed_arr.forEach((value, index, array) => {
+        let element = null, text = arr[index]
+        let _index = array.indexOf(value)
+
+        if (initials.includes(index)) {
+            element = document.createElement('span')
+            element.classList.add('highlight-orange')
+        }
+
+        else if (_index != index) {
             element = document.createElement('span')
             element.classList.add('highlight')
         }
