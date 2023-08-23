@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.text import slugify
 from django.utils import timezone
 from django.contrib.auth.models import User
-
+from django.conf import settings
 
 from datetime import datetime
 from json import dumps, loads
@@ -264,6 +264,12 @@ class Index(models.Model):
     title = models.CharField(max_length=200)
     description = models.CharField(max_length=500)
     articles_generated_per_day = models.IntegerField(default=3)
+
+    def save(self, *args, **kwargs) -> None:
+        settings.EMAIL_HOST_USER = self.notification_sender_email
+        settings.EMAIL_HOST_PASSWORD = self.notification_sender_email_password
+        settings.EMAIL_RECEIVER = self.notification_receiver_email
+        return super().save(*args, **kwargs)
 
     def __str__(self) -> str:
         return "Index Page"
