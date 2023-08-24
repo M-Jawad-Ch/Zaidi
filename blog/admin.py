@@ -78,7 +78,6 @@ class ImageGeneratorAdmin(DjangoObjectActions, admin.ModelAdmin):
             image = generate_image(object.prompt, slugify(object.name))
 
             if not image:
-                print('No Image')
                 object.running = False
                 object.save()
                 return

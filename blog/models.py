@@ -217,7 +217,7 @@ class ImageGenerator(models.Model):
 class Contact(models.Model):
     first_name = models.CharField(max_length=300)
     last_name = models.CharField(max_length=300)
-    email = models.EmailField()
+    email = models.EmailField(unique=True)
     comments = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
 

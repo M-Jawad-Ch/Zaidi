@@ -22,21 +22,20 @@ form {
     text-align: center;
 }
 
-::placeholder {
+/* ::placeholder {
     color: inherit;
-}
+} */
 
 .main-container input {
     display: block;
     width: 30em;
+    font-size: larger;
 
     margin: 0.5em auto;
     padding: 0.5em;
     border-radius: 1px;
     outline: none;
-    background-color: #1A7FB6;
-    border: none;
-    color: white;
+    border: 2px solid var(--main-color);
 }
 
 #comments {
@@ -48,9 +47,10 @@ form {
     resize: none;
     border-radius: 1px;
     outline: none;
-    background-color: #1A7FB6;
-    border: none;
-    color: white;
+    /* background-color: #1A7FB6; */
+    border: 2px solid var(--main-color);
+    font-size: larger;
+    /* color: white; */
 }
 
 .sbmt {
@@ -64,13 +64,29 @@ form {
     font-weight: bold;
 }
 
+.message {
+    margin: 0 auto;
+    width: 100%;
+    padding: 1em 0;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+}
+
+.green {
+    background-color: green;
+}
+
+.red {
+    background-color: red;
+}
 
 canvas {
     margin: 0 auto;
     display: block;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 650px) {
     .main-container input {
         width: 25em;
     }
@@ -80,7 +96,7 @@ canvas {
     }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 550px) {
     .main-container input {
         width: 90%;
     }

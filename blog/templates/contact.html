@@ -14,12 +14,17 @@
 
 {% block main %}
 <div class="main-container">
+    {% if result == 'success' %}
+    <div class="message green"> 
+        {{ 'Thank you for contacting MedPoise.com, we have received your inquiry and we'll get back to you as soon as possible.' }}
+    </div> {% endif %}
+    
     {% autoescape off %}
     <h1>{{ title }}</h1>
     {{ body }}
     {% endautoescape %}
     <h1>Get in Touch</h1>
-    <form action="/contact/" method="post" onload="generate()">
+    <form action="/contact-us/" method="post" onload="generate()">
         {% csrf_token %}
         <input required name="first-name" type="text" placeholder="First Name">
         <input required name="last-name" type="text" placeholder="Last Name">

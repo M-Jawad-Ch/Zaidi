@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpRequest
 from django.views.decorators.http import require_http_methods
 from django.db.utils import IntegrityError
+from django.contrib import messages
 
 from django.core.mail import send_mail
 from django.conf import settings
@@ -151,8 +152,7 @@ def add_contact(req: HttpRequest):
     try:
         _contact = Contact.objects.create(email=data.get('email'))
     except IntegrityError:
-        print('error')
-        return redirect('/contact-us/')
+        pass
 
     _contact.first_name = data.get('first-name')
     _contact.last_name = data.get('last-name')
@@ -171,7 +171,7 @@ def add_contact(req: HttpRequest):
 
     Thread(target=thread_func, daemon=True).start()
 
-    return redirect('/contact-us/')
+    return render(req, 'contact.html', {'result': 'success'})
 
 
 @require_http_methods(['POST'])
@@ -186,8 +186,10 @@ def comment(req: HttpRequest, category: str, post: str):
     return redirect(article.get_absolute_url())
 
 
-@require_http_methods(['GET'])
+@require_http_methods(['GET', 'POST'])
 def contact(req: HttpRequest):
+    if req.method == 'POST':
+        return add_contact(req)
 
     pages: list[ExtraPages] = ExtraPages.objects.all()
 
