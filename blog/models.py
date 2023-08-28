@@ -219,7 +219,7 @@ class Contact(models.Model):
     last_name = models.CharField(max_length=300)
     email = models.EmailField(unique=True)
     comments = models.TextField()
-    subject = models.TextField()
+    subject = models.CharField(max_length=300)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     # def __str__(self):
