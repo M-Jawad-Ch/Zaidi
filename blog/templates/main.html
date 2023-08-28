@@ -24,6 +24,7 @@
             <li class="closer">
                 X
             </li>
+            <li><a href="/">Home</a></li>
             {% for page in request.extra_pages %}
             {% if page.slug %}
             <li><a href="{{ page.link }}">{{ page.name }}</a></li>
@@ -71,6 +72,7 @@
                 <a href="/">MedPoise</a>
             </div>
             <ul class="header-items-container">
+                <li><a href="/">Home</a></li>
                 {% for page in request.extra_pages %}
                 {% if page.slug %}
                 <li><a href="{{ page.link }}">{{ page.name }}</a></li>

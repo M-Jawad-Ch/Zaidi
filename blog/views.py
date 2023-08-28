@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpRequest
 from django.views.decorators.http import require_http_methods
 from django.db.utils import IntegrityError
-from django.contrib import messages
 
 from django.core.mail import send_mail
 from django.conf import settings
@@ -157,12 +156,13 @@ def add_contact(req: HttpRequest):
     _contact.first_name = data.get('first-name')
     _contact.last_name = data.get('last-name')
     _contact.comments = data.get('comments')
+    _contact.subject = data.get('subject')
     _contact.save()
 
     def thread_func():
         if settings.EMAIL_HOST_USER and settings.EMAIL_RECEIVER and settings.EMAIL_HOST_PASSWORD:
             send_mail(
-                'Contact Form',
+                f'[Medpoise.com] {_contact.subject}',
                 f'{_contact.first_name} {_contact.last_name} wants to get in contact.\n\nEmail: {_contact.email}\n\n\n{_contact.comments}',
                 settings.EMAIL_HOST_USER,
                 [settings.EMAIL_RECEIVER],

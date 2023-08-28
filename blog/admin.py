@@ -57,6 +57,7 @@ class ImageAdmin(admin.ModelAdmin):
 class ContactAdmin(admin.ModelAdmin):
     search_fields = ['first_name', 'last_name', 'email', 'comments']
     readonly_fields = ('first_name', 'last_name', 'comments', 'email')
+    list_display = ['first_name', 'last_name', 'email']
     list_per_page = 20
 
 
@@ -240,7 +241,7 @@ def generate_article(object: Generator, callback=None, do_summarize=True):
 class GeneratorAdmin(DjangoObjectActions, admin.ModelAdmin):
     date_hierarchy = "date"
     empty_value_display = "-empty-"
-    readonly_fields = ('date', 'used', 'running', 'article')
+    readonly_fields = ('date', 'used', 'running', 'article', 'rss', 'author')
     list_per_page = 20
     search_fields = ['content']
 

@@ -9,5 +9,6 @@ media/
 */migrations/*
 node_modules/
 *.js
+!*/static/*/*.js
 *.mjs
 temp.json
