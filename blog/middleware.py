@@ -45,7 +45,7 @@ def SlashRedirectMiddleWare(get_response):
 
     def middleware(request: HttpRequest):
         if len(request.path) > 1 and request.method == 'GET' and not request.path.endswith('/'):
-            return redirect(request.path + '/')
+            return redirect(request.path + '/', permanent=True)
 
         return get_response(request)
 
