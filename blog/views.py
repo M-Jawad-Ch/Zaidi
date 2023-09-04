@@ -148,10 +148,12 @@ def get_category(req: HttpRequest, slug: str):
 def add_contact(req: HttpRequest):
     data = req.POST.dict()
 
-    try:
-        _contact = Contact.objects.create(email=data.get('email'))
-    except IntegrityError:
-        pass
+    # try:
+    #     _contact = Contact.objects.create(email=data.get('email'))
+    # except IntegrityError:
+    #     pass
+
+    _contact = Contact.objects.create(email=data.get('email'))
 
     _contact.first_name = data.get('first-name')
     _contact.last_name = data.get('last-name')
@@ -171,7 +173,7 @@ def add_contact(req: HttpRequest):
 
     Thread(target=thread_func, daemon=True).start()
 
-    return render(req, 'contact.html', {'result': 'success'})
+    return contact(req, {'result': 'success'})
 
 
 @require_http_methods(['POST'])
@@ -187,8 +189,8 @@ def comment(req: HttpRequest, category: str, post: str):
 
 
 @require_http_methods(['GET', 'POST'])
-def contact(req: HttpRequest):
-    if req.method == 'POST':
+def contact(req: HttpRequest, data={}):
+    if req.method == 'POST' and not data:
         return add_contact(req)
 
     pages: list[ExtraPages] = ExtraPages.objects.all()
@@ -198,14 +200,17 @@ def contact(req: HttpRequest):
         if page_.slug == 'contact-us':
             page = page_
 
-    return render(req, 'contact.html', {
-        'slug': page.slug,
-        'title': page.title,
-        'body': page.body,
-        'image': page.image.image.url if page.image else None,
-        'link': page.get_absolute_url(),
-        'desc': page.description
-    }) if page and page.visible else return_404(req)
+    if not page.visible:
+        return return_404(req)
+
+    data['slug'] = page.slug
+    data['title'] = page.title
+    data['body'] = page.body
+    data['image'] = page.image.image.url if page.image else None
+    data['link'] = page.get_absolute_url()
+    data['desc'] = page.description
+
+    return render(req, 'contact.html', data)
 
 
 @require_http_methods(['GET'])
