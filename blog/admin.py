@@ -157,7 +157,8 @@ def publish(modeladmin, request, queryset):
 class ArticleAdmin(admin.ModelAdmin):
     date_hierarchy = "date"
     empty_value_display = "-empty-"
-    readonly_fields = ('date', 'timestamp', 'modified', 'rss', 'image_html')
+    readonly_fields = ('slug', 'date', 'timestamp',
+                       'modified', 'rss', 'image_html')
     list_display = ['title', 'visible', 'category', 'timestamp']
     ordering = ['-timestamp']
     exclude = ('embedding', 'date')
@@ -166,7 +167,7 @@ class ArticleAdmin(admin.ModelAdmin):
     list_per_page = 20
     fieldsets = (
         (None, {
-            'fields': ('title', 'slug', 'image', 'image_html', ('category', 'author'), 'visible',
+            'fields': ('title', 'image', 'image_html', ('category', 'author'), 'visible',
                        'summary', 'body', 'rss', 'timestamp', 'modified')
         }),
     )
