@@ -21,17 +21,18 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 
-from .sitemaps import ArticleSiteMap, CategorySiteMap, StaticViewSitemap
+from .sitemaps import ArticleSiteMap, CategorySiteMap, StaticViewSitemap, PagesSiteMap
 
 sitemaps = {
     'blog': ArticleSiteMap,
     'categories': CategorySiteMap,
-    'static': StaticViewSitemap
+    'static': StaticViewSitemap,
+    'otherPages': PagesSiteMap
 }
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('blog.urls')),
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps},
-         name="django.contrib.sitemaps.views.sitemap",)
+         name="django.contrib.sitemaps.views.sitemap",),
+    path('', include('blog.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

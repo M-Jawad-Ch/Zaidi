@@ -1,5 +1,6 @@
 from django.http import HttpResponse, HttpRequest
 from django.shortcuts import redirect
+from django.conf import settings
 
 from .models import Category, ExtraPages
 
@@ -44,7 +45,7 @@ def RedirectMiddleWare(get_response):
 def SlashRedirectMiddleWare(get_response):
 
     def middleware(request: HttpRequest):
-        if len(request.path) > 1 and request.method == 'GET' and not request.path.endswith('/'):
+        if len(request.path) > 1 and request.method == 'GET' and not request.path.endswith('/') and request.path not in settings.SLASH_EXEMPT_PATHS:
             return redirect(request.path + '/', permanent=True)
 
         return get_response(request)

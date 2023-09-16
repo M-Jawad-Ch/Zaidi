@@ -1,5 +1,5 @@
 from django.contrib.sitemaps import Sitemap
-from blog.models import Article, Category
+from blog.models import Article, Category, ExtraPages
 
 
 from django.urls import reverse
@@ -33,3 +33,11 @@ class CategorySiteMap(Sitemap):
 
     def items(self):
         return Category.objects.all()
+
+
+class PagesSiteMap(Sitemap):
+    changefreg = "never"
+    priority = 0.5
+
+    def items(self):
+        return ExtraPages.objects.all()

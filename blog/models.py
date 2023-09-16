@@ -60,6 +60,7 @@ class ExtraPages(models.Model):
     class Meta:
         verbose_name = 'A - Extra Pages'
         verbose_name_plural = 'A - Extra Pages'
+        ordering = ['-title']
 
     def get_absolute_url(self):
         return f'/{self.slug}/'
@@ -104,6 +105,7 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'A - Category'
         verbose_name_plural = 'A - Categories'
+        ordering = ['-name']
 
 
 class Rss(models.Model):
@@ -140,6 +142,7 @@ class Article(models.Model):
 
     class Meta:
         verbose_name = 'A - Article'
+        ordering = ['-timestamp']
 
     image = models.ForeignKey(
         Image, on_delete=models.SET_NULL, null=True, blank=True)
