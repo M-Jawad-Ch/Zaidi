@@ -160,9 +160,12 @@ class Article(models.Model):
 
         self.modified = datetime.now(tz=timezone.utc)
 
-        if not self.embedding or self.body != old.body:
-            self.embedding = dumps(embed(self.body))
-            assign_category(self)
+        try:
+            if not self.embedding or self.body != old.body:
+                self.embedding = dumps(embed(self.body))
+                assign_category(self)
+        except:
+            pass
 
         super(Article, self).save(*args, **kwargs)
 
