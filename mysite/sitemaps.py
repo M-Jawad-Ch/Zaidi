@@ -21,7 +21,7 @@ class ArticleSiteMap(Sitemap):
     priority = 0.5
 
     def items(self):
-        return Article.objects.all()
+        return [article for article in Article.objects.all() if article.visible]
 
     def lastmod(self, obj: Article):
         return obj.modified.date()
@@ -32,7 +32,7 @@ class CategorySiteMap(Sitemap):
     priority = 0.5
 
     def items(self):
-        return Category.objects.all()
+        return [category for category in Category.objects.all() if category.visible]
 
 
 class PagesSiteMap(Sitemap):
@@ -40,4 +40,4 @@ class PagesSiteMap(Sitemap):
     priority = 0.5
 
     def items(self):
-        return ExtraPages.objects.all()
+        return [page for page in ExtraPages.objects.all() if page.visible]
